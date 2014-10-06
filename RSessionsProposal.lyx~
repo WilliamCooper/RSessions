@@ -1,0 +1,643 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass beamerWAC
+\begin_preamble
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setbeamercolor{normal text}{bg=yellow!10}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+My Proposal
+\end_layout
+
+\begin_layout Subtitle
+Using R for Reproducible Analysis
+\end_layout
+
+\begin_layout Author
+Al Cooper
+\end_layout
+
+\begin_layout Institute
+RAF
+\end_layout
+
+\begin_layout Date
+RSIG Meeting 6 Oct 2014
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you have a file called "institution-logo-filename.xxx", where xxx is a
+ graphic format that can be processed by latex or pdflatex, resp., then you
+ can add a logo by uncommenting the following:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+logo{
+\backslash
+pgfuseimage{institution-logo}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The following causes the table of contents to be shown at the beginning
+ of every subsection.
+ Delete this, if you do not want it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you wish to uncover everything in a step-wise fashion, uncomment the
+ following command:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+beamerdefaultoverlayspecification{<+->}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+MY GOAL
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Reproducible Analysis}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+My personal goal: 
+\begin_inset Quotes eld
+\end_inset
+
+reproducible analysis.
+\begin_inset Quotes erd
+\end_inset
+
+ There is now extensive literature on reproducible research, a lofty goal,
+ but much more difficult to achieve, esp.
+ at the data-collection stage.
+ Instead, I'd like to aim for analysis procedures that can be duplicated
+ by others.
+ The key tools I have chosen are R, RStudio, knitr, LaTeX (not essential),
+ and git.
+\end_layout
+
+\end_deeper
+\begin_layout ExampleBlock
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{My Role:}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+I'm actively studying this, aiming to use these techniques in RAF analyses
+ and documentation and also for an ongoing research project.
+ As part of my own education, I'm willing to present a series of 30-min
+ sessions, perhaps once a week, that provide an introduction to this structure
+ and involve 
+\begin_inset Quotes eld
+\end_inset
+
+homework
+\begin_inset Quotes erd
+\end_inset
+
+, examples, and developing a reference that might be useful in the future.
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+WHY THESE TOOLS?
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{A personal choice}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+There are other candidates: python (esp.
+ ipython notebooks), Matlab documents, emacs org-mode (a very nice tool)
+\end_layout
+
+\begin_layout Itemize
+I have tried all at various times, most recently the ipython notebook, but
+ RStudio has big advantages for my use.
+\end_layout
+
+\begin_layout Itemize
+Strengths:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Free
+\end_layout
+
+\begin_layout Enumerate
+Work on all platforms
+\end_layout
+
+\begin_layout Enumerate
+R: Extensive set of packages available for statistical analysis, graphics,
+ etc.
+\end_layout
+
+\begin_layout Enumerate
+Good help functions and tutorials
+\end_layout
+
+\begin_layout Enumerate
+Expertise elsewhere in RAF and EOL and in the CISL/Image group
+\end_layout
+
+\begin_layout Enumerate
+Much literature available on 
+\begin_inset Quotes eld
+\end_inset
+
+reproducible research
+\begin_inset Quotes erd
+\end_inset
+
+ using this approach
+\end_layout
+
+\begin_layout Enumerate
+Straightforward to develop specialized packages for our uses
+\end_layout
+
+\begin_layout Enumerate
+I find this approach very convenient to use.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout BeginFrame
+SOME POSSIBLE SESSIONS - 1
+\end_layout
+
+\begin_layout FrameSubtitle
+Quick Introduction to RStudio
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+How to get access to it and how to run it
+\end_layout
+
+\begin_layout Itemize
+Using R as a calculator
+\end_layout
+
+\begin_layout Itemize
+A simple illustrative script
+\end_layout
+
+\begin_layout Itemize
+Some basic concepts:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+objects - esp.
+ the data.frame
+\end_layout
+
+\begin_layout Enumerate
+packages
+\end_layout
+
+\begin_layout Enumerate
+getting help
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout BeginFrame
+SOME POSSIBLE SESSIONS - 2
+\end_layout
+
+\begin_layout FrameSubtitle
+An Example of How This Fits Together
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{CONTRASTcalAOA.Rnw}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+An ASCII file that mixes R code and document-generating code
+\end_layout
+
+\begin_layout Itemize
+The product is a PDF-format report
+\end_layout
+
+\begin_layout Itemize
+The content of that report includes figures and statistics generated internally
+ via R.
+\end_layout
+
+\begin_layout Itemize
+Can be saved with the data and other key components in a package that is
+ distributable and archived.
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+SOME POSSIBLE SESSIONS - 3
+\end_layout
+
+\begin_layout FrameSubtitle
+Some Tools for RAF Analysis Tasks
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{The RAF package:}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Components
+\end_layout
+
+\begin_layout Itemize
+Illustrations of use
+\end_layout
+
+\begin_layout Itemize
+Opportunities to work together to extend the package
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+SOME POSSIBLE SESSIONS - 4
+\end_layout
+
+\begin_layout FrameSubtitle
+Candidate Projects That Could Follow This Analysis Model
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Uncertainty characterization
+\end_layout
+
+\begin_layout Itemize
+Project documentation
+\end_layout
+
+\begin_layout Itemize
+Fitting for sensitivity coefficients
+\end_layout
+
+\begin_layout Itemize
+Analyzing results from maneuvers
+\end_layout
+
+\begin_layout Itemize
+Data quality reviews
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+show specific examples
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout BeginFrame
+SOME POSSIBLE SESSIONS - 5
+\end_layout
+
+\begin_layout FrameSubtitle
+Working With 'Chunks' in RStudio
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Structuring and sectioning code
+\end_layout
+
+\begin_layout Itemize
+Executing chunks
+\end_layout
+
+\begin_layout Itemize
+Debugging
+\end_layout
+
+\begin_layout Itemize
+Conditional execution and other options
+\end_layout
+
+\begin_layout Itemize
+Generating figures and text for inclusion in reports
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+WHAT NOW?
+\end_layout
+
+\begin_layout SummaryBlock
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Next Steps:}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Worth the time?
+\end_layout
+
+\begin_layout Itemize
+Sufficient interest?
+\end_layout
+
+\begin_layout Itemize
+Gather some books?
+\end_layout
+
+\begin_layout Itemize
+Schedule?
+\end_layout
+
+\end_deeper
+\begin_layout ExampleBlock
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{My Opinion:}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ExampleBlock
+We need to do this or something like it because these analyses are needed
+ and, without structure, it is difficult to repeat them or transfer them
+ to others.
+ I'm doing this review for my own education (-- no time charged to NCAR
+ --) so you can join if you think it is useful.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document
