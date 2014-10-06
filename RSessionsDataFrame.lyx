@@ -1356,6 +1356,10 @@ Document.pdf
 \backslash
 
 \backslash
+SessionInfo
+\backslash
+
+\backslash
 
 \backslash
 Sexpr{saveDataFile}}
@@ -1372,18 +1376,75 @@ status open
 
 \begin_layout Plain Layout
 
-<<make-zip-archive>>=
+<<save-system-info, echo=FALSE, include=FALSE>>=
 \end_layout
 
 \begin_layout Plain Layout
 
-system("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf
+SessionInfoFile <- file ("SessionInfo", open = "wt")
+\end_layout
+
+\begin_layout Plain Layout
+
+sink (SessionInfoFile, type="output")
+\end_layout
+
+\begin_layout Plain Layout
+
+S <- sessionInfo ()
+\end_layout
+
+\begin_layout Plain Layout
+
+print (S)
+\end_layout
+
+\begin_layout Plain Layout
+
+close (SessionInfoFile)
+\end_layout
+
+\begin_layout Plain Layout
+
+sink ()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<make-zip-archive, echo=TRUE, include=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+system ("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf
  
 \end_layout
 
 \begin_layout Plain Layout
 
-        RSessionsDataFrame.Rdata.gz")
+        SessionInfo RSessionsDataFrame.Rdata.gz")
 \end_layout
 
 \begin_layout Plain Layout
