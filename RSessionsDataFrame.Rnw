@@ -1,0 +1,257 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\EOLmemo 
+
+\global\addressee={RSessions file}  % >>change "File" to the "To:" name desired
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
+\textsf{\textsc{\textcolor{blue}{From:}}} & Al Cooper\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Subject:}}} & Using data.frame objects\tabularnewline
+\end{tabular}
+
+\bigskip
+
+
+\section*{What is a data.frame?}
+
+A data.frame resembles a matrix or a spreadsheet. For example, it
+may consists of columns each representing a variable and rows that
+are the time sequence of observations of that variable. Applied to
+RAF data files, it may have a structure like this:
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+Time & ATX & PSXC & WDC & WSC & ...\tabularnewline
+\hline 
+\hline 
+15:00:00 & -25.1 & 410.8 & 275.4 & 25.4 & ...\tabularnewline
+\hline 
+15:00:01 & -25.1 & 410.9 & 275.2 & 25.6 & ...\tabularnewline
+\hline 
+15:00:02 & -25.2 & 411.1 & 275.4 & 25.5 & ...\tabularnewline
+\hline 
+15:00:03 & -25.1 & 411.1 & 275.1 & 25.7 & ...\tabularnewline
+\hline 
+15:00:04 & -25.0 & 411.2 & 275.3 & 25.3 & ...\tabularnewline
+\hline 
+... & ... & ... & ... & ... & ...\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+All columns must be of the same length, but they may contain different
+types of variables (Time, character, numeric, logical). Like a spreadsheet,
+the columns can be assigned names like the header in this table. Rows
+can also be assigned names, but in the absence of special assignment
+they will default to the character names '1', '2', '3', '4', ...
+
+Let's get an example. Here is a segment of R code that loads a few
+selected variables from a netCDF file to a data.frame:
+
+<<initialization,echo=TRUE,include=TRUE>>=
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE) # my package of routines 
+Directory <- DataDirectory ()    # for portability; sets the local data directory
+Flight <- "rf08"                 # select a flight
+Project = "CONTRAST"             # select a project
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+# XXX set variables needed, here a standard list plus GGVSPDB
+Data <- getNetCDF (fname, standardVariables(c("GGVSPDB")), 60000, 60010) 
+saveDataFile <- 'RSessionsDataFrame.Rdata.gz'
+save (Data, file = saveDataFile, compress='gzip')
+N <- names(Data)
+
+@
+
+The resulting names are \Sexpr{N}. The data.frame 'Data' looks like
+this:
+
+<<print-Data, echo=FALSE, include=TRUE>>=
+Data
+
+@ 
+
+
+\section*{Working with data.frames}
+
+
+\subsection*{Addressing elements of a data.frame}
+
+You can address particular elements using syntax like the following:
+
+<<dataframe-selection-of-elements>>=
+Data$ATX[5]
+Data[5, 2]           # note the [row,column] syntax
+Data[5, ]
+Data[5, "ATX"]
+Data$ATX
+Data$ATX[getIndex(Data$Time, 60004)]
+Data$ATX[Data$Time == as.POSIXct("2014-02-01 6:00:04", tz='UTC')]
+
+@
+
+
+\subsection*{Creating subsets of a data.frame}
+
+New data.frames that contain subsets of original data.frames can be
+created using logical vectors. For example:
+
+<<subset-dataframe>>=
+Data[Data$TASX > 186.2, ]
+Data[setRange(Data$Time, 60005, 60008), ]
+
+@
+
+Another useful subset is that omitting all missing-variable rows from
+the data.frame:
+
+<<subset-without-NA-rows>>=
+na.omit(Data)
+
+@
+
+However, be careful using this and other subsetting commands because
+the time sequence will have gaps and some functions like setRange()
+won't work, although plots will just skip the missing values. Compare
+the results from plotWAC (Data\$Time, Data\$ATX) to D <- na.omit(Data)
+; plotWAC (D\$Time, D\$ATX).
+
+
+\subsection*{Adding or changing variables in a data.frame}
+
+You can operate on variables in the data.frame, changing values, and
+you can add new variables to the data.frame as follows:
+
+<<add-variable-to-dataframe>>=
+# wind component from the east:
+Data["UEW"] <- Data$WSC * sin (Data$WDC * pi / 180)
+Data$UEW
+
+@
+
+
+\subsection*{Simple plots}
+
+Let's plot something:
+
+<<plot-GGVSPDB>>=
+plotWAC(Data$Time, Data$GGVSPDB, ylab='GGVSPDB')
+
+@
+
+It is also useful to define special data.frames for constructing plots,
+especially when using the more advanced plotting capabilities provided
+by ggplot2. To see a simple scatterplot, you can use the following:
+
+<<plot-df>>=
+D <- Data[, c("ATX", "GGALT")]
+plot(D, pch=20)         # pch=20 plots small solid dots
+
+@
+
+Exercise: See what happens if you instead include three variables
+in the preceding plot.
+
+
+\subsection*{Exporting to Excel}
+
+and now create an Excel spreadsheet with the data:
+
+<<write-to-excel>>=
+require(xlsx)
+write.xlsx (Data, file="Data.xlsx")
+#system("libreoffice Data.xlsx")
+
+@
+
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --}}
+\par\end{center}
+
+Reproducibility:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & RSessions\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & RSessionsDataFrame.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & /h/eol/cooperw/RStudio/RSessions/RSessionsDataFrame.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/CONTRAST/CONTRASTrf08.nc\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & \tabularnewline
+\end{tabular}
+
+%\attach{attachment}
+
+\attachm{ProgramFile\\Document.pdf\\SessionInfo\\\Sexpr{saveDataFile}}
+
+<<make-zip-archive, echo=TRUE, include=TRUE>>=
+sink (file="SessionInfo", type="output")
+print (sessionInfo ())
+sink ()
+system ("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf 
+        SessionInfo RSessionsDataFrame.Rdata.gz")
+
+@
+
+%\cc{first attachment\\second\\3rd att}
+\end{document}
