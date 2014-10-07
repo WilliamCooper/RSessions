@@ -1,0 +1,373 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\EOLmemo 
+
+\global\addressee={RSessions file}  % >>change "File" to the "To:" name desired
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
+\textsf{\textsc{\textcolor{blue}{From:}}} & Al Cooper\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Subject:}}} & Intro to R and RStudio\tabularnewline
+\end{tabular}
+
+\bigskip
+
+
+\section*{Access: Some Recommended Set-up Work}
+
+I'm going to use tikal.eol.ucar.edu, a linux machine, and occasionally
+my linux laptop, for these sessions. R and RStudio are available on
+tikal, but you may also want them on your own machines or laptop.
+The central repository for R is \href{http://cran.r-project.org/}{CRAN},
+the Comprehensive R Archive Network. That page has links for downloading
+versions for Windows, Mac, and linux. For RStudio, you can download
+from \href{http://www.rstudio.com/products/RStudio/}{this web site}.
+Or submit a support request to EOL/SIG to have R and RStudio installed.
+To run R (without RStudio) on tikal or any linux machine where it
+is installed, just type ``R'' into a terminal window%
+\footnote{To exit, type ``quit()''; reply 'n' to 'save workspace' for now.%
+} and you get the classic command-line interface that has been in use
+since at least 1998. But I'm going to work in RStudio for these sessions.
+To start your RStudio session, point a web browser to \href{http://tikal.eol.ucar.edu/}{tikal}.
+You must be inside the UCAR firewall, or use VPN, and you will have
+to sign in using your EOL name and password.
+
+My suggestion for getting started is this: 
+\begin{enumerate}
+\item Make a new directory ``RStudio'' in your EOL workspace or on the
+machine you will use, named '\textasciitilde{}/RStudio'. You can do
+this using a terminal or using the RStudio interface; for the latter, 
+
+\begin{enumerate}
+\item click the 'Files' tab in the lower right pane
+\item use the 'New Folder' item just below that tab to create the new folder
+named 'RStudio' under your home directory.
+\end{enumerate}
+\item Copy this line into a file named .Renviron in your home directory
+on the machine you are using:\\
+~~R\_LIBS=\textquotedbl{}\textasciitilde{}cooperw/R/x86\_64-redhat-linux-gnu-library/3.0\textquotedbl{}
+\\
+This applies to tikal; if you are doing this on your own machine,
+the appendix to this session discusses how to download the library
+that is provided on tikal by the above command. 
+\item Start RStudio; if on tikal, you can use the link above.
+\item Go to Tools -> Global Options -> R General
+
+\begin{enumerate}
+\item enter '\textasciitilde{}/RStudio' (without quotes) in the line that
+says ``Default Working Directory''
+\end{enumerate}
+\item Go to Sweave under the same window
+
+\begin{enumerate}
+\item in the top where it says ``Weave Rnw files using:'', select 'knitr'.
+\end{enumerate}
+\item Go to ``Git/SVN'' under the same window
+
+\begin{enumerate}
+\item check ``Enable version control''. I'll be using 'git' for these
+sessions, so you will be able to get access to my code via git.
+\end{enumerate}
+\item For other options, the defaults are probably reasonable to start,
+so click ``OK'' to save the options.
+\item Make a new project called RSessions for the purpose of these meetings:
+
+\begin{enumerate}
+\item Go to the 'File' menu and select 'New Project'
+\item Select 'New Directory'
+\item Select 'Version Control'
+\item Select 'Git''
+\item Use this repository name: git@github.com/WilliamCooper/RSessions.git
+\item Give the project the name 'RSessions' and create it as a subdirectory
+of '\textasciitilde{}/RStudio'
+\item At this point, RStudio will switch to windows that apply to this new
+project and copy from the repository into your new project.
+\end{enumerate}
+\end{enumerate}
+
+\section*{A quick tour of the RStudio window panes:}
+
+You have seen the 'Files' window before; click on that to see the
+files in RStudio/RSessions. Then click on 'RSessionsDataFrame.Rnw'
+to have something to look at. It will appear in the top left window.
+Don't worry about the details of what is there just yet; we'll get
+back to that. First, notice that there are four panes visible. At
+start-up, you will usually see four panes:
+\begin{enumerate}
+\item Top left: The source editor, where a working file (or many working
+files in tabs) are displayed.
+\item Bottom left: The console, where you can enter R commands just as you
+would in the command-line mode that you would use without RStudio.
+Try it now: Click where the '>' prompt is displayed, type 2+2 {[}enter{]}.
+I use this frequently as a very capable calculator, because the math
+functions and R functions are all available here. Try 'pi', 'rnorm(5,
+3.5, 0.5)', plot(0:360, sin(0:360 {*} pi / 180), type='l'), and 'Ranadu::WetEquivalentPotentialTemperature
+(P=800., AT=25., E=Ranadu::MurphyKoop (DP=20., P=800), w=0).
+\item Top right: This pane has several functions.
+
+\begin{enumerate}
+\item The 'History' tab displays the history of what you have entered in
+the console, along with options to transfer lines either to the source
+editor or to the console for re-execution, possibly with editing (although
+that function is available more conveniently from the console using
+the up and down arrows to more through the history). 
+\item Another tab will show the environment, where defined variables for
+your workspace are shown. {[}Try X = 5 in the console and see what
+appears here.{]} There is also a useful tab for importing a data set
+from either a web location or a text file.
+\item This pane also has a 'git' tab if you have set up the project as recommended
+above, where you can monitor the status of what has changed since
+you last downloaded from the repository and can commit back to your
+local repository (although I haven't set up my external github repository
+to allow you to 'Push'' back to that repository). 
+\end{enumerate}
+\item Bottom right: Again, several functions. 
+
+\begin{enumerate}
+\item Plot: If you tried the examples in item 2 above, you will have noticed
+this pane switch to 'Plots' and display the latest plot. RStudio also
+maintains a history of the plots that have been generated, and you
+can skip back through that history, which seems endless in my experience
+so far. The 'export' function in the 'Plot' tab allows you to save
+the plot externally to either png or pdf format. 
+\item Files: This displays the files in the working directory, which for
+now should be the project directory. There are a few functions for
+dealing with those files.
+\item Help: Requests for help are displayed in this window. If you click
+on the 'Home' button, you are taken to a page that shows links to
+some of the basic manuals and also a definitive definition of the
+language, along with other more specialized manuals. If you want to
+know how a particular function works, you can enter your search phrase
+into the console as, for example, ?atan2 to see information on the
+arctangent function, or you can enter this into the entry line on
+the help window, which has the advantage that it displays auto-completion
+obtions as you type. {[}Try 'plot' to see this in action.{]} There
+are many cross-references among the help pages that are quite useful.
+If you click on the left drop-down menu you will see a history of
+the help topics you have consulted.
+\item Viewer: I'm going to postpone discussion of this until later; we won't
+need the viewer for a while.
+\item Packages: This displays the packages that are available for your use,
+either in the system-wide repository or in mine (if you have established
+assess to mine via one of the methods discussed earlier or in the
+appendix). To test if you have access to my functions, look for 'Ranadu'
+in the list. If it is there, let your mouse linger over it and its
+location will be displayed. You could try this for other packages
+also; check, for example, ggplot2, a very useful and standard plotting
+package not yet part of the EOL repository. The check boxes indicate
+which packages will be available in your session without special loading;
+if unchecked, you can either check the box or include a statement
+similar to 'require(Ranadu)' in your session (or when you use these
+functions, use the form Ranadu::routine\_you\_want). The 'install'
+and 'update' functions at the top of the 'Packages' pane provide easy
+access to the 'CRAN' archive of packages or to packages you may have
+from other sources that you want to load for use.
+\end{enumerate}
+\end{enumerate}
+
+\section*{Practice With This {[}suggested, start before next time{]}}
+
+As homework, in addition to working through the preceding information
+to ensure that you understand it and can do all the steps, pick a
+few of the following and, where I have provided sample code, extend
+them to other data:
+
+Easy ones:
+\begin{enumerate}
+\item Plot a time history of the wind speed from DEEPWAVE flight 20 and
+compare the plot to one generated by ncplot. Hint: See the next example
+for an illustration of how to access the data from this flight.
+\item Construct a plot of temperature and humidity vs pressure altitude
+for the final descent from the same flight.\\
+<<initialization, echo=TRUE, include=TRUE, tidy=TRUE>>=
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE) # my routines 
+opts_chunk$set(echo=TRUE, fig.lp="fig:", fig.width=6, fig.height=7.5, tidy=TRUE, digits=3)
+require(knitr)
+
+<<get-data>>=
+Directory <- DataDirectory ()    # for portability; sets the local data directory
+Flight <- "rf20"                 # select a flight
+Project = "DEEPWAVE"             # select a project
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+# XXX set variables needed, here a standard list including DPX and EWX
+# preliminary look shows that final descent was from 84400 to 91100
+Data <- getNetCDF (fname, c("Time", "DPXC", "ATX", "PALT"), 84400, 91100)
+saveDataFile <- 'RSessionsIntro.Rdata.gz'
+save (Data, file = saveDataFile, compress='gzip') 
+# for future runs, it will be much faster to use:
+# load(saveDataFile)
+
+<<construct the plot, fig.cap="DEEPWAVE flight 20, final descent (8:44:00 -- 9:11:00) sounding of temperature and dewpoint, with region where dewpoint exceeds temperature shown as the thick red line.">>=
+plot (Data$DPX, Data$PALT, type='l')   # type='l': line plot
+lines (Data$ATX, Data$PALT, col='darkgreen') # add temperature
+s <- Data$DPX > Data$ATX
+lines (Data$ATX[s], Data$PALT[s], col='red', lwd=3)
+# will show how to add legends, titles, axis labels, etc, later
+
+@
+\item Calculate the mean and standard deviation of the vertical wind (WIC)
+for measurements above FL400 for the same flight.
+\end{enumerate}
+Harder ones:
+\begin{enumerate}
+\item Estimate what change in recovery factor would be needed to bring DEEPWAVE
+temperature measurements ATHR1 and ATRL from RF20 into agreement.
+\item Plot a time history or scattergram of the pressure corrections used
+in DEEPWAVE flight 20 compared to the corrections recommended on the
+basis of the LAMS calibration. {[}The latter are in Ranadu:PCorFunction().)
+\item Construct a wind hodograph for the same flight. (This is a display
+that shows the direction \emph{toward which }the wind is blowing,
+in an x-y display where x is EW, y is NS, and the distance from the
+center point represents the wind strength. Points along the hodograph
+should be labeled by pressure, but this can be a future extension
+of this homework problem.
+\item Is the correct recovery factor being used for CONTRAST flight 8? 
+\item -- or construct your own and be ready to show it for a future session
+--
+\end{enumerate}
+
+\section*{An example of what I'm advocating}
+
+A sample program file and resulting memo are included in the 'RSessions'
+directory as CONTRASTcalAOA.Rnw and CONTRASTcalAOA.pdf. I'll use those
+next to give an overview of how this can be used.
+
+\uline{Characteristics of this file to note:}
+\begin{enumerate}
+\item Text is intermixed with R code in this file. R code 'chunks' begin
+with a header line <\textcompwordmark{}<chunk-name>\textcompwordmark{}>=
+and end with @. Results from the R code can be incorporated into subsequent
+parts of the text.
+\item The chunks provide a way to structure your program and to skip to
+appropriate sections of the code.
+\item The text will have references to the R results in the form of '\textbackslash{}Sexpr\{x\}'
+where x is an R variable. (Sexpr is a remnant from R-s origin in S;
+Sexpr is an S expression.) 
+\item If a figure is generated in an R chunk, it appears in the text document
+after the place where the R chunk appears. 
+\item I have emphasized reproducibility and have included a section on how
+to use the file with other data and a table on reproducibility at
+the end of the memo. That table contains:
+
+\begin{enumerate}
+\item the project name
+\item the location of the source file
+\item the name of a zip-format archive containing all the information needed
+to repeat the production of the memo
+\item the original data used. (Only the subset of the data used here is
+saved in the archive to keep the size of these archive files small.)
+\item the archive location on github, which anyone can access
+\end{enumerate}
+
+You will find a similar table at the end of this memo.
+
+\end{enumerate}
+
+\section*{Next}
+
+For a preview of what is planned to follow this, see RSessionsDataFrame
+in the RSessions directory.
+
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --}}
+\par\end{center}
+
+Reproducibility:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & RSessions\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & RSessionsIntro.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & /h/eol/cooperw/RStudio/RSessions/RSessionsIntro.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/CONTRAST/CONTRASTrf20.nc\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & git://github.com/WilliamCooper/RSessions.git\tabularnewline
+\end{tabular}
+
+%\attach{attachment}
+
+\attachm{ProgramFile\\Document.pdf\\SessionInfo\\\Sexpr{saveDataFile}}
+
+<<save-system-info, echo=FALSE, include=FALSE>>=
+SessionInfoFile <- file ("SessionInfo", open = "wt")
+sink (SessionInfoFile, type="output")
+S <- sessionInfo ()
+print (S)
+close (SessionInfoFile)
+sink ()
+
+@
+
+<<make-zip-archive, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width.cutoff=60)>>=
+system(sprintf("zip RSessionsIntro.zip %s %s %s %s", 'RSessionsIntro.Rnw', 'RSessionsIntro.pdf', 'SessionInfo', 'RSessionsIntro.Rdata.gz'))
+
+@
+
+%\cc{first attachment\\second\\3rd att}
+\end{document}
