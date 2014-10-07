@@ -1,5 +1,8 @@
 %% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
+%% There is lots here that comes from my lyx template; normally, none of this is needed
+%% except the \documentclass statement and the \begin{document} statement at line 65. Don't 
+%% worry about the complexity of this; it's easy to use RStudio without getting deeply into
+%% the detailes of LaTeX, as we'll see later.
 \documentclass[12pt]{article}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
