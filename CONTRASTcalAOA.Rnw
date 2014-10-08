@@ -257,7 +257,7 @@ git://github.com/WilliamCooper/RSessions.git
 
 %\attach{attachment}
 
-\attachm{ProgramFile listed above\\CONTRASTcalAOA.pdf\\\Sexpr{SaveRData}}
+\attachm{ProgramFile listed above\\CONTRASTcalAOA.pdf\\\Sexpr{SaveRData}\\SessionInfo}
 
 %\cc{first attachment\\second\\3rd att}
 
@@ -273,8 +273,7 @@ cat (toLatex(sessionInfo()), file="SessionInfo")
 @
 <<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
 
-system ("zip CONTRASTcalAOA.zip CONTRASTcalAOA.Rnw CONTRASTcalAOA.pdf //
-        SessionInfo CONTRASTcalAOA.Rdata.gz")
+system ("zip CONTRASTcalAOA.zip CONTRASTcalAOA.Rnw CONTRASTcalAOA.pdf SessionInfo CONTRASTcalAOA.Rdata.gz")
 
 @
 
