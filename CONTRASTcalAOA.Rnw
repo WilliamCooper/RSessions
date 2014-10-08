@@ -266,6 +266,11 @@ git://github.com/WilliamCooper/RSessions.git
 %\attachm{first\\second}
 %\cc{first attachment\\second\\3rd att}
 
+<<save-system-info, echo=FALSE>>=
+cat (toLatex(sessionInfo()), file="SessionInfo")
+
+
+@
 <<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
 
 system ("zip CONTRASTcalAOA.zip CONTRASTcalAOA.Rnw CONTRASTcalAOA.pdf //
