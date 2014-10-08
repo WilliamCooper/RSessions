@@ -144,7 +144,7 @@ so click ``OK'' to save the options.
 \item Select 'New Directory'
 \item Select 'Version Control'
 \item Select 'Git''
-\item Use this repository name: git@github.com/WilliamCooper/RSessions.git
+\item Use this repository name: git@github.com:WilliamCooper/RSessions.git
 \item Give the project the name 'RSessions' and create it as a subdirectory
 of '\textasciitilde{}/RStudio'
 \item At this point, RStudio will switch to windows that apply to this new
@@ -332,12 +332,57 @@ You will find a similar table at the end of this memo.
 
 \section*{Next}
 
-For a preview of what is planned to follow this, see RSessionsDataFrame
+For a preview of what is planned to follow this, see RSessionsDataFrame/zip
 in the RSessions directory.
 
 \begin{center}
 \textsf{\textcolor{blue}{-- End of Memo --}}
 \par\end{center}
+
+
+\section*{APPENDIX: Getting the 'RAF' ('Ranadu') Package}
+
+For use on tikal, a procedure suggested in the first section of this
+memo should provide access to my package of routines for use with
+RAF netCDF files. Here are steps for obtaining that package on other
+systems. 
+
+You may first need to install some packages on which it depends. It's
+dependencies are: ncdf, nleqslv, rPython, ggplot2, ggthemes, grid,
+reshape2. If any of those do not appear in your list of packages (displayed
+by selecting the 'Packages' tab in the bottom right pane of RStudio),
+click 'Install' at the top of that pane, select 'repository (CRAN)'
+in the first drop-down menu, and enter a list of packages that you
+are missing in the second line labelled 'Packages'. The default location
+for local libraries on the last line should be kept, and the check-box
+labelled 'Install dependencies' should be checked. Click 'Install''
+and those packages should be downloaded from the CRAN repository,
+compiled where necessary, and added to your list of packages. After
+doing that, to get the package 'Ranadu', follow these steps:
+\begin{enumerate}
+\item Within RStudio, select 'File' -> 'New Project' -> 'Version Control'
+-> 'Git' (clone a repository)
+\item For the package URL, enter 'git@github.com:WilliamCooper/Ranadu.git'
+(without the quote marks). Use the package name 'Ranadu' and make
+the directory for it a subdirectory under 'RStudio'.
+\item Click 'Create Project' and RStudio will download the files and change
+the working project to Ranadu.
+\item Go to the 'Packages' window and click 'Install'
+\item In the new window that appears, change the top drop-down menu from
+CRAN to 'Package archive file'
+\item A window will appear that displays all the files in your home directory.
+Go to the directory RStudio, then to directory Ranadu, and in that
+directory select 'Ranadu-1.0-14-10-07.tar.gz' (or whatever the highest-version-number
+is there).
+\item For 'Install to library ...' you should be able to use the default
+for your system. It should point to a directory in your local file
+space. On my laptop it is '/home/cooperw/R/x86\_64-redhat-linux-gnu-library/3.1'.
+This should have been defined during R installation as the directory
+for local packages.
+\item Click 'Install'. The package 'Ranadu' should appear in your list of
+packages.
+\end{enumerate}
+\rule[0.5ex]{1\columnwidth}{1pt}
 
 Reproducibility:
 
@@ -365,6 +410,7 @@ sink ()
 @
 
 <<make-zip-archive, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width.cutoff=60)>>=
+
 system(sprintf("zip RSessionsIntro.zip %s %s %s %s", 'RSessionsIntro.Rnw', 'RSessionsIntro.pdf', 'SessionInfo', 'RSessionsIntro.Rdata.gz'))
 
 @
