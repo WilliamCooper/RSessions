@@ -251,7 +251,7 @@ attachment list below\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Original Data:}}} &
 /scr/raf\_data/CONTRAST/CONTRASTrf08.nc \tabularnewline
 \textsf{\textsc{\textcolor{blue}{Archive:}}} &
-git://github.com/WilliamCooper/RSessions.git
+git://github.com:WilliamCooper/RSessions.git
 \tabularnewline
 \end{tabular}
 
