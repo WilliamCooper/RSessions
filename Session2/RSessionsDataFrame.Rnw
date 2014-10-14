@@ -1,8 +1,5 @@
 %% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
-%% There is lots here that comes from my lyx template; normally, none of this is needed
-%% except the \documentclass statement and the \begin{document} statement at line 65. Don't 
-%% worry about the complexity of this; it's easy to use RStudio without getting deeply into
-%% the detailes of LaTeX, as we'll see later.
+
 \documentclass[12pt]{article}
 \usepackage{mathptmx}
 \usepackage[T1]{fontenc}
@@ -70,18 +67,87 @@
 \begin{tabular}{ll}
 \textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
 \textsf{\textsc{\textcolor{blue}{From:}}} & Al Cooper\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Subject:}}} & Using data.frame objects\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Subject:}}} & R objects, focusing on the data.frame\tabularnewline
 \end{tabular}
 
 \bigskip
 
 
-\section*{What is a data.frame?}
+\section*{R objects}
 
-A data.frame resembles a matrix or a spreadsheet. For example, it
-may consists of columns each representing a variable and rows that
-are the time sequence of observations of that variable. Applied to
-RAF data files, it may have a structure like this:
+
+\subsection*{vector}
+
+The fundamental objects we will deal with the most is the vector.
+This is an indexed set of quantities, which can be numeric (double,
+integer), logical, character, or some other less common types. Vectors
+are 'atomic' if they consist all of the same type; 'generic' vectors
+can have mixed types, but I won't deal much with them. Vectors can
+have only one element, which would be called a scalar in other languages,
+but scalars in R are just vectors with one element. Vectors have a
+length property {[}try length(x){]} but not a dimension property:
+Try the following: 
+
+<<ex1>>=
+
+x <- 2
+print (x[1])
+length(x)
+dim(x)
+
+@
+
+
+\subsection*{list}
+
+A list resembles an atomic vector but can have mixed types. Lists
+also have additional ways of selecting elements, e.g., by character
+name. Lists are generic vectors, but when I talk about vectors I'll
+almost always be talking about atomic vectors.
+
+
+\subsection*{array}
+
+A special vector-like object is the array or matrix, which are like
+a vectors but with an assigned dimension so that, in the two-dimensional
+or matrix case, the vector is a vector of columns in a matrix. The
+dimension can be single-valued, but more often there are at least
+two dimensions. R convention is column-major format (like FORTRAN
+but opposite to C); i.e., the row index represents adjacent values
+in the underlying vector and so items that lie vertically in the conventional
+display of a matrix so that for example z{[}1,1{]} and z{[}2,1{]}
+are adjacent in the underlying vector and aligned vertically in a
+display of the matrix. The first index in a two-dimensional array
+can be thought of as specifying the row and the second the column;
+all rows in a particular column appear together. You can construct
+an array from a vector by assigning it a dimension via 'dim(x) <-
+c(dim1, dim2)' as in the following example,%
+\footnote{Want your original vector back? Use x <- as.vector(x)%
+} which also illustrates the column-major structure and the effect
+of transposing the array using t():
+
+<<ex2>>=
+
+a <- 1:12           # generate a vector containing the sequence 1 to 12
+print (a)
+dim (a) <- c(3,4)  # c() constructs a vector from its elements
+print (a)
+print (t(a))
+
+@
+
+This works well for arrays constructed from our netCDF files because
+the time index can be thought of as the row index and each column
+represents a vector of measurements of a particular variable.
+
+
+\subsection*{data.frame}
+
+A data.frame is a named list of vectors and resembles a matrix or
+a spreadsheet. For example, it may consists of columns each representing
+a variable and rows that are the time sequence of observations of
+that variable. Applied to RAF data files, it may have a structure
+like this:
 
 \noindent \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -108,18 +174,21 @@ All columns must be of the same length, but they may contain different
 types of variables (Time, character, numeric, logical). Like a spreadsheet,
 the columns can be assigned names like the header in this table. Rows
 can also be assigned names, but in the absence of special assignment
-they will default to the character names '1', '2', '3', '4', ...
+they will default to the character names '1', '2', '3', '4', ... and
+can be addressed by an index that is the first in a two-index specification;
+i.e., D{[}500, 10{]} represents the 10th variable as measured at the
+500-th time in the dataframe.
 
 Let's get an example. Here is a segment of R code that loads a few
 selected variables from a netCDF file to a data.frame:
 
 <<initialization,echo=TRUE,include=TRUE>>=
-require(Ranadu, quietly = TRUE, warn.conflicts=FALSE) # my package of routines 
+require(Ranadu, quietly = TRUE, warn.conflicts = FALSE) # my package of routines 
 Directory <- DataDirectory ()    # for portability; sets the local data directory
 Flight <- "rf08"                 # select a flight
 Project = "CONTRAST"             # select a project
 fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
-# XXX set variables needed, here a standard list plus GGVSPDB
+# set variables needed, here a standard list plus GGVSPDB
 Data <- getNetCDF (fname, standardVariables(c("GGVSPDB")), 60000, 60010) 
 saveDataFile <- 'RSessionsDataFrame.Rdata.gz'
 save (Data, file = saveDataFile, compress='gzip')
@@ -127,10 +196,59 @@ N <- names(Data)
 
 @
 
+Here are a few explanations of aspects of this code:
+\begin{enumerate}
+\item The 'require (Ranadu)' statement is a reference to a package of routines
+I have developed to provide 'convenience' functions that make this
+easier.%
+\footnote{I hope we can rename this 'RAF' if there is sufficient interest and
+participation, but for now that seemed presumptious.%
+}
+\item The 'DataDirectory ()' function, part of Ranadu, simply sets the directory
+appropriately for the system in use. On tikal, it returns ``/scr/raf\_data/'',
+on my home computer ``/home/Data'', etc. I use this because I got
+tired of changing references to the data directory whenever I transferred
+programs between systems.
+\item I perhaps slipped up by typing the '=' sign when assigning to the
+variable 'Project'. You can do this anytime; I have not found any
+compelling reason to use the '<-' assignment operator, although I
+have followed R advice and tried to adopt that convention. I like
+the arguments for the logic of this assignment operator, but I which
+I hadn't started using it because when I go to another language I'm
+prone to type '<-' which will be an error. I think you have to use
+'=' for assignment to arguments in functions, as I have in the 'require
+()' statement.
+\item 'fname' is the data file name; here, on tikal, the statement generates
+'/scr/raf\_data/CONTRAST/CONTRASTrf08.nc'
+\item 'standardVariables()' is another Ranadu function that returns a character
+vector with some of the variables I usually want present, like ATX,
+PSXC, WDC, etc. See the help functions for the standard list. In addition,
+any arguments, like 'GGVSPDB' here, are added to the list of variables
+to use; if there are more than one, use 'c(``Var1, Var2, ...'')
+as the argument to standardVariables(). You can also just provide
+a list of variables you want directly to 'getNetCDF ()'.
+\item 'getNetCDF ()' is another convenience routine that returns a data.frame
+containing 'Time' and any variables requested as the second argument.
+Here that returned value is assigned to the data.frame 'Data'. You
+can also restrict the retrieved time period to the times between and
+including the 3rd and 4th arguments.
+\item The next two lines save the data in a format easy to reload without
+the overhead of fetching the full netCDF file, which is strangely
+slow on tikal. This is part of the structure I'm trying to implement
+to make analyses reproducible by archiving the data used, esp. when
+the datasets are small as is this one.
+\item 'names ()' is a standard R function that lists the names associated
+with an object. Here it lists the names of the variables included
+in the data.frame. Here I assign the names to 'N' because I want to
+include them in the text, which is done as in the next paragraph.
+(See the .Rnw source for an illustration of how this is done; '\textbackslash{}Sexpr\{N\}'
+is used there to include the names in the text.)
+\end{enumerate}
 The resulting names are \Sexpr{N}. The data.frame 'Data' looks like
 this:
 
 <<print-Data, echo=FALSE, include=TRUE>>=
+
 Data
 
 @ 
@@ -144,6 +262,7 @@ Data
 You can address particular elements using syntax like the following:
 
 <<dataframe-selection-of-elements>>=
+
 Data$ATX[5]
 Data[5, 2]           # note the [row,column] syntax
 Data[5, ]
@@ -154,6 +273,9 @@ Data$ATX[Data$Time == as.POSIXct("2014-02-01 6:00:04", tz='UTC')]
 
 @
 
+('getIndex ()' is part of Ranadu and provides a convenient way to
+determine the data.frame index that corresponds to a specified time.)
+
 
 \subsection*{Creating subsets of a data.frame}
 
@@ -161,6 +283,7 @@ New data.frames that contain subsets of original data.frames can be
 created using logical vectors. For example:
 
 <<subset-dataframe>>=
+
 Data[Data$TASX > 186.2, ]
 Data[setRange(Data$Time, 60005, 60008), ]
 
@@ -170,15 +293,18 @@ Another useful subset is that omitting all missing-variable rows from
 the data.frame:
 
 <<subset-without-NA-rows>>=
+
 na.omit(Data)
 
 @
 
 However, be careful using this and other subsetting commands because
-the time sequence will have gaps and some functions like setRange()
-won't work, although plots will just skip the missing values. Compare
-the results from plotWAC (Data\$Time, Data\$ATX) to D <- na.omit(Data)
-; plotWAC (D\$Time, D\$ATX).
+if the time sequence has gaps some functions like 'setRange()' won't
+work, although plots will just skip the missing values. Compare the
+results from plotWAC (Data\$Time, Data\$ATX) to D <- na.omit(Data)
+; plotWAC (D\$Time, D\$ATX). When I need to omit missing values (e.g.,
+for filtering), I try to do other subsetting before using the na.omit
+function.
 
 
 \subsection*{Adding or changing variables in a data.frame}
@@ -187,6 +313,7 @@ You can operate on variables in the data.frame, changing values, and
 you can add new variables to the data.frame as follows:
 
 <<add-variable-to-dataframe>>=
+
 # wind component from the east:
 Data["UEW"] <- Data$WSC * sin (Data$WDC * pi / 180)
 Data$UEW
@@ -196,18 +323,22 @@ Data$UEW
 
 \subsection*{Simple plots}
 
-Let's plot something:
+Let's plot something, using 'plotWAC ()' from Ranadu for convenient,
+although you can try the standard 'plot ()' function from R base routines
+to see what changes I have made:
 
 <<plot-GGVSPDB>>=
+
 plotWAC(Data$Time, Data$GGVSPDB, ylab='GGVSPDB')
 
 @
 
 It is also useful to define special data.frames for constructing plots,
 especially when using the more advanced plotting capabilities provided
-by ggplot2. To see a simple scatterplot, you can use the following:
+by 'ggplot2'. To see a simple scatterplot, you can use the following:
 
 <<plot-df>>=
+
 D <- Data[, c("ATX", "GGALT")]
 plot(D, pch=20)         # pch=20 plots small solid dots
 
@@ -222,8 +353,9 @@ in the preceding plot.
 and now create an Excel spreadsheet with the data:
 
 <<write-to-excel>>=
-require(xlsx)
-write.xlsx (Data, file="Data.xlsx")
+
+#require(xlsx)
+xlsx::write.xlsx (Data, file="Data.xlsx")
 #system("libreoffice Data.xlsx")
 
 @
@@ -240,17 +372,21 @@ Reproducibility:
 \textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Program:}}} & /h/eol/cooperw/RStudio/RSessions/RSessionsDataFrame.Rnw\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Original Data:}}} & /scr/raf\_data/CONTRAST/CONTRASTrf08.nc\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Git:}}} & \tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & https:github.com/WilliamCooper/RSessions.git\tabularnewline
 \end{tabular}
 
 %\attach{attachment}
 
-\attachm{ProgramFile\\Document.pdf\\SessionInfo\\\Sexpr{saveDataFile}}
+\attachm{ProgramFile\\RSessionsDataFrame.pdf\\SessionInfo\\\Sexpr{saveDataFile}}
+
+<<save-system-info, echo=FALSE, include=FALSE>>=
+
+cat (toLatex(sessionInfo()), file="SessionInfo")
+
+@
 
 <<make-zip-archive, echo=TRUE, include=TRUE>>=
-sink (file="SessionInfo", type="output")
-print (sessionInfo ())
-sink ()
+
 system ("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf 
         SessionInfo RSessionsDataFrame.Rdata.gz")
 
