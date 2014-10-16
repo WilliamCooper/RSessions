@@ -71,6 +71,9 @@
 \end{tabular}
 
 \bigskip
+<<cd-Session2, echo=FALSE, include=FALSE>>=
+setwd("~/RStudio/RSessions/Session2")
+@
 
 
 \section*{R objects}
@@ -78,23 +81,29 @@
 
 \subsection*{vector}
 
-The fundamental objects we will deal with the most is the vector.
+The fundamental object for most of what I will discuss is the vector.
 This is an indexed set of quantities, which can be numeric (double,
 integer), logical, character, or some other less common types. Vectors
 are 'atomic' if they consist all of the same type; 'generic' vectors
-can have mixed types, but I won't deal much with them. Vectors can
+can have mixed types, but I won't deal much with them. Vectors may
 have only one element, which would be called a scalar in other languages,
 but scalars in R are just vectors with one element. Vectors have a
 length property {[}try length(x){]} but not a dimension property:
 Try the following: 
 
-<<ex1>>=
-
+<<ex1.1>>=
 x <- 2
 print (x[1])
 length(x)
 dim(x)
+@
 
+Vectors are important in R because the language is vectorized, 
+so loops are usually unnecessary. Try this:
+
+<<ex1.2>>=
+x <- 1:10
+2*x
 @
 
 
@@ -108,18 +117,18 @@ almost always be talking about atomic vectors.
 
 \subsection*{array}
 
-A special vector-like object is the array or matrix, which are like
-a vectors but with an assigned dimension so that, in the two-dimensional
+A special vector-like object is the array or matrix, which is like
+a vector but with an assigned dimension so that, in the two-dimensional
 or matrix case, the vector is a vector of columns in a matrix. The
 dimension can be single-valued, but more often there are at least
 two dimensions. R convention is column-major format (like FORTRAN
 but opposite to C); i.e., the row index represents adjacent values
-in the underlying vector and so items that lie vertically in the conventional
-display of a matrix so that for example z{[}1,1{]} and z{[}2,1{]}
+in the underlying vector. Items that lie vertically in the conventional
+display of a matrix, for example z{[}1,1{]} and z{[}2,1{]}, 
 are adjacent in the underlying vector and aligned vertically in a
 display of the matrix. The first index in a two-dimensional array
-can be thought of as specifying the row and the second the column;
-all rows in a particular column appear together. You can construct
+can be thought of as specifying the row and the second the column. 
+You can construct
 an array from a vector by assigning it a dimension via 'dim(x) <-
 c(dim1, dim2)' as in the following example,%
 \footnote{Want your original vector back? Use x <- as.vector(x)%
@@ -127,13 +136,11 @@ c(dim1, dim2)' as in the following example,%
 of transposing the array using t():
 
 <<ex2>>=
-
 a <- 1:12           # generate a vector containing the sequence 1 to 12
 print (a)
 dim (a) <- c(3,4)  # c() constructs a vector from its elements
 print (a)
 print (t(a))
-
 @
 
 This works well for arrays constructed from our netCDF files because
@@ -213,12 +220,14 @@ programs between systems.
 variable 'Project'. You can do this anytime; I have not found any
 compelling reason to use the '<-' assignment operator, although I
 have followed R advice and tried to adopt that convention. I like
-the arguments for the logic of this assignment operator, but I which
+the arguments for the logic of this assignment operator, but I wish
 I hadn't started using it because when I go to another language I'm
-prone to type '<-' which will be an error. I think you have to use
+prone to type '<-' which will be an error.%
+\footnote{I think you have to use
 '=' for assignment to arguments in functions, as I have in the 'require
-()' statement.
-\item 'fname' is the data file name; here, on tikal, the statement generates
+()' statement.%
+}
+\item 'fname' is the data file name; here, on tikal, the statement generates\\
 '/scr/raf\_data/CONTRAST/CONTRASTrf08.nc'
 \item 'standardVariables()' is another Ranadu function that returns a character
 vector with some of the variables I usually want present, like ATX,
@@ -239,7 +248,7 @@ to make analyses reproducible by archiving the data used, esp. when
 the datasets are small as is this one.
 \item 'names ()' is a standard R function that lists the names associated
 with an object. Here it lists the names of the variables included
-in the data.frame. Here I assign the names to 'N' because I want to
+in the data.frame. I assigned the names to 'N' because I want to
 include them in the text, which is done as in the next paragraph.
 (See the .Rnw source for an illustration of how this is done; '\textbackslash{}Sexpr\{N\}'
 is used there to include the names in the text.)
@@ -323,13 +332,13 @@ Data$UEW
 
 \subsection*{Simple plots}
 
-Let's plot something, using 'plotWAC ()' from Ranadu for convenient,
+Let's plot something, using 'plotWAC ()' from Ranadu for convenience,
 although you can try the standard 'plot ()' function from R base routines
 to see what changes I have made:
 
 <<plot-GGVSPDB>>=
 
-plotWAC(Data$Time, Data$GGVSPDB, ylab='GGVSPDB')
+Z <- plotWAC(Data$Time, Data$GGVSPDB, ylab='GGVSPDB')
 
 @
 
@@ -344,19 +353,20 @@ plot(D, pch=20)         # pch=20 plots small solid dots
 
 @
 
-Exercise: See what happens if you instead include three variables
+Exercises: Try adding 'lines(D)' after the preceding plot command. Also, 
+see what happens if you instead include three variables
 in the preceding plot.
 
 
 \subsection*{Exporting to Excel}
 
-and now create an Excel spreadsheet with the data:
+and now create an Excel-format spreadsheet with the data:
 
 <<write-to-excel>>=
 
 #require(xlsx)
-xlsx::write.xlsx (Data, file="Data.xlsx")
-#system("libreoffice Data.xlsx")
+xlsx::write.xlsx (Data, file="Data.xlsx")  # xlsx:: uses package xlsx
+#system("libreoffice Data.xlsx")        # include this if your system has libreoffice
 
 @
 
@@ -387,7 +397,7 @@ cat (toLatex(sessionInfo()), file="SessionInfo")
 
 <<make-zip-archive, echo=TRUE, include=TRUE>>=
 
-system ("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf 
+system ("zip RSessionsDataFrame.zip RSessionsDataFrame.Rnw RSessionsDataFrame.pdf \\
         SessionInfo RSessionsDataFrame.Rdata.gz")
 
 @
