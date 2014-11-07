@@ -1,0 +1,429 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\ifx\hypersetup\undefined
+  \AtBeginDocument{%
+    \hypersetup{unicode=true}
+  }
+\else
+  \hypersetup{unicode=true}
+\fi
+\usepackage{breakurl}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ % (ERT) argument for the TOC
+ \AtBeginDocument{%
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+\AtBeginDocument{
+  \def\labelitemii{\(\triangleright\)}
+}
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+\title{Session 4: R Packages}
+
+
+\subtitle{A sampler; also, 'Ranadu'}
+
+
+\author{Al Cooper }
+
+
+\date{RAF Sessions on R and RStudio}
+
+\makebeamertitle
+
+
+%\beamerdefaultoverlayspecification{<+->}
+
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+<<setup, include=FALSE>>=
+#render_sweave()
+opts_chunk$set(size="small")    #"small")
+@
+
+
+\begin{frame}{What is a package?}
+
+\begin{block}{``Base'' functions}
+
+\begin{itemize}
+\item Most of what we have been reviewing is in the base package
+
+
+Always available, always loaded.
+
+\item Many functions, like plot (), are in other standard packages like
+'graphics'
+\item Want to see everything available on CRAN? \\
+\href{http://cran.r-project.org/web/packages/available_packages_by_name.html}{See this CRAN URL};
+better starting point is \href{http://cran.r-project.org/web/views/}{this URL}
+\end{itemize}
+\end{block}
+\begin{exampleblock}{RStudio: see the 'Packages' button:}
+
+\begin{enumerate}
+\item Most are inactive in the sense that they are not using memory or available.
+To use:
+
+\begin{enumerate}
+\item check the box;
+\item require(signal) or library(ggplot2);
+\item also beanplot::beanplot; often useful
+\end{enumerate}
+\item On tikal, all the standard EOL packages. Setting .Renviron appropriately
+gives you access to the packages of others.
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{A few to note:}
+
+\begin{exampleblock}{}
+Recently used:
+\begin{enumerate}
+\item ncdf: basic netCDF functions
+\item ggplot2 and ggthemes
+\item signal (includes filtering)
+\item devtools: helpful constructing packages
+\item nleqslv: solve non-linear equations
+\item knitr: intermix text and R code
+\item maps and mapproj
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+
+\setbeamercolor{alerted text}{fg=orange}
+\begin{frame}[fragile]{'Ranadu'}
+
+\begin{block}{Data-access functions:}
+
+
+Data <- getNetCDF ( ): loads data.frame with requested variables\\
+V <- standardVariables ( ): defines a comment set\\
+DataDirectory ( ): ``/scr/raf\_data/'' on tikal\\
+i <- getIndex ( ): find index for a specified time\\
+r <- setRange ( ): set a range of indices to a specified time interval\\
+TellAbout (V): lists some characteristics of V
+
+\end{block}
+\begin{alertblock}{R code and response:}
+
+
+<<ea, include=FALSE>>=
+require(Ranadu)
+<<eb, include=TRUE, size='footnotesize', tidy=TRUE, tidy.opts=list(width=55), comment=NA>>=
+Project <- "DEEPWAVE"
+Flight <- "rf15"
+fname <- sprintf ("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight) # or fname <- "..."
+Data <- getNetCDF (fname, standardVariables (c("GGALTB", "PITCH")), Start=40000, End=53000, F=15) # loads data.frame
+names(Data)  # shows variables in Data
+@
+
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{'Ranadu'}
+
+\begin{alertblock}{R code and response:}
+
+
+<<ec, include=TRUE, size='footnotesize', comment=NA>>=
+TellAbout (Data)
+@
+
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{More about getNetCDF ( ):}
+
+\begin{enumerate}
+\item The first variable returned is ``Time''. This is converted from
+the time variable used in netCDF files (seconds after a specified
+reference time) to 'POSIX'-format time that is understood by R. 
+
+\begin{enumerate}
+\item Gives appropriate labels in plots vs time.
+\item Includes date; no ambiguity if data.frames are merged.
+\item Requires interpretation; not a simple index. This works:\\
+Data\$ATX{[}Data\$Time==as.POSIXct(\textquotedbl{}2014-07-04 08:33:19\textquotedbl{},
+tz='UTC'))\\
+-- but see 'getIndex'
+\end{enumerate}
+\item Handles high-rate files by returning 25 values per second in flat
+arrays. Where variables are lower rate, interpolation is used, Savitzky-Golay
+with 4th-order polynomials spanning 3 s centered on each 25-Hz point,
+so all are 25-Hz.
+\item Data\$RF is included to be able to merge resulting files and still
+identify data from individual flights: Data{[}RF==15, {]} gives only
+measurements from that flight.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Other ways of getting data into R: tables}
+
+
+read.table () 
+\begin{itemize}
+\item Easy way to read data in text spreadsheet form:
+
+
+export from Excel in CSV format
+
+
+read.table with the same separator as the argument
+
+\item other options include 'header' and 'skip'
+\item The 'file' argument can also be a complete URL. \href{'http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT\%3ALIST&YEAR=2014&MONTH=11&FROM=0612&TO=0612&STNM=72469'}{This URL}
+with the code below will download the current Denver sounding as a
+data.frame.
+\end{itemize}
+
+<<ed, include=FALSE>>=
+URL_UW <-  "http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2014&MONTH=11&FROM=0612&TO=0612&STNM=72469"
+@
+
+
+<<ee, include=TRUE, echo=TRUE, size='footnotesize'>>=
+Names <- read.table(file=URL_UW, skip=7, nrows=1)
+A <- read.table (file=URL_UW, skip=13, nrows=70,
+     col.names=as.vector(t(Names))); head(A)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{Other ways of getting data into R: HTML pages}
+
+
+readHTMLTable(\href{http://www3.rtd-denver.com/schedules/getSchedule.action?runboardId=143&routeId=228&routeType=11&direction=S-Bound&serviceType=3}{URL},
+...)\\
+Example: RTD schedule for route 228 southbound:
+
+
+<<ef, include=FALSE>>=
+U <-  "http://www3.rtd-denver.com/schedules/getSchedule.action?runboardId=143&routeId=228&routeType=11&direction=S-Bound&serviceType=3"
+@
+
+
+<<eg, include=TRUE, echo=TRUE, size='footnotesize', tidy=TRUE, tidy.opts=list(width=55), comment=NA>>=
+require (XML)
+Schedule <- readHTMLTable (U, header=FALSE, which=1, skip.rows=1:10)
+names (Schedule) <- c("Stop1", "2", "3", "4", "5", "6", "7", "(RAF)", "BPNR", " ")
+head(Schedule[ ,8:9],9)
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{Algorithm Functions}
+
+
+
+\begin{block}{Now available:}
+\end{block}
+\begin{columns}
+
+
+\column{5.8 cm}
+
+
+MurphyKoop (DP, P)
+
+
+DPfromE (E)
+
+
+MixingRatio
+
+
+PotentialTemperature
+
+
+EquivalentPotentialTemperature
+
+
+WetEquivalentPotentialTemperature
+
+
+VirtualTemperature
+
+
+VirtualPotentialTemperature
+
+
+MachNumber
+
+
+TrueAirspeed
+
+
+PCorFunction
+
+
+KingProbe
+
+
+
+
+
+\column{5.2 cm}
+
+
+AirTemperature
+
+
+calcAttack
+
+
+GV\_AOAfromRadome
+
+GV\_YawFromRadome
+
+ButterworthFilter
+
+ComplementaryFilter
+
+
+Gravity
+
+
+PressureAltitude
+
+
+RecoveryFactor
+
+
+SpecificHeats
+
+StandardConstant
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Convenience and Special Functions:}
+
+\begin{columns}
+
+
+\column{5.5 cm}
+\begin{block}{Now available:}
+
+
+DataDirectory ( )
+
+
+GetAttributes (V)
+
+
+getIndex (Time, HHMMSS)
+
+
+r <- setRange (Time, Start, End)
+
+
+getRAFData ()
+
+
+getStartEnd(Time)
+
+
+ncsubset
+
+
+TellAbout (V)
+
+
+ValueOf ( )
+
+
+ValueOfAll ( )
+
+\end{block}
+
+
+\begin{alertblock}{Special (available):}
+
+
+DemingFit ( )
+
+
+AdiabaticTandLWC ( )
+
+\end{alertblock}
+
+\column{5.5 cm}
+\begin{exampleblock}{Plotting routines (available):}
+
+
+plotWAC ( )
+
+
+lineWAC ( )
+
+
+theme\_WAC ( )
+
+
+plotTrack ( )
+
+\end{exampleblock}
+
+
+
+
+\setbeamercolor{alerted text}{fg=red}
+\begin{alertblock}{Development projects:}
+
+\begin{enumerate}
+\item ggplotWAC ( )
+\item size distributions: CDP etc.
+\item Soundings: 
+
+\begin{enumerate}
+\item Skew-T based on Davies-Jones pseudo-adiabatic lines
+\item Paluch and Betts plots
+\end{enumerate}
+\item Spectral-analysis and autocorrelation functions
+\end{enumerate}
+
+\end{alertblock}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{NEXT TIME: Generating Figures}
+
+
+
+\end{frame}
+
+\end{document}
