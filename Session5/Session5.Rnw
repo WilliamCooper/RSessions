@@ -1,0 +1,416 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ % (ERT) argument for the TOC
+ \AtBeginDocument{%
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+
+
+\title[Short Title]{R Session 5}
+
+
+\subtitle{Introduction to Plot Techniques}
+
+
+\author{William A. Cooper}
+
+
+\institute{Research Aviation Facility, Earth Observing Laboratory\\
+National Center for Atmospheric Research\and}
+
+
+\date{Presentation on 11/12/2014}
+
+\makebeamertitle
+
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+%\logo{\pgfuseimage{institution-logo}}
+
+
+
+
+
+
+
+%\beamerdefaultoverlayspecification{<+->}
+\begin{frame}{Outline}
+
+
+\tableofcontents{}
+
+\end{frame}
+
+\section{Packages for Plotting}
+\begin{frame}[fragile]{SOME PACKAGES PROVIDING PLOTS:}
+
+\begin{block}{Base graphics (in package graphics, always available)}
+
+\begin{itemize}
+\item Easy to construct basic plots; e.g.,
+
+\begin{itemize}
+\item histographs, bar charts, box-and-whisker, violin, ...
+\item scatterplots, caterpillar plots, density plots
+\item time series, line charts, ...
+\end{itemize}
+\item Often used for exploratory analysis
+\end{itemize}
+\end{block}
+\begin{alertblock}{ggplot2 (``grammar of graphics''):}
+
+\begin{itemize}
+\item Often used for final-presentation plots
+\item Great flexibility and a structured approach
+\item Can duplicate base-graphics plot functions
+\end{itemize}
+\end{alertblock}
+\begin{exampleblock}{lattice graphics}
+
+
+implementation of ``trellis'' graphics -- an alternate structured
+approach to generating plots, esp.~for exploratory analysis
+
+\end{exampleblock}
+
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+
+<<setup, include=FALSE>>=
+#render_sweave()
+opts_chunk$set(size="small")    #"small")
+
+<<preamble, echo=FALSE, include=FALSE>>=
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+library(knitr)
+require(ggthemes)
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+opts_chunk$set(fig.width=5, fig.height=4, fig.pos="center", digits=4)
+hook1 <- function(x){ gsub("```\n*```r*\n*", "", x) } 
+hook2 <- function(x){ gsub("```\n+```\n", "", x) } 
+knit_hooks$set(document = hook2)
+
+<<initialization, echo=FALSE, include=FALSE>>=
+thisFileName <- "Session4"
+Directory <- DataDirectory ()
+Flight <- "rf01" 				
+Project = "DEEPWAVE"			 
+fname = sprintf("%s%s/%s%s.nc", Directory, Project, Project, Flight)
+Data <- getNetCDF (fname, standardVariables(c("THETA", "THETAP")))
+@		
+
+\end{frame}
+
+
+
+\section{Base graphics}
+
+
+\subsection{Standard routines}
+\begin{frame}[fragile]{BASE GRAPHICS (console ?hist, or 'hist' in RStudio-help)}
+
+
+<<hist-example, echo=-1, include=TRUE, fig.show='hold', tidy=TRUE, tidy.opts=list(width=55)>>=
+par(tcl=-0.4, mar=c(8,5,0,4))
+hist (Data$ATX[Data$TASX>130], breaks=40, xlab='ATX', xlim=c(-80,-40), main=NULL, col='blue')
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{BASE GRAPHICS: line plot'}
+
+
+<<plot-example, echo=-1, include=TRUE, fig.show='hold', tidy=TRUE, tidy.opts=list(width=50)>>=
+par(tcl=-0.4, mar=c(8,5,0,4))
+plot (Data$Time, Data$ATX, ylab='ATX', col='red', type='l', xlab='Time [UTC]', lwd=2)
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{BASE GRAPHICS: scatterplot}
+
+
+<<points-example, echo=-1, include=TRUE, fig.show='hold', tidy=TRUE, tidy.opts=list(width=50)>>=
+par(tcl=-0.4, mar=c(9,5,0,4))
+plot (Data$ATX, Data$PSXC, type='p', pch=20, log='y', xlab='ATX [deg C]', ylab='PSXC [hPa]', ylim=c(1000,100), col='darkgreen')
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{BASE GRAPHICS: multiple lines'}
+
+
+<<lines-example, echo=-1, include=TRUE, fig.show='hold', tidy=TRUE, tidy.opts=list(width=55)>>=
+par(tcl=-0.4, mar=c(11,5,0,4))
+plot (Data$Time, Data$ATX, ylab='T or DP [deg C]', type='l', col='blue', ylim=c(-100,20), xlab='Time [UTC]')
+lines (Data$Time, Data$DPXC, col='red')
+legend ('top', legend=c('ATX', 'DPXC'), text.col=c('blue', 'red'))
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{BASE GRAPHICS: adding structure with a data.frame'}
+
+\begin{columns}
+
+
+\column{5 cm}
+\begin{block}{Consider using a data.frame to hold data for a plot:}
+
+\begin{itemize}
+\item subset appropriately
+\item apply plot operations to this object
+\item optionally save for archiving
+\item example:
+\end{itemize}
+\end{block}
+
+\column{6 cm}
+
+
+<<df-data, echo=-1, include=TRUE, tidy=TRUE, tidy.opts=list(width=25)>>=
+par(tcl=-0.4, mar=c(5,4,0,2))
+r <- setRange (Data$Time, 60000,73000)
+Plot1Data <- Data[r, c("Time", "ATX")]
+plot (Plot1Data, type='l', col='blue', lwd=2)
+@
+
+\end{columns}
+
+\end{frame}
+
+
+
+\subsection{Extension: plotWAC ( )}
+\begin{frame}[fragile]{BASE GRAPHICS: see 'plotWAC'}
+
+\begin{columns}
+
+
+\column{5.5 cm}
+
+
+<<plot-normal, echo=FALSE, include=TRUE>>=
+par(tcl=-0.4, mar=c(5,4,1,2))
+r <- setRange (Data$Time, 64000,71000)
+Plot1Data <- Data[r, c("Time", "ATX")]
+plot (Plot1Data, type='l')
+title("plot ()", cex=0.7)
+@
+
+
+\column{5.5 cm}
+
+
+<<plotWAC, echo=FALSE, include=TRUE>>=
+par(tcl=-0.4, mar=c(5,4,1,2))
+plotWAC (Plot1Data)
+title ("plotWAC ()", cex=0.7)
+@
+
+\end{columns}
+
+\begin{exampleblock}{Differences:}
+
+\begin{enumerate}
+\item Some differences in time labels
+\item Default line thickness lwd=2
+\item Ticks inward and duplicated on opposite axis
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{BASE GRAPHICS: another 'plotWAC' feature:}
+
+\begin{columns}
+
+
+\column{5.5 cm}
+
+
+<<plot-WAC-multiple, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width=25)>>=
+r <- setRange (Data$Time, 61000,71000)
+Plot1Data <- Data[r, c("Time", "ATX", "DPXC", "WIC")]
+@
+
+
+\column{5.5 cm}
+
+
+<<plot-command-for-previous, echo=-1, include=TRUE, tidy=TRUE, tidy.opts=list(width=20), size="tiny">>=
+par(tcl=-0.4, mar=c(5,4,1,2))
+plotWAC (Plot1Data, legend='right', ylim=c(-90,10))
+@
+
+\end{columns}
+
+\end{frame}
+
+
+
+\section{ggplot2}
+\begin{frame}[fragile]{REASONS TO CONSIDER ggplot:}
+
+\begin{block}{Based on a structure called the 'Grammar of Graphics':}
+
+\begin{itemize}
+\item independent components assembled to final plot
+\item layers: encourages structured composition
+\item particularly useful for constructing original plots with, e.g., a
+layer representing the result of a fit.\onslide+<2->
+\end{itemize}
+\end{block}
+\begin{exampleblock}{Themes}
+
+\begin{itemize}
+\item Can construct a theme representing the particular tailoring of the
+plot you favor.
+\item Just add the theme to the plot definition, optionally with further
+modifications for an individual use.\onslide+<3->
+\end{itemize}
+\end{exampleblock}
+\begin{alertblock}{}
+
+
+Supports constructing some very nice plots, although with what seems
+extra work at first.
+
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{COMPONENTS OF A ggplot}
+
+\begin{block}{Items that can be added, usually via g <- g + item}
+
+\begin{enumerate}
+\item An initial definition for the basis of the plot, usually resembling\\
+'g <- ggplot (data=Data, aes(x=Time, y=ATX)', containing:
+
+\begin{enumerate}
+\item The data, often best specified as a data.frame
+\item ``aesthetic mappings'' -- e.g., which variables are mapped to the
+abscissa and to the ordinate
+\end{enumerate}
+\item 'geom's -- data representations visible on the plot like lines, points,
+etc.
+\item 'stat's -- fits or creating sub-groups for further analysis as in
+a violin-plot
+\item 'scale's -- axes, colors, line-widths, symbol-types, ..., anything
+that helps retrieve an original datum from information on the plot.
+\item 'coord's: the mapping from the data values to the plot. linear or
+log, e.g.; the mapping itself, vs 'scale's like axes that represent
+the coords with items appearing on the graph.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{CONSTRUCTING A SIMPLE ggplot:}
+
+
+<<ggplot-1, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width=75), fig.height=3, size='tiny'>>=
+D <- Data[setRange(Data$Time, 61900,71000), c("ATX", "PSXC")]
+ggplot (D, aes(ATX, PSXC)) + geom_path ()
+@
+
+
+\end{frame}
+
+\begin{frame}[fragile]{CONSTRUCTING A TAILORED ggplot:}
+
+
+<<ggplot-2, echo=FALSE, include=TRUE, tidy=TRUE, tidy.opts=list(width=75), fig.height=3, size='tiny'>>=
+D <- Data[setRange(Data$Time, 61900,71000), c("ATX", "PSXC", "DPXC", "THETA")]
+tr <- PotentialTemperature(800,0.)
+tre <- EquivalentPotentialTemperature (800, 0, MurphyKoop (0))
+CP <- SpecificHeats()
+RoverCP <- CP[3] / CP[1]
+dx <- 0:-80
+df <- data.frame (dfx=dx, dfy=3-CP[1]/CP[3]*log10(tr/(dx+273.15)))
+pp <- dx  # shortcut to allocating new variable
+PfromEPT <- function (.P, .thetaE, .T) {
+  e <- MurphyKoop (.T, .P)
+  r <- MixingRatio (e / .P)
+  lhv <- 2.501e6 - 2370. * .T
+# latent heat of vaporization, temp-dependent
+  expn=lhv * r / (CP[1] * (273.15 + .T))
+  return (.thetaE - (273.15+.T)*(1000/(.P-e))^RoverCP * exp(expn))
+} 
+tt <- dx  
+for (i in 1:length(tt)) {
+  pp[i] <- nleqslv::nleqslv (500., PfromEPT, jac=NULL, tre, tt[i])$x
+}
+df2 <- data.frame (dfx=dx, dfy=log10(pp))
+ggplot (D, aes(ATX, log10(PSXC))) + scale_y_reverse (breaks=c(log10(1000), log10(800), log10(600), log10(400), log10(200)), labels=c("1000", "800", "600", "400", "200")) + geom_path (size=1.5, col='blue') +geom_path (aes (DPXC, log10(PSXC)), col='red', lwd=1.5) + ylab("PSXC") + geom_line (data=df, aes(x=dfx, y=dfy), col='darkorange', lwd=2, lty=2) + geom_line (data=df2, aes(x=dfx, y=dfy), col='darkgreen', lwd=1.5, lty=2) + theme_WAC ()
+@
+
+
+\end{frame}
+
+\begin{frame}[fragile]{HOW THIS FITS IN THE ``SESSIONS''}
+
+\begin{summaryblock}{The Plan:}
+
+\begin{enumerate}
+\item Introduction to R and esp.~to RStudio
+\item The data.frame and other variables
+\item Basic math operations; vector operations
+\item Packages, including 'Ranadu'\alert{
+\item Constructing plots}
+\item Fit procedures; showing fits in plots and tables
+\item Reproducible Analyses using R and knitr
+\item Specific examples of application for RAF tasks
+\end{enumerate}
+\end{summaryblock}
+\begin{block}{Next: Fitting}
+
+\begin{itemize}
+\item linear fits: simple regression, parameterized fits, Deming fit
+\item non-linear fits: numerical methods
+\item maximum likelihood via R
+\end{itemize}
+\end{block}
+\end{frame}
+
+\end{document}
