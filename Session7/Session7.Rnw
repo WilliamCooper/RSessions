@@ -1,0 +1,307 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\providecommand{\LyX}{L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ % (ERT) argument for the TOC
+ \AtBeginDocument{%
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+
+
+\title{R Session 7: Reproducible Analysis}
+
+
+\subtitle{Steps toward enabling duplication of results by others}
+
+
+\author{William A. Cooper}
+
+
+\institute{Research Aviation Facility, Earth Observing Laboratory\\
+National Center for Atmospheric Research\and}
+
+
+\date{Presentation on xx/xx/xxxx}
+
+\makebeamertitle
+
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+%\logo{\pgfuseimage{institution-logo}}
+
+
+
+
+
+
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\section{Overview of ``Reproducible Analysis''}
+\begin{frame}[fragile]{GOALS}
+
+\begin{alertblock}{Precept: The analysis can be duplicated by someone else using provided
+information.}
+\end{alertblock}
+\begin{block}{Suggested information to provide:}
+
+\begin{enumerate}
+\item The text, with documentation of all the analysis steps, results, and
+interpretation. (The interpretation, of course, may be different when
+evaluated by someone else.)
+\item The code used. This may be in terms of a program for a specific language.
+\item Enough information on the underlying language (version, operating
+system, etc) that someone else can use the same code interpreter if
+necessary.
+\item Locations of data files used, if in sustained archives, or copies
+of the data sufficient to reproduce the results.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{THE TRADITIONAL WAY}
+
+\begin{exampleblock}{A possible approach}
+
+\begin{itemize}
+\item Write and post or publish the text document.
+\item In that document, reference the program and data set used.
+\item Make the program available in some repository.
+\item Ensure the data set is archived where it is accessible.
+\end{itemize}
+\end{exampleblock}
+\begin{alertblock}{Some dangers:}
+
+\begin{itemize}
+\item Often, program steps are scattered and hard to assemble, with different
+steps used to generate plots, manipulate data, perform fits, construct
+derived data, use multiple and supplementary data sets, etc.
+\item Repositories may have short lifetimes, esp.~as used for programs.
+\item Reproducibility often means following a tortuous path.
+\item Data sets often are revised, or archives disappear, and program steps
+may be revised without documentation.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{A MORE STRUCTURED MODEL:}
+
+\begin{block}{Using R with knitr (esp. with RStudio):}
+
+\begin{enumerate}
+\item Embed the text and code in the same document. Use 'knitr' functions
+to reference results from the code in the text to ensure consistency. 
+\item Package the result with these components:
+
+\begin{enumerate}
+\item The ``Rnw'' or ``R-html'' or ``Markdown'' file that generates
+the text and runs the code. (This is possible using some other programs
+other than R also, and can work with \LaTeX{} or html code or some
+other formats also.)
+\item The ``publication'' -- usually PDF or html.
+\item Any data that should be included in the package. Use DOIs where possible.
+\item A file documenting the version of various programs or computer systems
+used.
+\end{enumerate}
+\item Archive this package in a repository with long expected lifetime and
+appropriate accessibility.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{A SIMPLE EXAMPLE: }
+
+\begin{block}{Attack calibration based on a speed run}
+
+\begin{enumerate}
+\item Describe the algorithm
+\item Get the data needed
+\item Do the fit
+\item Construct a plot
+\item Discuss the result
+\item Embed reproducibility information directly in the file.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{THE ``Rnw'' file: (\LaTeX{} approach)}
+
+\begin{enumerate}
+\item In RStudio, select 'File->New File->R Sweave
+\item Embed documentation, either directly or generated by Word or Libreoffice
+or lyx, etc.
+\item Embed the code to do the calculation.
+\item Reference the results of the calculation in the text.
+\item Add an appendix with reproducibility information.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{FRAMEWORK step 1:}
+
+
+File -> New -> Sweave
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Step1}
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{FRAMEWORK step 2:}
+
+
+Fill in the sections as follows:
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Step2}
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{OUTPUT SO FAR:}
+
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{Step3}
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{REALISTIC EXAMPLE: AOA CAL FOR FRAPPE}
+
+\begin{block}{See program FRAPPE-AOA.Rnw, noting:}
+
+\begin{enumerate}
+\item top entries -- just for Reproducibility section, can just copy
+\item Insertion of title. author, date
+\item Text, including equations and symbols
+\item inclusion of R code. Can insert via ``Code->Insert Chunk''
+
+\begin{enumerate}
+\item ``echo'' shows code in document
+\item ``include'' shows any printed results or plots in the document
+\item These can be placed so as to get output where desired in the document
+\end{enumerate}
+\item Reference R results via the \textbackslash{}Sexpr expression in the
+text.
+\item See the PDF version, generated by ``Compile PDF'' in RStudio
+\item Note especially the appended ``Reproducibility'' section.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{MORE ABOUT THE REPRODUCIBILITY SECTION}
+
+\begin{summaryblock}{Structured to remind of needed information}
+
+\begin{enumerate}
+\item Lists what the project is called. (Not the same as an RStudio project,
+but it could be).
+\item Defines the package to be archived and the name of the program
+\item Also identifies the original data and, in cases like this where the
+data file is small (here, 12K), includes the data file in the zip
+file for archiving.
+\item Provides the name of the archive where this zip file can be accessed.
+\item Lists, via embedded code segments that look up this info from the
+netCDF file, some of the relevant calibrations used for processing.
+\end{enumerate}
+\end{summaryblock}
+\end{frame}
+
+\begin{frame}[fragile]{OTHER WAYS (ESP. AVOIDING LATEX):}
+
+\begin{block}{Still using knitr: Rmd document using Markdown}
+
+\begin{itemize}
+\item Similar in concept, but code-segment identifiers are different and
+the output is normally an HTML document but can be PDF or Word/Libreoffice.
+\item Many Markdown items like \textbackslash{}alpha are \LaTeX{}-like but
+easier to learn.
+\item FRAPPE-AOA.Rmd shows the same document as before but in Markdown.
+\item Accepts HTML code as well as Markdown.
+\item Good alternative to using \LaTeX{}
+\item You can also generate presentations in Markdown.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{FURTHER INFORMATION RE KNITR}
+
+\begin{block}{Lots of capability; commensurate learning curve to use fully}
+
+\begin{itemize}
+\item ``Dynamic Documents with R and knitr'' by Yihui Xie: The complete
+reference by the creator of knitr.
+\item ``Reproducible Research with R and RStudio'' by Christopher Gandrud,
+with lots of advice on the \emph{process }of conducting reproducible
+research
+\item Incorporating tables requires some additional work with \LaTeX{} format
+\item For serious users, \LyX{} is a great tool to use for generating Rnw
+files. It is adapted to work with knitr and R, and it has good presentation
+capabilities. All these RSession presentations were generated with
+\LyX{} using the 'beamer' package, and you can find the lyx files
+on the archive locations including on tikal.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{HOW THIS FITS IN THE ``SESSIONS''}
+
+\begin{summaryblock}{The Plan:}
+\end{summaryblock}
+\begin{enumerate}
+\item Introduction to R and esp.~to RStudio
+\item The data.frame and other variables
+\item Basic math operations; vector operations
+\item Packages, including 'Ranadu'
+\item Constructing plots
+\item Fit procedures; showing fits in plots and tables\alert{
+\item Reproducible Analyses using R and knitr}
+\item Specific examples of application for RAF tasks\end{enumerate}
+\begin{block}{Next: Specific examples, with a focus on programs useful for monitoring
+during field experiments}
+
+\end{block}
+\end{frame}
+
+\end{document}

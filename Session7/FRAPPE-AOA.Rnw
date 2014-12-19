@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+
+
+\begin{document}
+
+\title{Sensitivity Coefficients for Angle of Attack in FRAPPE}
+\author{Al Cooper}
+\maketitle
+
+The speed run from 15:50:00 to 15:55:00 on FRAPPE flight 4 provides
+good data for determining the angle-of-attack sensitivity coefficients. The basic 
+equation that provides a reference for calibration is:
+
+(this version is generated via libreoffice graphics file)
+
+\hskip1.2in \includegraphics[width=0.35\textwidth]{F1}\hskip1.5in (1) 
+\par
+(this version is generated directly by LaTeX commands)
+\begin{equation}
+\alpha_{\mathrm{ref}}=\theta-\frac{W_p}{V}=b_0+b_1\frac{\Delta p}{q} \label{eq:AOAfitEq}
+\end{equation}
+where $\theta $=PITCH, $W_p$=GGVSPD, $V$=TASX, $\Delta p$=ADIFR, and $q$=QCF. 
+The choice for representing q is based on QCF
+being more reliable than QCR and not requiring prior pressure-defect
+correction as does PSXC (the use of which introduces circularity in the
+calculation because the pressure correction itself depends on angle of
+attack). The left equality of (1) relies on the vertical wind being
+zero, so the use of this result depends on the calibration maneuver
+being flown in air without vertical motion.
+
+<<header, echo=FALSE, include=FALSE>>=
+require(knitr)
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:", fig.show="hold")
+opts_chunk$set(fig.width=6, fig.height=5, fig.align="center", digits=3)
+thisFileName <- "FRAPPE-AOA"
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+require(ggthemes)
+
+@
+
+<<initialization,echo=TRUE,include=TRUE>>=
+
+Flight <- "rf04"        
+Project = "FRAPPE"
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+VarNames <- c("TASX", "ADIFR", "PITCH", "QCF", "GGVSPDB")
+Data <- getNetCDF (fname, VarNames, Start=155000, End=155500)
+if (!"GGVSPD" %in% names(Data)) {
+  Data$GGVSPD <- Data$GGVSPDB
+}
+attach(Data)
+
+Data$AOAREF <- PITCH - asin(GGVSPD/TASX) *180 / pi
+Data$AQR <- ADIFR / QCF # basic pressure ratio for AOA
+@
+
+
+<<AOA-fit-with-summary-and-plot, fig.lp="fig:", fig.cap="Fit AOA vs reference AOA ($\\alpha_{ref}$) from Eq.\ 1. The orange dashed line shows the fit for which details and coefficients are shown in the text.", echo=TRUE, include=TRUE, size="footnotesize">>==
+
+fmy <- lm (AOAREF ~ AQR, data=Data)
+print (summary (fmy))
+cfr <- coefficients (fmy)
+A1 <- cfr[1] + cfr[2] * Data$AQR
+#plot (AOAREF, A1, pch=16, cex=0.8, col='blue', xlab="Ref. AOA", ylab="fit AOA")
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+detach (Data)
+g <- ggplot (data=Data, aes (x=AOAREF, y=AQR))
+g <- g + geom_point (pch=20, col='blue')
+g <- g + geom_smooth (method='lm', col='darkorange', lty=2, lwd=1.5)
+g <- g + xlab ("Reference AOA [deg.]") + ylab ("AOA from fit [deg.]") + theme_WAC()
+print (g)
+
+@
+
+The best-fit coefficients obtained by fitting (1) to the speed-run data are $b_0$ = \Sexpr{round (cfr[1], 3)} and $b_1$ = \Sexpr{format(round (cfr[2], 3), nsmall=3)}. The residual standard error is \Sexpr{round(summary(fmy)$sigma, 2)} and the square of the correlation coefficient is \Sexpr{round(summary(fmy)$r.squared, 3)}, so the fit is very good.
+
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --\vfill\eject}}
+\par\end{center}
+
+Reproducibility:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & \Sexpr{thisFileName}\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & \Sexpr{thisFileName}.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & \Sexpr{thisFileName}.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} & \Sexpr{DataDirectory ()}FRAPPE/FRAPPErf04.nc as of \datetoday  \tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & git@github.com:WilliamCooper/\Sexpr{Project}.git\tabularnewline
+\end{tabular}
+
+\attachm{\Sexpr{thisFileName}.Rnw\\\Sexpr{thisFileName}.pdf\\\Sexpr{thisFileName}.Rdata\\SessionInfo}
+%\cc{first attachment\\second\\3rd att}
+%\attach{attachment}
+%\attachm{first\\second} %\cc{first attachment\\second\\3rd att}
+
+<<get-cal-coefs>>=
+MQCF <- system(sprintf("ncdump -h %s%s/%s%s.nc | grep 'QCF:Cal'", DataDirectory(), Project, Project, Flight), intern=TRUE)
+MADIFR <- system(sprintf("ncdump -h %s%s/%s%s.nc | grep 'ADIFR:Cal'", DataDirectory(), Project, Project, Flight), intern=TRUE)
+@
+
+\noindent Some relevant cal coefficients:\\
+\Sexpr{MQCF}\\\Sexpr{MADIFR}
+<<save-system-info, echo=FALSE>>= 
+cat (toLatex(sessionInfo()), file="SessionInfo")
+save (Data, file=sprintf("./%s.Rdata", thisFileName))
+
+@ 
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+system (sprintf("zip %s.zip %s.Rnw %s.pdf %s.Rdata SessionInfo", thisFileName, thisFileName, thisFileName, thisFileName))
+
+@ 
+
+
+\end{document}

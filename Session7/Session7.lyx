@@ -1,0 +1,1333 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass beamerWAC
+\begin_preamble
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 0
+\use_package mhchem 1
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setbeamercolor{normal text}{bg=yellow!10}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+In principle, this file can be redistributed and/or modified under the terms
+ of the GNU Public License, version 2.
+ However, this file is supposed to be a template to be modified for your
+ own needs.
+ For this reason, if you use this file as a template and not specifically
+ distribute it as part of a another package/program, the author grants the
+ extra permission to freely copy and modify this file as you see fit and
+ even to delete this copyright notice.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+R Session 7: Reproducible Analysis
+\end_layout
+
+\begin_layout Subtitle
+Steps toward enabling duplication of results by others
+\end_layout
+
+\begin_layout Author
+William A.
+ Cooper
+\end_layout
+
+\begin_layout Institute
+Research Aviation Facility, Earth Observing Laboratory
+\begin_inset Newline newline
+\end_inset
+
+National Center for Atmospheric Research
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+and
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+ 
+\begin_inset Flex InstituteMark
+status collapsed
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+Department of Theoretical Philosophy
+\begin_inset Newline newline
+\end_inset
+
+University of Elsewhere
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+Use the 
+\begin_inset Quotes eld
+\end_inset
+
+Institute mark
+\begin_inset Quotes erd
+\end_inset
+
+ inset (
+\family sans
+Insert\SpecialChar \menuseparator
+Custom Insets\SpecialChar \menuseparator
+InstituteMark
+\family default
+) only if there are several affiliations.
+\end_layout
+
+\begin_layout Itemize
+Keep it simple, no one is interested in your street address.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Universities of Somewhere and Elsewhere
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+optional, but mostly needed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Date
+Presentation on xx/xx/xxxx
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+Either use conference name or its abbreviation.
+ 
+\end_layout
+
+\begin_layout Itemize
+Not really informative to the audience, more for people (including yourself)
+ who are reading the slides online
+\end_layout
+
+\end_inset
+
+
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+CFP 2003
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+optional, should be abbreviation of conference name
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you have a file called "institution-logo-filename.xxx", where xxx is a
+ graphic format that can be processed by latex or pdflatex, resp., then you
+ can add a logo by uncommenting the following:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+logo{
+\backslash
+pgfuseimage{institution-logo}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+The following causes the table of contents to be shown at the beginning
+ of every subsection.
+ Delete this, if you do not want it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+AtBeginSubsection[]{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+frame<beamer>{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+frametitle{Outline}   
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+tableofcontents[currentsection,currentsubsection] 
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you wish to uncover everything in a step-wise fashion, uncomment the
+ following command:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+beamerdefaultoverlayspecification{<+->}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Overview of 
+\begin_inset Quotes eld
+\end_inset
+
+Reproducible Analysis
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+GOALS
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout AlertBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Precept: The analysis can be duplicated by someone else using provided informati
+on.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Suggested information to provide:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The text, with documentation of all the analysis steps, results, and interpretat
+ion.
+ (The interpretation, of course, may be different when evaluated by someone
+ else.)
+\end_layout
+
+\begin_layout Enumerate
+The code used.
+ This may be in terms of a program for a specific language.
+\end_layout
+
+\begin_layout Enumerate
+Enough information on the underlying language (version, operating system,
+ etc) that someone else can use the same code interpreter if necessary.
+\end_layout
+
+\begin_layout Enumerate
+Locations of data files used, if in sustained archives, or copies of the
+ data sufficient to reproduce the results.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+THE TRADITIONAL WAY
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+A possible approach
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Write and post or publish the text document.
+\end_layout
+
+\begin_layout Itemize
+In that document, reference the program and data set used.
+\end_layout
+
+\begin_layout Itemize
+Make the program available in some repository.
+\end_layout
+
+\begin_layout Itemize
+Ensure the data set is archived where it is accessible.
+\end_layout
+
+\end_deeper
+\begin_layout AlertBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Some dangers:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Often, program steps are scattered and hard to assemble, with different
+ steps used to generate plots, manipulate data, perform fits, construct
+ derived data, use multiple and supplementary data sets, etc.
+\end_layout
+
+\begin_layout Itemize
+Repositories may have short lifetimes, esp.
+\begin_inset space ~
+\end_inset
+
+as used for programs.
+\end_layout
+
+\begin_layout Itemize
+Reproducibility often means following a tortuous path.
+\end_layout
+
+\begin_layout Itemize
+Data sets often are revised, or archives disappear, and program steps may
+ be revised without documentation.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A MORE STRUCTURED MODEL:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Using R with knitr (esp.
+ with RStudio):
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Embed the text and code in the same document.
+ Use 'knitr' functions to reference results from the code in the text to
+ ensure consistency.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Package the result with these components:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+R-html
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+Markdown
+\begin_inset Quotes erd
+\end_inset
+
+ file that generates the text and runs the code.
+ (This is possible using some other programs other than R also, and can
+ work with LaTeX or html code or some other formats also.)
+\end_layout
+
+\begin_layout Enumerate
+The 
+\begin_inset Quotes eld
+\end_inset
+
+publication
+\begin_inset Quotes erd
+\end_inset
+
+ -- usually PDF or html.
+\end_layout
+
+\begin_layout Enumerate
+Any data that should be included in the package.
+ Use DOIs where possible.
+\end_layout
+
+\begin_layout Enumerate
+A file documenting the version of various programs or computer systems used.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Archive this package in a repository with long expected lifetime and appropriate
+ accessibility.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A SIMPLE EXAMPLE: 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Attack calibration based on a speed run
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Describe the algorithm
+\end_layout
+
+\begin_layout Enumerate
+Get the data needed
+\end_layout
+
+\begin_layout Enumerate
+Do the fit
+\end_layout
+
+\begin_layout Enumerate
+Construct a plot
+\end_layout
+
+\begin_layout Enumerate
+Discuss the result
+\end_layout
+
+\begin_layout Enumerate
+Embed reproducibility information directly in the file.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+THE 
+\begin_inset Quotes eld
+\end_inset
+
+Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ file: (LaTeX approach)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+In RStudio, select 'File->New File->R Sweave
+\end_layout
+
+\begin_layout Enumerate
+Embed documentation, either directly or generated by Word or Libreoffice
+ or lyx, etc.
+\end_layout
+
+\begin_layout Enumerate
+Embed the code to do the calculation.
+\end_layout
+
+\begin_layout Enumerate
+Reference the results of the calculation in the text.
+\end_layout
+
+\begin_layout Enumerate
+Add an appendix with reproducibility information.
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+FRAMEWORK step 1:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+File -> New -> Sweave
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Step1.png
+	lyxscale 50
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+FRAMEWORK step 2:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Fill in the sections as follows:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Step2.png
+	lyxscale 50
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+OUTPUT SO FAR:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename Step3.png
+	lyxscale 50
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+REALISTIC EXAMPLE: AOA CAL FOR FRAPPE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+See program FRAPPE-AOA.Rnw, noting:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+top entries -- just for Reproducibility section, can just copy
+\end_layout
+
+\begin_layout Enumerate
+Insertion of title.
+ author, date
+\end_layout
+
+\begin_layout Enumerate
+Text, including equations and symbols
+\end_layout
+
+\begin_layout Enumerate
+inclusion of R code.
+ Can insert via 
+\begin_inset Quotes eld
+\end_inset
+
+Code->Insert Chunk
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+echo
+\begin_inset Quotes erd
+\end_inset
+
+ shows code in document
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+include
+\begin_inset Quotes erd
+\end_inset
+
+ shows any printed results or plots in the document
+\end_layout
+
+\begin_layout Enumerate
+These can be placed so as to get output where desired in the document
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Reference R results via the 
+\backslash
+Sexpr expression in the text.
+\end_layout
+
+\begin_layout Enumerate
+See the PDF version, generated by 
+\begin_inset Quotes eld
+\end_inset
+
+Compile PDF
+\begin_inset Quotes erd
+\end_inset
+
+ in RStudio
+\end_layout
+
+\begin_layout Enumerate
+Note especially the appended 
+\begin_inset Quotes eld
+\end_inset
+
+Reproducibility
+\begin_inset Quotes erd
+\end_inset
+
+ section.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MORE ABOUT THE REPRODUCIBILITY SECTION
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout SummaryBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Structured to remind of needed information
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Lists what the project is called.
+ (Not the same as an RStudio project, but it could be).
+\end_layout
+
+\begin_layout Enumerate
+Defines the package to be archived and the name of the program
+\end_layout
+
+\begin_layout Enumerate
+Also identifies the original data and, in cases like this where the data
+ file is small (here, 12K), includes the data file in the zip file for archiving.
+\end_layout
+
+\begin_layout Enumerate
+Provides the name of the archive where this zip file can be accessed.
+\end_layout
+
+\begin_layout Enumerate
+Lists, via embedded code segments that look up this info from the netCDF
+ file, some of the relevant calibrations used for processing.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+OTHER WAYS (ESP.
+ AVOIDING LATEX):
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Still using knitr: Rmd document using Markdown
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Similar in concept, but code-segment identifiers are different and the output
+ is normally an HTML document but can be PDF or Word/Libreoffice.
+\end_layout
+
+\begin_layout Itemize
+Many Markdown items like 
+\backslash
+alpha are LaTeX-like but easier to learn.
+\end_layout
+
+\begin_layout Itemize
+FRAPPE-AOA.Rmd shows the same document as before but in Markdown.
+\end_layout
+
+\begin_layout Itemize
+Accepts HTML code as well as Markdown.
+\end_layout
+
+\begin_layout Itemize
+Good alternative to using LaTeX
+\end_layout
+
+\begin_layout Itemize
+You can also generate presentations in Markdown.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+FURTHER INFORMATION RE KNITR
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Lots of capability; commensurate learning curve to use fully
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Dynamic Documents with R and knitr
+\begin_inset Quotes erd
+\end_inset
+
+ by Yihui Xie: The complete reference by the creator of knitr.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Reproducible Research with R and RStudio
+\begin_inset Quotes erd
+\end_inset
+
+ by Christopher Gandrud, with lots of advice on the 
+\emph on
+process 
+\emph default
+of conducting reproducible research
+\end_layout
+
+\begin_layout Itemize
+Incorporating tables requires some additional work with LaTeX format
+\end_layout
+
+\begin_layout Itemize
+For serious users, LyX is a great tool to use for generating Rnw files.
+ It is adapted to work with knitr and R, and it has good presentation capabiliti
+es.
+ All these RSession presentations were generated with LyX using the 'beamer'
+ package, and you can find the lyx files on the archive locations including
+ on tikal.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+HOW THIS FITS IN THE 
+\begin_inset Quotes eld
+\end_inset
+
+SESSIONS
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout SummaryBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+The Plan:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Introduction to R and esp.
+\begin_inset space ~
+\end_inset
+
+to RStudio
+\end_layout
+
+\begin_layout Enumerate
+The data.frame and other variables
+\end_layout
+
+\begin_layout Enumerate
+Basic math operations; vector operations
+\end_layout
+
+\begin_layout Enumerate
+Packages, including 'Ranadu'
+\end_layout
+
+\begin_layout Enumerate
+Constructing plots
+\end_layout
+
+\begin_layout Enumerate
+Fit procedures; showing fits in plots and tables
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+alert{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Reproducible Analyses using R and knitr
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Specific examples of application for RAF tasks
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Next: Specific examples, with a focus on programs useful for monitoring
+ during field experiments
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\end_body
+\end_document

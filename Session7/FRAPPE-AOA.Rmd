@@ -1,0 +1,116 @@
+---
+title: "FRAPPE-AOA"
+author: "William Cooper"
+date: "12/18/2014"
+output: html_document
+---
+
+
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+The speed run from 15:50:00 to 15:55:00 on FRAPPE flight 4 provides
+good data for determining the angle-of-attack sensitivity coefficients. The basic 
+equation that provides a reference for calibration is:
+
+$$ \alpha_{\mathrm{ref}}=\theta-\frac{W_p}{V}=b_0+b_1\frac{\Delta p}{q} $$
+
+where $\theta$=PITCH, $W_p$=GGVSPD, $V$=TASX, $\Delta p$=ADIFR, and $q$=QCF. 
+The choice for representing q is based on QCF
+being more reliable than QCR and not requiring prior pressure-defect
+correction as does PSXC (the use of which introduces circularity in the
+calculation because the pressure correction itself depends on angle of
+attack). The left equality of (1) relies on the vertical wind being
+zero, so the use of this result depends on the calibration maneuver
+being flown in air without vertical motion.
+```{r, echo=FALSE,include=FALSE}
+require(knitr)
+thisFileName <- "FRAPPE-AOA"
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+require(ggthemes)
+
+```
+
+
+```{r,echo=TRUE,include=TRUE}
+Flight <- "rf04"        
+Project = "FRAPPE"
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+VarNames <- c("TASX", "ADIFR", "PITCH", "QCF", "GGVSPDB")
+Data <- getNetCDF (fname, VarNames, Start=155000, End=155500)
+if (!"GGVSPD" %in% names(Data)) {
+  Data$GGVSPD <- Data$GGVSPDB
+}
+attach(Data)
+
+Data$AOAREF <- PITCH - asin(GGVSPD/TASX) *180 / pi
+Data$AQR <- ADIFR / QCF # basic pressure ratio for AOA
+```
+
+
+```{r,echo=TRUE,include=TRUE, fig.cap="Fit AOA vs reference AOA  from Eq. 1. The orange dashed line shows the fit for which details and coefficients are shown in the text."}
+
+fmy <- lm (AOAREF ~ AQR, data=Data)
+print (summary (fmy))
+cfr <- coefficients (fmy)
+A1 <- cfr[1] + cfr[2] * Data$AQR
+#plot (AOAREF, A1, pch=16, cex=0.8, col='blue', xlab="Ref. AOA", ylab="fit AOA")
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+detach (Data)
+g <- ggplot (data=Data, aes (x=AOAREF, y=AQR))
+g <- g + geom_point (pch=20, col='blue')
+g <- g + geom_smooth (method='lm', col='darkorange', lty=2, lwd=1.5)
+g <- g + xlab ("Reference AOA [deg.]") + ylab ("AOA from fit [deg.]") + theme_WAC()
+print (g)
+
+```
+
+The best-fit coefficients obtained by fitting (1) to the speed-run data are $b_0$ = `r cfr[1] ` and $b_1$ = `r cfr[2]`. The residual standard error is `r round(summary(fmy)$sigma, 2)` and the square of the correlation coefficient is `r round(summary(fmy)$r.squared, 3)`, so the fit is very good.
+
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --\vfill\eject}}
+\par\end{center}
+
+__Reproducibility:__
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & `r thisFileName`\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & `r thisFileName`.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}}  & `r thisFileName`.Rmd\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} &  /home/data/FRAPPE/FRAPPErf04.nc\tabularnewline   
+\textsf{\textsc{\textcolor{blue}{Git:}}} &  git@github.com:WilliamCooper/`r Project`.git\tabularnewline
+\end{tabular}
+
+\noindent __Attachments:__    
+\   `r thisFileName`.Rmd  
+\   `r thisFileName`.pdf  
+\   `r thisFileName`.Rdata  
+\   SessionInfo
+
+```{r,echo=FALSE}
+MQCF <- system(sprintf("ncdump -h %s%s/%s%s.nc | grep 'QCF:Cal'", DataDirectory(), Project, Project, Flight), intern=TRUE)
+MADIFR <- system(sprintf("ncdump -h %s%s/%s%s.nc | grep 'ADIFR:Cal'", DataDirectory(), Project, Project, Flight), intern=TRUE)
+```
+
+
+
+\noindent __Some relevant cal coefficients:__  
+\   `r MQCF`  
+\   `r MADIFR`  
+```{r,echo=FALSE}
+cat (toLatex(sessionInfo()), file="SessionInfo")
+save (Data, file=sprintf("./%s.Rdata", thisFileName))
+
+```
+
+```{r, echo=FALSE}
+
+system (sprintf("zip %s.zip %s.Rnw %s.pdf %s.Rdata SessionInfo", thisFileName, thisFileName, thisFileName, thisFileName))
+```
+
+

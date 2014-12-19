@@ -1,0 +1,612 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ % (ERT) argument for the TOC
+ \AtBeginDocument{%
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+ \newenvironment{lyxcode}
+   {\par\begin{list}{}{
+     \setlength{\rightmargin}{\leftmargin}
+     \setlength{\listparindent}{0pt}% needed for AMS classes
+     \raggedright
+     \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+     \normalfont\ttfamily}%
+    \def\{{\char`\{}
+    \def\}{\char`\}}
+    \def\textasciitilde{\char`\~}
+    \item[]}
+   {\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+
+
+\title[Short Title]{R Session 6}
+
+
+\subtitle{Some Functions That Support Fitting}
+
+
+\author{William A. Cooper}
+
+
+\institute{Research Aviation Facility, Earth Observing Laboratory\\
+National Center for Atmospheric Research\and}
+
+
+\date{Presentation on 11/21/2014}
+
+\makebeamertitle
+
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+%\logo{\pgfuseimage{institution-logo}}
+
+
+
+
+
+
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\section{Needs for Fitting}
+\begin{frame}[fragile]{COMMON USES FOR FITTING AND REGRESSION}
+
+
+\vskip-0.7cm
+\begin{enumerate}
+\item Represent some variable in terms of other measurements
+
+\begin{enumerate}
+\item PCors as functions of Mach number, angle of attack, etc.
+\item Angle of attack as a function of ADIFR, QCF, etc.
+\item Nusselt number as a function of Reynolds number for King Probe
+\item Recovery factor as a function of Mach number
+\end{enumerate}
+\item Relationship between measurements (e.g., intercomparison)
+\item Determining the best use of overconstrained measurements (e.g., 4-beam
+LAMS)
+\item Finding best-fit smoothed distributions, e.g., for drop or particle
+size measurements.
+\item Fitting to CCN measurements to find \{$C,\, k$\} in $N=C\thinspace S^{k}$.
+\item Fitting circles to 2D images (best estimate of raindrop sizes).
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{THE R FUNCTION $lm$ ()}
+
+\begin{block}{Meets most of the preceding needs}
+
+\begin{itemize}
+\item ``linear model'' -- linear in the coefficients. These are OK:\\
+($V\,=\, A+Bx^{3}+C\ln(x)+D\sin y+E\thinspace f(x,y,z)$
+\item R call: F <- $l$m (V$\mathrm{\sim}$I(x\textasciicircum{}3)+I(ln(x))+sin(y)+I(f(x,y,z))+exp(x))
+\item not linear: $V\,=\, a\exp(bx)$ -- but $v^{\prime}=\ln V=a^{\prime}+bx$
+is linear
+\item If you use $l$m (V$\mathrm{\sim}$A{*}B) this will be interpreted
+as V\textasciitilde{}A+B+AB so use I( ), even for $x^{2}$: I(x\textasciicircum{}2)
+\end{itemize}
+\end{block}
+\begin{exampleblock}{Simple example:\\
+~~~~~Fitting to a speed run to find $\alpha=c_{0}+c_{1}($ADIFR/QCF)}
+
+
+Method: $\alpha_{Ref}=\theta-w_{p}/V\,\mathrm{\sim}$~I(ADIFR/QCF)
+
+\end{exampleblock}
+\begin{alertblock}{comment re terminology}
+
+
+~~~~~you fit an equation to data (not fit data)
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{USE DEEPWAVE SPEED RUN}
+
+
+R code to get speed-run data:
+
+
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+<<initialization-and-get-data, echo=-1:-6, include=TRUE, size="footnotesize">>=
+opts_chunk$set(size="footnotesize", echo=FALSE, include=FALSE, 
+               fig.width=6)
+opts_chunk$set(fig.width=5, fig.height=4, fig.pos="center", digits=4)
+hook1 <- function(x){ gsub("```\n*```r*\n*", "", x) } 
+hook2 <- function(x){ gsub("```\n+```\n", "", x) } 
+knit_hooks$set(document = hook2)
+require(knitr, quietly = TRUE)
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+Project <- "DEEPWAVE"
+Flight <- "rf15"        # this was the flight with cal maneuvers
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), 
+                Project, Project, Flight)
+VarNames <- c("TASX", "ADIFR", "PITCH", "QCF", "GGVSPDB")
+D1 <- getNetCDF (fname, VarNames, F=15)
+r <- c(setRange (D1$Time, 32100, 32900),     # 12,500 ft 
+       setRange (D1$Time, 41500, 42300),     # FL200
+       setRange (D1$Time, 50100, 51100))     # FL 300
+Flight <- "rf11"        # this had  cal maneuvers at 40K ft
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), 
+                Project, Project, Flight)
+D2 <- getNetCDF (fname, VarNames, Start=103000, End=104000, F=11)
+## construct data.frame with speed-run data
+DSR <- merge (D1[r, ], D2, all=TRUE)          
+@
+
+
+<<more-data, eval=FALSE>>=
+Flight <- "rf16"        # 43000-ft leg
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+D3 <- getNetCDF (fname, VarNames, 94000, 110000, F=16)
+Flight <- "rf14"        # 45000-ft leg
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+D4 <- getNetCDF (fname, VarNames, 113000,122000, F=14)
+flight = "rf11"         # get additional data from RF11 outside speed runs
+fname = sprintf("%s%s/%s%s.nc", DataDirectory (), Project, Project, Flight)
+D5 <- getNetCDF (fname, VarNames, 70000, 100000, F=11)
+
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{FIT TO DSR DATA}
+
+
+\vskip-2cm\onslide+<1->
+\begin{block}{Construct reference, then fit to it}
+
+
+<<ref-data-for-AOA, include=TRUE, echo=TRUE, size="tiny">>=
+DSR <- DSR[(DSR$TASX > 130), ]     # eliminate very slow measurements
+Cradeg <- pi / 180
+DSR["AOAREF"] <- DSR$PITCH - (DSR$GGVSPDB / DSR$TASX) / Cradeg
+FitSR <- lm (AOAREF ~ I(ADIFR/QCF), data=DSR, na.action=na.omit)
+@
+\onslide+<2->
+
+\end{block}
+\begin{exampleblock}{HERE IS THE RESULT SUMMARIZED FROM FitSR:}
+
+
+<<fit-summary, echo=TRUE, include=TRUE, size='tiny'>>=
+summary (FitSR)
+@
+
+\end{exampleblock}
+
+\onslide+<3->\vskip-4.cm\hskip6cm\fcolorbox{black}{yellow!40}{%
+\begin{minipage}[t]{0.35\textwidth}%
+\tiny{Result: if RATIO=ADIFR / QCR,
+
+$\alpha=4.397+21.00*\textrm{RATIO}$
+
+residual error 0.12$^{\circ}$}%
+\end{minipage}}
+
+\end{frame}
+
+\begin{frame}[fragile]{LOOK AT THE RESULTS: (orange line is the fit)}
+
+
+\onslide+<1>
+\begin{block}{Code to generate a plot:}
+
+
+<<plot-aoa-fit, echo=TRUE, include=TRUE, eval=FALSE>>=
+DSR["FITAOA"] <- coef(FitSR)[1]+coef(FitSR)[2]*DSR$ADIFR/DSR$QCF
+ggplot (data=DSR, aes(x=AOAREF, y=FITAOA)) + 
+  geom_point (pch=20, color='blue') + 
+  geom_smooth (method="lm", color='darkorange', lwd=1.5, lty=2) +
+  theme_WAC ()  
+@
+\onslide+<2> 
+
+
+\end{block}
+
+\vskip-2.8cm
+<<place-plot, echo=FALSE, include=TRUE, fig.height=3.3, fig.width=3.3>>=
+<<plot-aoa-fit>>
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{OTHER RESULTS:}
+
+\begin{block}{PCOR functions based on LAMS:}
+
+
+\[
+\frac{\Delta p}{p}=a_{0}+a_{1}\frac{q}{p}+a_{2}M^{3}+a_{3}\frac{\alpha}{a_{r}}
+\]
+$\Delta p$ provided by LAMS\\
+Parameterized representation of $\Delta p$ then allows use of the
+LAMS result when LAMS.
+
+
+is not present or not operational
+
+\end{block}
+\begin{exampleblock}{Circle maneuvers: Find wind and TAS from ground track alone}
+
+\begin{enumerate}
+\item This isn't linear: Want to minimize deviations of the actual flight
+track from that determined by three parameters, TAS (assumed constant)
+and two components of horizontal wind. See below in connection with
+``nlm''
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{REGRESSION}
+
+\begin{columns}
+
+
+\column{4.5 cm}
+\begin{itemize}
+\item Will use this as an introduction to the Deming fit
+\item Generate an appropriate data.frame:
+\end{itemize}
+
+<<random-data-frame, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width=35), size="tiny", eval=TRUE>>=
+## choose a random value x between 0 and 10
+## assume that two instruments measure x, with the same errors e
+x <- runif (500, 10, 20)
+mine <- x + rnorm (500, 0, 3)
+yours <- x + rnorm (500, 0, 3)
+<<save-plot-1, eval=FALSE>>=
+plot (mine, yours, pch=20, col='blue',
+      xlim=c(0,30), ylim=c(0,30))
+lines (c(0,30), c(0,30), lty=2, col='brown', lwd=1)
+@
+
+
+\column{5.5cm}
+
+
+<<do-the-plot, echo=FALSE, include=TRUE, fig.width=3.5, fig.height=4>>=
+<<save-plot-1>>
+@
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{REGRESSION: yours = function (mine)}
+
+\begin{columns}
+
+
+\column{4.5 cm}
+\begin{itemize}
+\item I fit, yours (mine):
+\item ``your measurements are too high at low values and too low at high
+values (relative to my correct values)''\vskip1.0cm
+
+
+
+<<m1-fn-of-m2, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width=35), size="tiny", eval=FALSE>>=
+plot (mine, yours, pch=20, col='blue',
+      xlim=c(0,30), ylim=c(0,30))
+Fm1 <- lm(yours~mine)
+xp <- c(0,30)
+yp <- coef(Fm1)[1] + coef(Fm1)[2] * xp
+lines (xp, yp, col='darkorange', lwd=1.5)
+lines (c(0,30), c(0,30), lty=2, col='brown', lwd=1)
+title ("orange is regression line, \ndashed brown is 1:1 ref line")
+@
+
+\end{itemize}
+
+\column{5.5cm}
+
+
+<<do-plot-2, echo=FALSE, include=TRUE, fig.width=3.5, fig.height=4>>=
+<<m1-fn-of-m2>>
+@
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{REGRESSION: mine = function (yours)}
+
+\begin{columns}
+
+
+\column{4.5 cm}
+\begin{itemize}
+\item but you fit using\\
+mine (yours):
+\item you also say: ``No, your measurements are too high at low values
+and too low at high values (relative to my correct values)''
+\item limit for vanishing correlation gives perpendicular lines
+
+
+<<m2-fn-of-m1, echo=TRUE, include=TRUE, tidy=TRUE, tidy.opts=list(width=35), size="tiny", eval=FALSE>>=
+Fm2 <- lm(mine~yours)
+plot (yours, mine, pch=20, col='blue',
+      xlim=c(0,30), ylim=c(0,30))
+xp <- c(0,30)
+yp <- coef(Fm2)[1] + coef(Fm2)[2] * xp
+lines (xp, yp, col='darkorange', lwd=1.5)
+lines (c(0,30), c(0,30), lty=2, col='brown', lwd=1)
+#title ("orange is regression line, \ndashed brown is 1:1 ref line")
+@
+
+\end{itemize}
+
+\column{5.5cm}
+
+
+<<do-plot-3, echo=FALSE, include=TRUE, fig.width=3.5, fig.height=4>>=
+<<m2-fn-of-m1>>
+@
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{WHAT CAUSES THIS APPARENT PARADOX?}
+
+\begin{columns}
+
+
+\column{4.5 cm}
+\begin{itemize}
+\item Each fit is trying to minimize the distance from the points to a line
+by measuring the distance along an axis.
+\item To treat each equally, the fit should minimize the perpendicular distance
+from the line to the points.
+\item This is called a ``Deming fit'' or ``Deming regression''.
+\item \emph{Never} use ordinary regression to compare measurements!
+
+
+<<m2-fn-of-m1-repeat, echo=FALSE, include=TRUE, tidy=TRUE, tidy.opts=list(width=35), size="tiny", eval=FALSE>>=
+Fm2 <- lm(mine~yours)
+plot (yours, mine, pch=20, col='blue',
+      xlim=c(0,30), ylim=c(0,30))
+xp2 <- c(0,30)
+yp2 <- coef(Fm2)[1] + coef(Fm2)[2] * xp2
+lines (xp2, yp2, col='darkorange', lwd=1.5)
+lines (c(0,30), c(0,30), lty=2, col='brown', lwd=1)
+#title ("orange is regression line, \ndashed brown is 1:1 ref line")
+@
+
+\end{itemize}
+
+\column{5.5cm}
+
+
+<<do-plot-4, echo=FALSE, include=TRUE, fig.width=3.5, fig.height=4>>=
+<<m2-fn-of-m1>>
+lines (yp, xp, col='darkred', lwd=1.5)
+legend ("topleft", legend=c("yours", "mine"), col=c("darkorange", "darkred"), lwd=1.5, cex=0.8)
+@
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{THE DEMING FIT:}
+
+
+\begin{center}
+\includegraphics[width=0.85\textwidth]{../../Colloquium1992/fig5-1}
+\par\end{center}
+
+\end{frame}
+
+\begin{frame}[fragile]{OPTIONS: Ranadu function DemingFit.R,\\
+Package mcr, mc.deming() (and others)}
+
+
+\vskip-1.8cm
+<<deming-fit, echo=FALSE, include=TRUE, fig.width=3.3, fig.height=4>>=
+DFit <- DemingFit (mine, yours)
+xpd <- c(0,30)
+ypd <- DFit[1]+DFit[2]*xpd
+<<m2-fn-of-m1>>
+lines (yp, xp, col='darkred', lwd=1.5)
+lines (ypd, xpd, col="purple", lty=4, lwd=2)
+legend ("topleft", legend=c("yours", "mine", "Deming"), col=c("darkorange", "darkred", "purple"), lwd=1.5, lty=c(1,1,4), cex=0.6)
+text (25, 2, labels=sprintf(" rms %.2f", DFit[3]))
+<<printDFit, include=TRUE>>
+@
+
+\end{frame}
+
+\begin{frame}[fragile]{NON-LINEAR OPTIMIZATION}
+
+\begin{block}{Routine $nlm$ ()}
+
+\begin{itemize}
+\item Given a function of a vector of variables, finds the values of those
+variables that minimize the function.
+\item I used this, for example, to find wind and TAS from the circle maneuvers,
+varying the three variables TAS, east and north component of the wind,
+to find the minimum deviation from the GPS ground track.
+\item This can also be used for finding a maximum, so can be used with the
+method of maximum likelihood.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{AN ADDITIONAL VERY USEFUL FUNCTION: nleqslv}
+
+\begin{block}{Part of a package also called nleqslv {[}require(nleqslv){]}}
+
+
+Example of use: 
+\begin{lyxcode}
+A~<-~nleqslv~(FirstGuess,~fn,~jac=NULL,~
+
+~~~~~method=''Newton'',~additionalArguments)
+
+\#\#~To~find~the~dew~point~that~corresponds~to~a~
+
+\#\#~specified~vapor~pressure~E,~first~define~a~
+
+\#\#~function~that~approaches~zero~as~its~argument~
+
+\#\#~DP~approaches~the~dewpoint~that~corresponds~to~
+
+\#\#~the~the~equilibrium~vapor~pressure~E:
+
+MKerror~<-~function~(DP,~VaporPressure)~\{
+
+~~return~(MurphyKoop~(DP)~-~VaporPressure)
+
+\}
+
+\#\#~use~the~function~with~nleqslv~to~find~the~answer
+
+DewPoint~<-~nleqslv~(-10.,~fn=MKerror,~jac=NULL,~
+
+~~~~~~~~~~~~method=''Newton'',~E)\$x
+\end{lyxcode}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{FITTING VIA MAXIMUM LIKELIHOOD}
+
+\begin{block}{Motivation}
+
+\begin{itemize}
+\item Sometimes fitting gets really convoluted with correlated errors, difficult
+statistics (e.g., Poisson), non-linear functions, or other impediments
+to standard methods.
+\item In that case, a brute-force method for minimizing chi-square or maximizing
+likelihood may save the day.
+\item Example: A CCN counter produces a set of counted particles $N_{i}$at
+stepped supersaturations ($SS_{i})$, with known sample volume $V_{i}$
+for each count. It is desirable to fit these measurements to a conventional
+form $N_{i}(SS_{i})=C\thinspace SS_{i}^{k}$, where $C$ and $k$
+are constants. However, especially at low supersaturation, there may
+be small numbers of detected particles, so it is necessary to consider
+Poisson statistics when evaluating confidence intervals for the counts.
+But a count of 5 in a given channel does not mean that the Poisson
+distribution with mean 5 is appropriate, because the observed 5 may
+come from a true distribution with mean 4, for example.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{MATH re MAXIMUM LIKELIHOOD}
+
+\begin{block}{Basic premise:}
+
+\begin{itemize}
+\item Best estimate of parameters is that giving the highest probability
+that the actual measurements would be made.
+\item To find parameters \{$a$\} (e.g, $C$ and $k$ for the CCN distribution),
+express the probability of making the actual observations \{$x$\}
+(e.g., \{$N_{1},\, N_{2},\,\ldots$\} given values \{$a$\} for the
+parameters: $\phi(x_{i};\{a\})$. The probability must be normalized.
+\item The ``likelihood'' is the product of probabilities of all the observations:\\
+\[
+\mathcal{L}(a)=\prod_{i}\phi(x_{i};\{a\})\,\,\,\,\mathrm{and}\,\,\,\,\mathcal{W}=\log\mathcal{L}(\{a\})=\sum_{i}\log(\phi(x_{i};\{a\}))
+\]
+
+\item The estimated values of the parameters \{$a$\} are then the values
+that lead to the maximum value of $\mathcal{W}$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{APPLICATION TO CCN PROBLEM}
+
+\begin{exampleblock}{}
+
+\begin{enumerate}
+\item Assume values for $C$ and $k$
+\item For each observation $N_{i}$, determine the probability of making
+that observation given that the value expected from the assumed parameters
+is $N_{i}^{*}=V_{i}\thinspace C(SS_{i})^{k}$ where $V$ is the volume
+sampled. That is given by the Poisson distribution: \\
+\[
+\phi^{Poisson}(N_{i};N_{i}^{*})=\frac{(N_{i}^{*})^{N_{i}}e^{-N_{i}^{*}}}{N_{i}!}
+\]
+
+\item Vary $C$ and $k$ over a grid of values to search for the maximum
+$\mathcal{W}$, or use the R function ``nlm ()'' to search for the
+maximum.
+\end{enumerate}
+\end{exampleblock}
+\begin{summaryblock}{But, in R, also consider glm ()}
+
+\begin{itemize}
+\item Like lm() but can represent distributions other than Gaussian, including
+Poisson. It can perform this CCN fit directly
+\item Useful to consider when fitting to counted measurements
+\item Must get the statistics to represent actual counts.
+\end{itemize}
+\end{summaryblock}
+\end{frame}
+
+\begin{frame}[fragile]{HOW THIS FITS IN THE ``SESSIONS''}
+
+\begin{summaryblock}{The Plan:}
+
+\begin{enumerate}
+\item Introduction to R and esp.~to RStudio
+\item The data.frame and other variables
+\item Basic math operations; vector operations
+\item Packages, including 'Ranadu'
+\item Constructing plots\alert{
+\item Fit procedures; solving non-linear equations}
+\item Reproducible Analyses using R and knitr
+\item Specific examples of application for RAF tasks
+\end{enumerate}
+\end{summaryblock}
+\begin{block}{Next: knitr}
+
+\begin{itemize}
+\item embedded documentation
+\item using \LaTeX{} without knowing \LaTeX{}
+\item using Markdown to get documents formatted for web pages
+\item ``Reproducible Analysis'' is the goal!
+\end{itemize}
+\end{block}
+\end{frame}
+
+\end{document}
