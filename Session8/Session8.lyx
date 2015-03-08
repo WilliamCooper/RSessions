@@ -1533,6 +1533,25 @@ If you are going to save a data.frame, make sure the attributes get transfered
  See HELP with getNetCDF for how to do this.
 \end_layout
 
+\begin_layout AlertBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Hate typing <- ? In RStudio, use [Alt]-
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Separator
 

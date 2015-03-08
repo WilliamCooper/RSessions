@@ -406,8 +406,13 @@ ggplot for more attractive plots.
 and obts\_chunk\$set to set global options.
 \item If you are going to save a data.frame, make sure the attributes get
 transfered to it if necessary. These are lost on sub-setting. See
-HELP with getNetCDF for how to do this.
-\end{enumerate}
+HELP with getNetCDF for how to do this.\end{enumerate}
+\begin{alertblock}{}
+
+
+Hate typing <- ? In RStudio, use {[}Alt{]}-
+
+\end{alertblock}
 \end{frame}
 
 \end{document}
