@@ -1,0 +1,1542 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass beamerWAC
+\begin_preamble
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 0
+\use_package mhchem 1
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setbeamercolor{normal text}{bg=yellow!10}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+In principle, this file can be redistributed and/or modified under the terms
+ of the GNU Public License, version 2.
+ However, this file is supposed to be a template to be modified for your
+ own needs.
+ For this reason, if you use this file as a template and not specifically
+ distribute it as part of a another package/program, the author grants the
+ extra permission to freely copy and modify this file as you see fit and
+ even to delete this copyright notice.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Session 8: Special Cases Relevant to RAF
+\end_layout
+
+\begin_layout Subtitle
+Miscellaneous Useful Routines and Tips
+\end_layout
+
+\begin_layout Author
+Al Cooper
+\end_layout
+
+\begin_layout Institute
+\begin_inset Flex InstituteMark
+status collapsed
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+
+Research Aviation Facility, Earth Observing Laboratory
+\begin_inset Newline newline
+\end_inset
+
+National Center for Atmospheric Research
+\end_layout
+
+\begin_layout Date
+Presentation prepared 3/8/2015
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you have a file called "institution-logo-filename.xxx", where xxx is a
+ graphic format that can be processed by latex or pdflatex, resp., then you
+ can add a logo by uncommenting the following:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+logo{
+\backslash
+pgfuseimage{institution-logo}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+The following causes the table of contents to be shown at the beginning
+ of every subsection.
+ Delete this, if you do not want it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+AtBeginSubsection[]{%
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+frame<beamer>{ 
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+frametitle{Outline}   
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+tableofcontents[currentsection,currentsubsection] 
+\end_layout
+
+\begin_layout Plain Layout
+
+  }
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If you wish to uncover everything in a step-wise fashion, uncomment the
+ following command:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+beamerdefaultoverlayspecification{<+->}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Outline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Data Review
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MAKING DATA REVIEW MORE COMPREHENSIVE/EASIER
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout FrameSubtitle
+A starting point rather than an end point!
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+The Goal:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Quote
+Generate a set of plots and statistics so that all measurements accessible
+ from the netCDF files can be reviewed by examining the output.
+ Review of the plots should help identify where study in more depth is needed
+ while enabling those in the field to keep constant watch on the measurements.
+\end_layout
+
+\end_deeper
+\begin_layout AlertBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Planning ahead!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Create a structure consisting of plot functions and a main script that calls
+ these functions.
+\end_layout
+
+\begin_layout Itemize
+Functions can be added or subtracted for specific projects.
+\end_layout
+
+\begin_layout Itemize
+Special runs possible with subsets of plots or times.
+\end_layout
+
+\begin_layout Itemize
+Use github as the repository to enable easy updates in the field.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+CURRENT STATUS FOR WINTER
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Program Review.R
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In use for data review in the field
+\end_layout
+
+\begin_layout Itemize
+part of batch processing; run automatically
+\end_layout
+
+\begin_layout Itemize
+generates both pdf and html files with plots
+\end_layout
+
+\begin_layout Itemize
+plots saved to the field catalog
+\end_layout
+
+\begin_layout Itemize
+Memo describing use and interpretation:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset CommandInset href
+LatexCommand href
+name "see this link"
+target "https://drive.google.com/file/d/0B1kIUH45ca5AS0ttR196YVZNMTA/view?usp=sharing"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Program and memo-generating program reside on tikal
+\end_layout
+
+\begin_layout Itemize
+Also archived on github 
+\begin_inset CommandInset href
+LatexCommand href
+name "here"
+target "https://github.com/WilliamCooper/Winter.git"
+
+\end_inset
+
+ (as Review.zip, part of larger archive)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout FragileFrame
+
+\end_layout
+
+\begin_layout Section
+Working with netCDF files
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+BASIC OPERATIONS ON NETCDF FILES
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Some useful things to do:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Add a variable with attributes
+\end_layout
+
+\begin_layout Enumerate
+Modify a variable and/or attributes
+\end_layout
+
+\begin_layout Enumerate
+Delete a variable
+\end_layout
+
+\begin_layout Enumerate
+Create subset files for economy and for reproducibility archives
+\end_layout
+
+\end_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Examples:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Apply Schuler pitch correction
+\end_layout
+
+\begin_layout Enumerate
+Smooth / interpolate / filter using centered filters
+\end_layout
+
+\begin_layout Enumerate
+Check calculations of, e.g., wind
+\end_layout
+
+\begin_layout Enumerate
+Set values missing
+\end_layout
+
+\begin_layout Enumerate
+Add height-above-terrain variable
+\end_layout
+
+\begin_layout Enumerate
+Add LAMS variables
+\end_layout
+
+\begin_layout Enumerate
+Correct attributes without reprocessing
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+BASIC STRUCTURE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Columns
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+4.0cm
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Steps:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+load libraries
+\end_layout
+
+\begin_layout Enumerate
+
+\color red
+open file
+\end_layout
+
+\begin_layout Enumerate
+
+\color blue
+manipulate 
+\end_layout
+
+\begin_layout Enumerate
+
+\color cyan
+close 
+\end_layout
+
+\end_deeper
+\begin_layout Column
+7.0cm
+\end_layout
+
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+code:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+library(ncdf)
+\end_layout
+
+\begin_layout LyX-Code
+
+\color red
+NF = open.ncdf ()
+\end_layout
+
+\begin_layout LyX-Code
+
+\color blue
+## add variable 
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+, values A
+\end_layout
+
+\begin_layout LyX-Code
+
+\color blue
+vA <- var.def.ncdf (
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+,...)
+\end_layout
+
+\begin_layout LyX-Code
+
+\color blue
+newf <- var.add.ncdf (NF, vA)
+\end_layout
+
+\begin_layout LyX-Code
+
+\color blue
+put.var.ncdf (newf, 
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+, A)
+\end_layout
+
+\begin_layout LyX-Code
+
+\color cyan
+close.ncdf (newf)
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+ADD A VARIABLE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Add 
+\begin_inset Quotes eld
+\end_inset
+
+HOT/HAT
+\begin_inset Quotes erd
+\end_inset
+
+ = height of/above terrain
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+copy file to duplicate
+\end_layout
+
+\begin_layout LyX-Code
+read needed LATC, LONC, GGALT from duplicate
+\end_layout
+
+\begin_layout LyX-Code
+HOT < HeightOfTerrain (D$LATC, D$LONC)
+\end_layout
+
+\begin_layout LyX-Code
+HAT <- D$GGALT - HOT
+\end_layout
+
+\begin_layout LyX-Code
+NF <- open.ncdf (...) ## duplicate file
+\end_layout
+
+\begin_layout LyX-Code
+varHOT <- var.def.ncdf (
+\begin_inset Quotes eld
+\end_inset
+
+HOT
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+m
+\begin_inset Quotes erd
+\end_inset
+
+,
+\end_layout
+
+\begin_layout LyX-Code
+   netCDFfile$dim[
+\begin_inset Quotes eld
+\end_inset
+
+Time
+\begin_inset Quotes erd
+\end_inset
+
+], -32767., 
+\end_layout
+
+\begin_layout LyX-Code
+   
+\begin_inset Quotes eld
+\end_inset
+
+Elevation of the Earth's surface below the GV
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout LyX-Code
+varHAT <- --similar--
+\end_layout
+
+\begin_layout LyX-Code
+newf <- var.add.ncdf (NF, varHOT)
+\end_layout
+
+\begin_layout LyX-Code
+att.put.ncdf (newf, 
+\begin_inset Quotes eld
+\end_inset
+
+HOT
+\begin_inset Quotes erd
+\end_inset
+
+, ...
+ )  # add attribute
+\end_layout
+
+\begin_layout LyX-Code
+newf <- var.add.ncdf (newf, varHAT)
+\end_layout
+
+\begin_layout LyX-Code
+att.put.ncdf (newf, 
+\begin_inset Quotes eld
+\end_inset
+
+HAT
+\begin_inset Quotes erd
+\end_inset
+
+, ...
+ )
+\end_layout
+
+\begin_layout LyX-Code
+put.var.ncdf (newf, 
+\begin_inset Quotes eld
+\end_inset
+
+HOT
+\begin_inset Quotes erd
+\end_inset
+
+, HOT)
+\end_layout
+
+\begin_layout LyX-Code
+put.var.ncdf (newf, 
+\begin_inset Quotes eld
+\end_inset
+
+HAT
+\begin_inset Quotes erd
+\end_inset
+
+, HAT)
+\end_layout
+
+\begin_layout LyX-Code
+close.ncdf (newf)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MODIFY A VARIABLE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Set HOT missing if HOT < 20
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+copy file to duplicate
+\end_layout
+
+\begin_layout LyX-Code
+get HOT from dup.
+ netCDF file (getNetCDF)
+\end_layout
+
+\begin_layout LyX-Code
+HOT[HOT < 20] <- -32767.
+\end_layout
+
+\begin_layout LyX-Code
+NF <- open.ncdf (...)   # use duplicate
+\end_layout
+
+\begin_layout LyX-Code
+put.var.ncdf (NF, 
+\begin_inset Quotes eld
+\end_inset
+
+HOT
+\begin_inset Quotes erd
+\end_inset
+
+, HOT)
+\end_layout
+
+\begin_layout LyX-Code
+close.ncdf (NF)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+CREATE A SUBSET NETCDF FILE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout SummaryBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Easy solutions for small subsets:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For specific time and variables, use Ranadu::ncsubset
+\end_layout
+
+\begin_layout Itemize
+NCKS (used by ncsubset)
+\end_layout
+
+\end_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Removing variables or time
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ranadu::getNetCDF associates all attributes with the returned data.frame
+ (recent change): Complete correspondence between data.frame and netCDF file.
+\end_layout
+
+\begin_layout Itemize
+Ranadu::makeNetCDF creates a netCDF file from a data.frame
+\end_layout
+
+\begin_layout Itemize
+Simply edit data.frame before calling makeNetCDF, e.g., by eliminating a time
+ interval or a variable (example: Data$WI <- NULL).
+ Also can add a variable and appropriate attributes.
+ When subsetting, it may be necessary to make appropriate changes to the
+ attributes.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Section
+Some recent developments
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+RECENT ADDITIONS TO Ranadu:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+New functions:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+skewT: construct a plotted thermodynamic diagram
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+uses updated thermodynamics and water vapor functions
+\end_layout
+
+\begin_layout Enumerate
+added to Review.R
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+AdiabaticTandLWC: calculate values for adiabatic ascent
+\end_layout
+
+\begin_layout Enumerate
+binStats.R: useful for plotting error-bar plots
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+classifies values of one variable into bins of another
+\end_layout
+
+\begin_layout Enumerate
+returns means and standard deviations for the bins
+\end_layout
+
+\begin_layout Enumerate
+used in circle-fit analyses
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Lagrange interpolation routine
+\end_layout
+
+\begin_layout Enumerate
+PitchCorrection: applies Schuler-oscillation correction to pitch
+\end_layout
+
+\begin_layout Enumerate
+WindProcessor: Calculates wind from basic measurements.
+\end_layout
+
+\begin_layout Enumerate
+makeNetCDF: creates a netCDF file from an R data.frame.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+SIGNIFICANT OTHER CHANGES:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout SummaryBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Modifications to data.frames from getNetCDF
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The attributes from the parent netCDF file are now preserved as attributes
+ of the data.frame (for global attributes) or as attributes of the individual
+ variables (for variable attributes).
+\end_layout
+
+\begin_layout Itemize
+When data.frames are saved for reproducibility, this provides an added level
+ of documentation of what data were used.
+\end_layout
+
+\begin_layout Itemize
+Checking attributes is now easy in R: e.g., attributes(Data$AKRD)
+\end_layout
+
+\begin_layout Itemize
+It is possible to create near-duplicates of the original netCDF file from
+ the data.frame, using Ranadu::makeNetCDF
+\end_layout
+
+\end_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Other changes:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+plotTrack: added option for a plot that drifts with the wind
+\end_layout
+
+\begin_layout Enumerate
+plotWAC: new calling options.
+ automatic generation of legends
+\end_layout
+
+\begin_layout Enumerate
+RecoveryFactor now includes heated probes
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section
+New processing programs
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+NEW ROUTINES
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Program to enable analysis of circle maneuvers:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+See the routine CircleManeuver.R in ~/RStudio/WINTER
+\end_layout
+
+\begin_layout Itemize
+Documentation: CircleManeuver.pdf
+\end_layout
+
+\begin_layout Itemize
+Incorporated extensively in WindUncertainty.pdf
+\end_layout
+
+\end_deeper
+\begin_layout ExampleBlock
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Develop PCOR to match PSFDC to PSFC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+recalQCF.Rnw in ~cooperw/RStudio/WINTER (on tikal)
+\end_layout
+
+\begin_layout Itemize
+documentation: ~cooperw/RStudio/WINTER/recalQCF.pdf
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section
+Potpourri of hints and tips
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+SOME THINGS I HAVE FOUND USEFUL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+rbind: 
+\series default
+concatenate data.frames by rows.
+ Example: Construct one data.frame with all the measurements from a project
+ to use when determining sensitivity coefficients, etc.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+smoothing and interpolation:
+\series default
+ Example: see use in Review.R
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+restrictions on data:
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+example: DataV <- Data[Data$TAS > 130, ]
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+generating variable names: 
+\series default
+for Data$ATX, with V=
+\begin_inset Quotes erd
+\end_inset
+
+ATX
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+eval (parse (text=sprintf (
+\begin_inset Quotes eld
+\end_inset
+
+Data$%s
+\begin_inset Quotes erd
+\end_inset
+
+, V)))
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+saving data:
+\series default
+ can speed repeated execution:
+\begin_inset Newline newline
+\end_inset
+
+save(Data, file=
+\begin_inset Quotes erd
+\end_inset
+
+./Data.Rdata
+\begin_inset Quotes erd
+\end_inset
+
+); load (
+\begin_inset Quotes eld
+\end_inset
+
+./Data.Rdata
+\begin_inset Quotes erd
+\end_inset
+
+) 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+str(object): 
+\series default
+very useful for seeing the 'structure' of an object
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+object.size (object): 
+\series default
+how big is the object in memory?
+\begin_inset Newline newline
+\end_inset
+
+(dim, length, nrow: complementary information but not size)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+adding to a list, where c() can mix list entries:
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+vlist[[length(vlist)+1]] <- v
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+remove or add a variable from a data.frame:
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Data$Var <- NULL; 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Data[
+\begin_inset Quotes eld
+\end_inset
+
+Var
+\begin_inset Quotes erd
+\end_inset
+
+] <- Var
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout FragileFrame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+USEFUL PRACTICES
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Save the data.frame so running can be reproducible.
+\end_layout
+
+\begin_layout Enumerate
+Put segments of code into 'chunks' and load them into scripts, to make it
+ easy to re-use them.
+ 'source()' and 'read_chunk' are useful for this.
+\end_layout
+
+\begin_layout Enumerate
+Use and re-use functions for common tasks like smoothing or summarizing
+ fit results.
+ RStudio makes this particularly easy.
+\end_layout
+
+\begin_layout Enumerate
+I find it's usually easier to use base plots first, then change to ggplot
+ for more attractive plots.
+\end_layout
+
+\begin_layout Enumerate
+Use round(x,digits) and format (x, nsmall) to format output; use options
+ and obts_chunk$set to set global options.
+\end_layout
+
+\begin_layout Enumerate
+If you are going to save a data.frame, make sure the attributes get transfered
+ to it if necessary.
+ These are lost on sub-setting.
+ See HELP with getNetCDF for how to do this.
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\end_body
+\end_document

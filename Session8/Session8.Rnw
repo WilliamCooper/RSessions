@@ -1,0 +1,413 @@
+%% LyX 2.1.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{beamer}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\ifx\hypersetup\undefined
+  \AtBeginDocument{%
+    \hypersetup{unicode=true}
+  }
+\else
+  \hypersetup{unicode=true}
+\fi
+\usepackage{breakurl}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ % (ERT) argument for the TOC
+ \AtBeginDocument{%
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+ \newenvironment{lyxcode}
+   {\par\begin{list}{}{
+     \setlength{\rightmargin}{\leftmargin}
+     \setlength{\listparindent}{0pt}% needed for AMS classes
+     \raggedright
+     \setlength{\itemsep}{0pt}
+     \setlength{\parsep}{0pt}
+     \normalfont\ttfamily}%
+    \def\{{\char`\{}
+    \def\}{\char`\}}
+    \def\textasciitilde{\char`\~}
+    \item[]}
+   {\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usetheme{WAC}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[default]{}
+\setbeamertemplate{navigation symbols}{}
+%\setbeamercovered{transparent}
+%\setbeamercovered{opaque}
+\setbeamertemplate{enumerate subitem}{(\alph{enumii})}
+
+% or ...
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+
+\makeatother
+
+\begin{document}
+\setbeamercolor{normal text}{bg=yellow!10}
+
+
+
+
+\title{Session 8: Special Cases Relevant to RAF}
+
+
+\subtitle{Miscellaneous Useful Routines and Tips}
+
+
+\author{Al Cooper}
+
+
+\institute{\inst{1}Research Aviation Facility, Earth Observing Laboratory\\
+National Center for Atmospheric Research}
+
+
+\date{Presentation prepared 3/8/2015}
+
+\makebeamertitle
+
+
+%\pgfdeclareimage[height=0.5cm]{institution-logo}{institution-logo-filename}
+%\logo{\pgfuseimage{institution-logo}}
+
+
+
+
+
+
+
+%\beamerdefaultoverlayspecification{<+->}
+\begin{frame}{Outline}
+
+
+\tableofcontents{}
+
+\end{frame}
+
+\section{Data Review}
+\begin{frame}{MAKING DATA REVIEW MORE COMPREHENSIVE/EASIER}
+
+
+\framesubtitle{A starting point rather than an end point!}
+\begin{block}{The Goal:}
+
+\begin{quote}
+Generate a set of plots and statistics so that all measurements accessible
+from the netCDF files can be reviewed by examining the output. Review
+of the plots should help identify where study in more depth is needed
+while enabling those in the field to keep constant watch on the measurements.
+\end{quote}
+\end{block}
+\begin{alertblock}{Planning ahead!}
+
+\begin{itemize}
+\item Create a structure consisting of plot functions and a main script
+that calls these functions.
+\item Functions can be added or subtracted for specific projects.
+\item Special runs possible with subsets of plots or times.
+\item Use github as the repository to enable easy updates in the field.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{CURRENT STATUS FOR WINTER}
+
+\begin{block}{Program Review.R}
+
+\begin{itemize}
+\item In use for data review in the field
+\item part of batch processing; run automatically
+\item generates both pdf and html files with plots
+\item plots saved to the field catalog
+\item Memo describing use and interpretation:\\
+\href{https://drive.google.com/file/d/0B1kIUH45ca5AS0ttR196YVZNMTA/view?usp=sharing}{see this link}
+\item Program and memo-generating program reside on tikal
+\item Also archived on github \href{https://github.com/WilliamCooper/Winter.git}{here}
+(as Review.zip, part of larger archive)
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\section{Working with netCDF files}
+\begin{frame}[fragile]{BASIC OPERATIONS ON NETCDF FILES}
+
+\begin{block}{Some useful things to do:}
+
+\begin{enumerate}
+\item Add a variable with attributes
+\item Modify a variable and/or attributes
+\item Delete a variable
+\item Create subset files for economy and for reproducibility archives
+\end{enumerate}
+\end{block}
+\begin{exampleblock}{Examples:}
+
+\begin{enumerate}
+\item Apply Schuler pitch correction
+\item Smooth / interpolate / filter using centered filters
+\item Check calculations of, e.g., wind
+\item Set values missing
+\item Add height-above-terrain variable
+\item Add LAMS variables
+\item Correct attributes without reprocessing
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{BASIC STRUCTURE}
+
+\begin{columns}
+
+
+\column{4.0cm}
+\begin{block}{Steps:}
+
+\begin{enumerate}
+\item load libraries
+\item \textcolor{red}{open file}
+\item \textcolor{blue}{manipulate }
+\item \textcolor{cyan}{close }
+\end{enumerate}
+\end{block}
+
+\column{7.0cm}
+\begin{exampleblock}{code:}
+
+\begin{lyxcode}
+library(ncdf)
+
+\textcolor{red}{NF~=~open.ncdf~()}
+
+\textcolor{blue}{\#\#~add~variable~``A'',~values~A}
+
+\textcolor{blue}{vA~<-~var.def.ncdf~(``A'',...)}
+
+\textcolor{blue}{newf~<-~var.add.ncdf~(NF,~vA)}
+
+\textcolor{blue}{put.var.ncdf~(newf,~``A'',~A)}
+
+\textcolor{cyan}{close.ncdf~(newf)}
+\end{lyxcode}
+\end{exampleblock}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{ADD A VARIABLE}
+
+\begin{block}{Add ``HOT/HAT'' = height of/above terrain}
+
+\begin{lyxcode}
+copy~file~to~duplicate
+
+read~needed~LATC,~LONC,~GGALT~from~duplicate
+
+HOT~<~HeightOfTerrain~(D\$LATC,~D\$LONC)
+
+HAT~<-~D\$GGALT~-~HOT
+
+NF~<-~open.ncdf~(...)~\#\#~duplicate~file
+
+varHOT~<-~var.def.ncdf~(``HOT'',~``m'',
+
+~~~netCDFfile\$dim{[}``Time''{]},~-32767.,~
+
+~~~``Elevation~of~the~Earth's~surface~below~the~GV'')
+
+varHAT~<-~-{}-similar-{}-
+
+newf~<-~var.add.ncdf~(NF,~varHOT)
+
+att.put.ncdf~(newf,~``HOT'',~...~)~~\#~add~attribute
+
+newf~<-~var.add.ncdf~(newf,~varHAT)
+
+att.put.ncdf~(newf,~``HAT'',~...~)
+
+put.var.ncdf~(newf,~``HOT'',~HOT)
+
+put.var.ncdf~(newf,~``HAT'',~HAT)
+
+close.ncdf~(newf)
+\end{lyxcode}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{MODIFY A VARIABLE}
+
+\begin{exampleblock}{Set HOT missing if HOT < 20}
+
+\begin{lyxcode}
+copy~file~to~duplicate
+
+get~HOT~from~dup.~netCDF~file~(getNetCDF)
+
+HOT{[}HOT~<~20{]}~<-~-32767.
+
+NF~<-~open.ncdf~(...)~~~\#~use~duplicate
+
+put.var.ncdf~(NF,~``HOT'',~HOT)
+
+close.ncdf~(NF)
+\end{lyxcode}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{CREATE A SUBSET NETCDF FILE}
+
+\begin{summaryblock}{Easy solutions for small subsets:}
+
+\begin{itemize}
+\item For specific time and variables, use Ranadu::ncsubset
+\item NCKS (used by ncsubset)
+\end{itemize}
+\end{summaryblock}
+\begin{block}{Removing variables or time}
+
+\begin{itemize}
+\item Ranadu::getNetCDF associates all attributes with the returned data.frame
+(recent change): Complete correspondence between data.frame and netCDF
+file.
+\item Ranadu::makeNetCDF creates a netCDF file from a data.frame
+\item Simply edit data.frame before calling makeNetCDF, e.g., by eliminating
+a time interval or a variable (example: Data\$WI <- NULL). Also can
+add a variable and appropriate attributes. When subsetting, it may
+be necessary to make appropriate changes to the attributes.
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+
+\section{Some recent developments}
+\begin{frame}[fragile]{RECENT ADDITIONS TO Ranadu:}
+
+\begin{block}{New functions:}
+
+\begin{enumerate}
+\item skewT: construct a plotted thermodynamic diagram
+
+\begin{enumerate}
+\item uses updated thermodynamics and water vapor functions
+\item added to Review.R
+\end{enumerate}
+\item AdiabaticTandLWC: calculate values for adiabatic ascent
+\item binStats.R: useful for plotting error-bar plots
+
+\begin{enumerate}
+\item classifies values of one variable into bins of another
+\item returns means and standard deviations for the bins
+\item used in circle-fit analyses
+\end{enumerate}
+\item Lagrange interpolation routine
+\item PitchCorrection: applies Schuler-oscillation correction to pitch
+\item WindProcessor: Calculates wind from basic measurements.
+\item makeNetCDF: creates a netCDF file from an R data.frame.
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{SIGNIFICANT OTHER CHANGES:}
+
+\begin{summaryblock}{Modifications to data.frames from getNetCDF}
+
+
+The attributes from the parent netCDF file are now preserved as attributes
+of the data.frame (for global attributes) or as attributes of the
+individual variables (for variable attributes).
+\begin{itemize}
+\item When data.frames are saved for reproducibility, this provides an added
+level of documentation of what data were used.
+\item Checking attributes is now easy in R: e.g., attributes(Data\$AKRD)
+\item It is possible to create near-duplicates of the original netCDF file
+from the data.frame, using Ranadu::makeNetCDF
+\end{itemize}
+\end{summaryblock}
+\begin{exampleblock}{Other changes:}
+
+\begin{enumerate}
+\item plotTrack: added option for a plot that drifts with the wind
+\item plotWAC: new calling options. automatic generation of legends
+\item RecoveryFactor now includes heated probes
+\end{enumerate}
+\end{exampleblock}
+\end{frame}
+
+\section{New processing programs}
+\begin{frame}[fragile]{NEW ROUTINES}
+
+\begin{block}{Program to enable analysis of circle maneuvers:}
+
+\begin{itemize}
+\item See the routine CircleManeuver.R in \textasciitilde{}/RStudio/WINTER
+\item Documentation: CircleManeuver.pdf
+\item Incorporated extensively in WindUncertainty.pdf
+\end{itemize}
+\end{block}
+\begin{exampleblock}{Develop PCOR to match PSFDC to PSFC}
+
+\begin{itemize}
+\item recalQCF.Rnw in \textasciitilde{}cooperw/RStudio/WINTER (on tikal)
+\item documentation: \textasciitilde{}cooperw/RStudio/WINTER/recalQCF.pdf
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+\section{Potpourri of hints and tips}
+\begin{frame}[fragile]{SOME THINGS I HAVE FOUND USEFUL}
+
+\begin{itemize}
+\item \textbf{rbind: }concatenate data.frames by rows. Example: Construct
+one data.frame with all the measurements from a project to use when
+determining sensitivity coefficients, etc.
+\item \textbf{smoothing and interpolation:} Example: see use in Review.R
+\item \textbf{restrictions on data:} \\
+example: DataV <- Data{[}Data\$TAS > 130, {]}
+\item \textbf{generating variable names: }for Data\$ATX, with V=''ATX''\\
+eval (parse (text=sprintf (``Data\$\%s'', V)))
+\item \textbf{saving data:} can speed repeated execution:\\
+save(Data, file=''./Data.Rdata''); load (``./Data.Rdata'') 
+\item \textbf{str(object): }very useful for seeing the 'structure' of an
+object
+\item \textbf{object.size (object): }how big is the object in memory?\\
+(dim, length, nrow: complementary information but not size)
+\item \textbf{adding to a list, where c() can mix list entries:}\\
+vlist{[}{[}length(vlist)+1{]}{]} <- v
+\item \textbf{remove or add a variable from a data.frame:}\\
+Data\$Var <- NULL; ~~~~~~~~~~Data{[}``Var''{]} <- Var
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{USEFUL PRACTICES}
+
+\begin{enumerate}
+\item Save the data.frame so running can be reproducible.
+\item Put segments of code into 'chunks' and load them into scripts, to
+make it easy to re-use them. 'source()' and 'read\_chunk' are useful
+for this.
+\item Use and re-use functions for common tasks like smoothing or summarizing
+fit results. RStudio makes this particularly easy.
+\item I find it's usually easier to use base plots first, then change to
+ggplot for more attractive plots.
+\item Use round(x,digits) and format (x, nsmall) to format output; use options
+and obts\_chunk\$set to set global options.
+\item If you are going to save a data.frame, make sure the attributes get
+transfered to it if necessary. These are lost on sub-setting. See
+HELP with getNetCDF for how to do this.
+\end{enumerate}
+\end{frame}
+
+\end{document}
