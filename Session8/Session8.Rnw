@@ -342,6 +342,7 @@ from the data.frame, using Ranadu::makeNetCDF
 \item plotTrack: added option for a plot that drifts with the wind
 \item plotWAC: new calling options. automatic generation of legends
 \item RecoveryFactor now includes heated probes
+\item GUI for variable selection
 \end{enumerate}
 \end{exampleblock}
 \end{frame}

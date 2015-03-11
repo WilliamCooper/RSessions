@@ -1214,6 +1214,10 @@ plotWAC: new calling options.
 RecoveryFactor now includes heated probes
 \end_layout
 
+\begin_layout Enumerate
+GUI for variable selection
+\end_layout
+
 \end_deeper
 \end_deeper
 \begin_layout Section
