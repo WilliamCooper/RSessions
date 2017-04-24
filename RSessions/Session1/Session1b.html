@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-04T05:24:21.393895860"/>
+	<meta name="date" content="2017-04-03 10:54:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsIntro.tex"/>
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h3 class="western"><a name="x1-2000"></a>A quick tour of the RStudio
+window panes:</h3>
+<p class="noindent">This section will work best if you can start a
+separate RStudio window to be able to view these panes. If you are
+viewing this from within RStudio, you may still be able to start
+another session.</p>
+<p class="noindent">You have seen the ’Files’ window (lower right
+pane) before; click on that to see the files in RStudio/RSessions.
+Then click on ’RSessionsDataFrame.Rnw’ to have something to look
+at. It will appear in the top left window. Don’t worry about the
+details of what is there just yet; we’ll get back to that. First,
+notice that there are four panes visible. At start-up, you will
+usually see these panes: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-2002x1"></a>Top
+	left: The source editor, where a working file (or many working files
+	in tabs) are displayed. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-2004x2"></a>Bottom
+	left: The console, where you can enter R commands just as you would
+	in the command-line mode that you would use without RStudio. Try it
+	now: Click where the ’&gt;’ prompt is displayed, type 2+2
+	[enter]. I use this frequently as a very capable calculator, because
+	the math functions and R functions are all available here. Try ’pi’,
+	’rnorm(5, 3.5, 0.5)’, plot(0:360, sin(0:360 * pi / 180),
+	type=’l’), and ’Ranadu::WetEquivalentPotentialTemperature
+	(P=800., AT=25., E=Ranadu::MurphyKoop (DP=20., P=800), w=0). 
+	</p>
+	<li/>
+<p><a name="x1-2006x3"></a>Top right: This pane has several
+	functions.<!--l. 238--> 
+	</p>
+	<ol>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2008x1"></a>The
+		’History’ tab displays the history of what you have entered in
+		the console, along with options to transfer lines either to the
+		source editor or to the console for re-execution, possibly with
+		editing (although that function is available more conveniently from
+		the console using the up and down arrows to more through the
+		history). 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2010x2"></a>Another
+		tab will show the environment, where defined variables for your
+		workspace are shown. [Try X = 5 in the console and see what appears
+		here.] There is also a useful tab for importing a data set from
+		either a web location or a text file. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2012x3"></a>This
+		pane also has a ’git’ tab if you have set up the project as
+		recommended above, where you can monitor the status of what has
+		changed since you last downloaded from the repository and can
+		commit back to your local repository (although I haven’t set up
+		my external github repository to allow you to ’Push” back to
+		that repository).</p>
+	</ol>
+	<li/>
+<p><a name="x1-2014x4"></a>Bottom right: Again, several
+	functions.<!--l. 256--> 
+	</p>
+	<ol>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2016x1"></a>Plot:
+		If you tried the examples in item 2 above, you will have noticed
+		this pane switch to ’Plots’ and display the latest plot.
+		RStudio also maintains a history of the plots that have been
+		generated, and you can skip back through that history, which seems
+		endless in my experience so far. The ’export’ function in the
+		’Plot’ tab allows you to save the plot externally to either png
+		or pdf format. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2018x2"></a>Files:
+		This displays the files in the working directory, which for now
+		should be the project directory. There are a few functions for
+		dealing with those files. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2020x3"></a>Help:
+		Requests for help are displayed in this window. If you click on the
+		’Home’ button, you are taken to a page that shows links to some
+		of the basic manuals and also a definitive definition of the
+		language, along with other more specialized manuals. If you want to
+		know how a particular function works, you can enter your search
+		phrase into the console as, for example, ?atan2 to see information
+		on the arctangent function, or you can enter this into the entry
+		line on the help window, which has the advantage that it displays
+		auto-completion options as you type. [Try ’plot’ to see this in
+		action.] There are many cross-references among the help pages that
+		are quite useful. If you click on the left drop-down menu you will
+		see a history of the help topics you have consulted. 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-2022x4"></a>Viewer:
+		I’m going to postpone discussion of this until later; we won’t
+		need the viewer for a while. 
+		</p>
+		<li/>
+<p><a name="x1-2024x5"></a>Packages: This displays the
+		packages that are available for your use, either in the system-wide
+		repository or in mine (if you have established assess to mine via
+		one of the methods discussed earlier or in the appendix). To test
+		if you have access to my functions, look for ’Ranadu’ in the
+		list. If it is there, let your mouse linger over it and its
+		location will be displayed. You could try this for other packages
+		also; check, for example, ggplot2, a very useful plotting package. 
+		The check boxes indicate which packages will be available in your
+		session without special loading; if unchecked, you can either check
+		the box or include a statement similar to ’require(Ranadu)’ in
+		your session (or when you use these functions, use the form
+		Ranadu::routine_you_want). The ’install’ and ’update’
+		functions at the top of the ’Packages’ pane provide easy access
+		to the ’CRAN’ archive of packages or to packages you may have
+		from other sources that you want to load for use.</p>
+	</ol>
+</ol>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+</body>
+</html>

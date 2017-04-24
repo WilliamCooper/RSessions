@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="author" content="Al Cooper"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-05T03:26:53.337385512"/>
+</head>
+<body lang="en-US" dir="ltr">
+<p style="margin-bottom: 0.02in"><i><u><b>Exercise:</b></u><span style="text-decoration: none"><span style="font-weight: normal">
+Generate time-series plots of some measured variables (e.g.,
+temperature, pressure, wind speed) from DEEPWAVE flight 20.</span></span></i></p>
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.02in"><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><meta name="created" content="2017-04-04T13:45:46.393204788"><meta name="changedby" content="Al Cooper"><meta name="changed" content="2017-04-04T16:08:35.608619492">The
+code that generates this figure: 
+</p>
+<hr/>
+
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">VarList
+&lt;- c(“ATX”, “WSC”, “PSXC”) ## the variable names
+needed from the netCDF file</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">##
+These statements were used originally to retrieve the data.frame
+‘Data’</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">##
+Data &lt;- getNetCDF('/scr/raf_data/DEEPWAVE/DEEPWAVErf20.nc',
+VarList)</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">##
+save (Data, file=”./Session1/Data.Rdata”) ## this saved the file
+we will now retrieve</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">load
+(“./Session1/Data.Rdata”) ## this reloads the data.frame ‘Data’
+saved above</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">nm
+&lt;- c(‘Temperature [deg. C]”, “Wind Speed [m/s]”, “Pressure
+[hPa]”) ## labels for plots</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">names
+(nm) &lt;- VarList ## these are the actual variables in the data file</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">V
+&lt;- input$S1Var ## this retrieves the value from the drop-down menu
+(one of VarList)</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">plot
+(Data$Time, Data[, V], type=’l’, col=’blue’, xlab=”Time
+[UTC]”, ylab=nm[V]))</font></p>
+<p style="margin-bottom: 0.02in"><font face="CMU Typewriter Text, monospace">title
+(“DEEPWAVE flight 20”)</font></p>
+<hr/>
+
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+</body>
+</html>

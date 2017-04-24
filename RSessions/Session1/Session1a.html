@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-04T05:33:47.163621386"/>
+	<meta name="date" content="2017-04-03 10:13:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsIntro.tex"/>
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+	<meta name="created" content="00:00:00">
+	<meta name="changedby" content="Al Cooper">
+	<meta name="changed" content="2017-04-03T10:52:50.831176524">
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h3 class="western">Initial Setup:<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><meta name="created" content="00:00:00"><meta name="changedby" content="Al Cooper"><meta name="changed" content="2017-04-03T10:44:00.510737715"></h3>
+<p><a name="x1-1001f1"></a><!--l. 139-->I’m going to use
+barolo.eol.ucar.edu, a linux machine, for these sessions. R and
+RStudio are available on barolo, but you may also want them on your
+own machines or laptop. The central repository for R is CRAN
+(<a href="http://cran.r-project.org/">CRAN</a>)<a href="http://cran.r-project.org/">http://cran.r-project.org/</a>,
+the Comprehensive R Archive Network. That page has links for
+downloading versions for Windows, Mac, and linux. For RStudio, you
+can download from <a href="http://www.rstudio.com/products/RStudio/">http://www.rstudio.com/products/RStudio/</a>.
+Or submit a support request to EOL/SIG to have R and RStudio
+installed. To run R (without RStudio) on barolo or any linux machine
+where it is installed, just type “R” into a terminal window and
+you get the classic command-line interface that has been in use since
+at least 1998. But I’m going to work in RStudio for these sessions.
+To start your RStudio session, point a web browser to
+<a href="http://tikal.eol.ucar.edu/">barolo.eol.ucar.edu:8787</a>.
+You must be inside the UCAR firewall, or use VPN, and you will have
+to sign in using your EOL name and CIT password. However, you can do
+everything here from your own machine also. R and Rstudio work on
+linux, Windows, and Apple machines, but these instructions focus on
+linux.<!--l. 155--> 
+</p>
+<p>My suggestion for getting started is this: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1003x1"></a>Make a
+	new directory “RStudio” in your EOL workspace or on the machine
+	you will use, named “~/RStudio”. You can do this using a
+	terminal or using the RStudio interface; for the latter, 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1005x1"></a>click
+		the “Files” tab in the lower right pane 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1007x2"></a>use the
+		’New Folder’ item just below that tab to create the new folder
+		named “RStudio” under your home directory.</p>
+	</ul>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1009x2"></a>On
+	barolo, if that is where you will be running, copy this line into a
+	file named .Renviron in your home directory on that
+	system:<br/>
+&nbsp;&nbsp;R_LIBS=&quot;~cooperw/R/x86_64-redhat-linux-gnu-library/3.2&quot;
+	<br/>
+This provides access to a library of routines that I will be
+	using in these sessions. The last tab in this first session
+	discusses how to download that library and install it on another
+	machine. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1011x3"></a>If it’s
+	not already running, start RStudio; for barolo, you can use the link
+	above. (Rstudio also works from tikal but there are sometimes
+	library incompatibilities so barolo is best.)</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1013x4"></a>Go to
+	Tools -&gt; Global Options -&gt; R General 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1015x1"></a>enter
+		“~/RStudio” (without quotes) in the line that says “Default
+		Working Directory”</p>
+	</ul>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1017x5"></a>Go to
+	Sweave under the same window 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1019x1"></a>in the
+		top where it says “Weave Rnw files using:”, select “knitr”.
+		You may get a message saying knitr is not available if you are not
+		on barolo; in that case, knitr will be added to the available
+		packages when you follow the steps in the last tab.</p>
+	</ul>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1021x6"></a>Go to
+	“Git/SVN” under the same window 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1023x1"></a>check
+		“Enable version control”. I’ll be using ’git’ for these
+		sessions, so you will be able to access my code via git.</p>
+	</ul>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1025x7"></a>For
+	other options, the defaults are probably reasonable to start, so
+	click “OK” to save the options. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-1027x8"></a>Make a
+	new project called RSessions for the purpose of these sessions: 
+	</p>
+	<ul>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1029x1"></a>Go to
+		the “File” menu and select “New Project” 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1031x2"></a>Select
+		“Version Control”</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1033x3"></a>Select
+		“Git” 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1035x4"></a>Use
+		this repository name:
+		<a href="https://github.com/WilliamCooper/RSessions.git">https://github.com/WilliamCooper/RSessions.git</a>
+		). 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1037x5"></a>Give
+		the project the name “RSessions” and create it as a
+		subdirectory of “~/RStudio” 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-1039x6"></a>At this
+		point, RStudio will switch to windows that apply to this new
+		project and copy from the repository into your new project.</p>
+	</ul>
+	<li/>
+<p><a name="x1-1041x9"></a>If you are preparing your personal
+	machine, you may eventually want LaTeX and you may need to install
+	git, although it seems to be standard on linux and Mac machines.
+	These are both available on barolo. If you are installing on another
+	machine that doesn’t have them try these links: For LaTeX,
+	<a href="http://miktex.org/">http://miktex.org/</a> and for git
+	<a href="http://git-scm.com/">http://git-scm.com</a>. You will now
+	be ready to proceed to the next tab.</p>
+</ol>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+</body>
+</html>

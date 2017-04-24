@@ -1,0 +1,381 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-23T01:33:04.423706433"/>
+	<meta name="date" content="2017-04-22 15:43:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsDataFrame.tex"/>
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+	<meta name="created" content="00:00:00">
+	<meta name="changedby" content="Al Cooper">
+	<meta name="changed" content="2017-04-22T22:02:23.923088090">
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+		h4.cjk { font-family: "Source Han Sans CN Regular" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+		h2.western { font-family: "Albany", sans-serif; font-size: 16pt }
+		h2.cjk { font-family: "Source Han Sans CN Regular"; font-size: 16pt }
+		h2.ctl { font-family: "Lohit Devanagari"; font-size: 16pt }
+		p.sdfootnote { margin-left: 0.24in; text-indent: -0.24in; margin-bottom: 0in; font-size: 10pt }
+		a.sdfootnoteanc { font-size: 57% }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="6" style="font-size: 28pt"><b>R
+Objects</b></font></font></p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="5" style="font-size: 18pt">with
+focus on the data.frame</font></font></p>
+<h1><a name="x1-6000"></a><!--l. 417-->Working with data.frames</h1>
+<h2 class="western"><a name="x1-7000"></a><!--l. 419-->Addressing
+elements of a data.frame</h2>
+<p><!--l. 421-->You can address particular elements using syntax like
+the following: 
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox173"></a><a name="textcolor126"></a><a name="textcolor127"></a><a name="textcolor128"></a><a name="textcolor129"></a><a name="textcolor130"></a>
+<!--l. 425--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data$ATX[5]
+</font></font>
+</p>
+<div id="verbatim-8" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor131"></a><a name="textcolor132"></a><a name="textcolor133"></a><a name="textcolor134"></a><a name="textcolor135"></a><a name="textcolor136"></a>
+<!--l. 430--><!--l. 431--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data[5,
+2] <i>#</i> <i>note</i> <i>the</i> <i>[row,column]</i> <i>syntax</i> </font></font>
+</p>
+<div id="verbatim-9" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor137"></a><a name="textcolor138"></a><a name="textcolor139"></a>
+<!--l. 436--><!--l. 437--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data[5,
+]  # selects all variables in the 5<sup>th</sup> row</font></font></p>
+<div id="verbatim-10" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	               Time                  ATX          DPXC       EWX    
+	 GGALT    LATC <br/>
+## 5 2014-02-01 06:00:04 9.744931 0.1877103
+	6.196864 3218.022 14.14174 <br/>
+##       LONC     MACHX     MR     
+	   PALT       PSXC      QCXC      TASX      WDC <br/>
+## 5 154.3085
+	0.5520642 5.574834 3039.19 697.5984 160.5153 186.1065 54.89041 <br/>
+##
+	       WSC         WIC        GGVSPDB <br/>
+## 5 10.55491 -0.3907309
+	-13.33878 </font></font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor140"></a><a name="textcolor141"></a><a name="textcolor142"></a><a name="textcolor143"></a><a name="textcolor144"></a>
+<!--l. 447--><!--l. 448--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data[5,
+&quot;ATX&quot;] </font></font>
+</p>
+<div id="verbatim-11" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor145"></a><a name="textcolor146"></a><a name="textcolor147"></a>
+<!--l. 453--><!--l. 454--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data$ATX
+</font></font>
+</p>
+<div id="verbatim-12" dir="ltr">
+	<p style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.664198 9.600497 9.608423 9.648787 9.744931 9.832309 9.897908
+	<br/>
+## [8] 9.972386 10.021310 10.102686 10.179273 </font></font>
+	</p>
+	<p style="margin-bottom: 0in"><br/>
+
+	</p>
+	<p style="margin-bottom: 0in"><br/>
+
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in">’<font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">getIndex
+()’ is part of Ranadu and provides a convenient way to determine
+the data.frame index that corresponds to a specified time:</font></font></p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor148"></a><a name="textcolor149"></a><a name="textcolor150"></a><a name="textcolor151"></a><a name="textcolor152"></a><a name="textcolor153"></a><a name="textcolor154"></a><a name="textcolor155"></a><a name="textcolor156"></a>
+<!--l. 479--><!--l. 480--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data$ATX[getIndex(Data$Time,
+60004)] </font></font>
+</p>
+<div id="verbatim-13" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><!--l. 486--><font face="Nimbus Sans L, sans-serif"><font size="3" style="font-size: 12pt">Data$ATX[Data$Time
+== as.POSIXct(&quot;2014-02-01 6:00:04&quot;, tz='UTC')] </font></font>
+</p>
+<div id="verbatim-14" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p><!--l. 491-->-<!--l. 495--> 
+</p>
+<p><!--l. 498--> 
+</p>
+<h2 class="western"></h2>
+<h2 class="western"><a name="x1-8000"></a>Creating subsets of a
+data.frame</h2>
+<h3 class="western"><!--l. 500-->New data.frames that contain subsets
+of original data.frames can be created using logical vectors. For
+example, the following selects only the data.frame rows with TASX &gt;
+186.2: 
+</h3>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox209"></a><a name="textcolor192"></a><a name="textcolor193"></a><a name="textcolor194"></a><a name="textcolor195"></a><a name="textcolor196"></a><a name="textcolor197"></a>
+<!--l. 505--><font face="Nimbus Sans L, sans-serif">Data[Data$TASX &gt;
+186.2, ]     ## the “, ]” is important; it includes all columns
+in the subset </font>
+</p>
+<div id="verbatim-15" dir="ltr">
+	<p style="margin-bottom: 0in">##                   Time             
+	ATX        DPXC          EWX      GGALT   LATC <br/>
+## 4 2014-02-01
+	06:00:03 9.648787 0.04999272 6.134695 3231.312 14.14012 <br/>
+## 7
+	2014-02-01 06:00:06 9.897908 0.65490091 6.410044 3191.264 14.14498
+	<br/>
+## 8 2014-02-01 06:00:07 9.972386 0.56748486 6.369296 3177.818
+	14.14660 <br/>
+## 9 2014-02-01 06:00:08 10.021310 0.50978196
+	6.342399 3164.346 14.14821 <br/>
+## 10 2014-02-01 06:00:09 10.102686
+	0.45882320 6.319251 3150.860 14.14983 <br/>
+## 11 2014-02-01
+	06:00:10 10.179273 0.53403455 6.353704 3137.374 14.15144 <br/>
+##   
+	   LONC    MACHX      MR        PALT       PSXC       QCXC   TASX
+	<br/>
+## 4 154.3086 0.5524525 5.527682 3052.263 696.4385 160.4908
+	186.2058 <br/>
+## 7 154.3082 0.5524577 5.750223 3014.623 699.7827
+	161.2648 186.2895 <br/>
+## 8 154.3080 0.5527580 5.703504 3001.208
+	700.9778 161.7290 186.4153 <br/>
+## 9 154.3079 0.5536176 5.670606
+	2989.408 702.0303 162.5140 186.7213 <br/>
+## 10 154.3077 0.5537398
+	5.639918 2975.867 703.2396 162.8713 186.7893 <br/>
+## 11 154.3076
+	0.5537975 5.661635 2963.050 704.3859 163.1734 186.8341 <br/>
+##     
+	WDC        WSC         WIC       GGVSPDB <br/>
+## 4 55.31616
+	10.58476 -0.3402149 -13.29691 <br/>
+## 7 51.61034 10.53345
+	-0.4759987 -13.46035 <br/>
+## 8 49.83345 10.56507 -0.5229000
+	-13.49332 <br/>
+## 9 47.27423 10.72326 -0.5907010 -13.52288 <br/>
+##
+	10 45.95592 10.79151 -0.6423368 -13.52343 <br/>
+## 11 44.47295
+	10.80074 -0.6979736 -13.58159 
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<h3 class="western">SetRange() creates an index vector spanning the
+specified time:</h3>
+<p align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor199"></a><a name="textcolor200"></a><a name="textcolor201"></a><a name="textcolor202"></a><a name="textcolor203"></a><a name="textcolor204"></a><a name="textcolor205"></a><a name="textcolor206"></a>
+<!--l. 531--><font face="Nimbus Sans L, sans-serif">Data[setRange(Data$Time,
+60005, 60008), ] </font>
+</p>
+<div id="verbatim-16" dir="ltr">
+	<p style="margin-bottom: 0in">## Time ATX DPXC EWX GGALT LATC <br/>
+##
+	6 2014-02-01 06:00:05 9.832309 0.3035024 6.249135 3204.674 14.14336
+	<br/>
+## 7 2014-02-01 06:00:06 9.897908 0.6549009 6.410044 3191.264
+	14.14498 <br/>
+## 8 2014-02-01 06:00:07 9.972386 0.5674849 6.369296
+	3177.818 14.14660 <br/>
+## 9 2014-02-01 06:00:08 10.021310 0.5097820
+	6.342399 3164.346 14.14821 <br/>
+## LONC MACHX MR PALT PSXC QCXC
+	TASX WDC <br/>
+## 6 154.3083 0.5521671 5.613148 3026.527 698.7237
+	160.8386 186.1699 53.42305 <br/>
+## 7 154.3082 0.5524577 5.750223
+	3014.623 699.7827 161.2648 186.2895 51.61034 <br/>
+## 8 154.3080
+	0.5527580 5.703504 3001.208 700.9778 161.7290 186.4153 49.83345 <br/>
+##
+	9 154.3079 0.5536176 5.670606 2989.408 702.0303 162.5140 186.7213
+	47.27423 <br/>
+## WSC WIC GGVSPDB <br/>
+## 6 10.53935 -0.4517152
+	-13.40185 <br/>
+## 7 10.53345 -0.4759987 -13.46035 <br/>
+## 8
+	10.56507 -0.5229000 -13.49332 <br/>
+## 9 10.72326 -0.5907010
+	-13.52288 
+	</p>
+</div>
+<p><!--l. 550-->-<!--l. 554--> 
+</p>
+<h3 class="western">Another useful subset is that omitting all rows
+containing any missing values (identified by NA in the value of a
+variable):<a class="sdfootnoteanc" name="sdfootnote1anc" href="#sdfootnote1sym"><sup>1</sup></a>
+</h3>
+<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">Data$LATC[3]
+&lt;- NA</font></p>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox220"></a><a name="textcolor216"></a><a name="textcolor217"></a>
+<!--l. 559--><font face="Nimbus Sans L, sans-serif">na.omit(Data) </font>
+</p>
+<div id="verbatim-17" dir="ltr">
+	<p style="margin-bottom: 0in">##                  Time              
+	  ATX           DPXC       EWX     GGALT   LATC <br/>
+## 1
+	2014-02-01 06:00:00 9.664198 -1.74588561 5.379651 3271.462 14.13524
+	<br/>
+## 2 2014-02-01 06:00:01 9.600497 -0.58042610 5.859534
+	3258.018 14.13687 <br/>
+## 4 2014-02-01 06:00:03 9.648787 0.04999272
+	6.134695 3231.312 14.14012 <br/>
+## 5 2014-02-01 06:00:04 9.744931
+	0.18771026 6.196864 3218.022 14.14174 <br/>
+## 6 2014-02-01 06:00:05
+	9.832309 0.30350244 6.249135 3204.674 14.14336 <br/>
+## 7 2014-02-01
+	06:00:06 9.897908 0.65490091 6.410044 3191.264 14.14498 <br/>
+## 8
+	2014-02-01 06:00:07 9.972386 0.56748486 6.369296 3177.818 14.14660
+	<br/>
+## 9 2014-02-01 06:00:08 10.021310 0.50978196 6.342399
+	3164.346 14.14821 <br/>
+## 10 2014-02-01 06:00:09 10.102686
+	0.45882320 6.319251 3150.860 14.14983 <br/>
+## 11 2014-02-01
+	06:00:10 10.179273 0.53403455 6.353704 3137.374 14.15144 <br/>
+##   
+	   LONC    MACHX      MR        PALT      PSXC       QCXC    TASX
+	<br/>
+## 1 154.3090 0.5516629 4.866040 3090.757 693.0317 159.2154
+	185.9447 <br/>
+## 2 154.3089 0.5523306 5.294985 3077.800 694.1769
+	159.8938 186.1488 <br/>
+## 4 154.3086 0.5524525 5.527682 3052.263
+	696.4385 160.4908 186.2058 <br/>
+## 5 154.3085 0.5520642 5.574834
+	3039.190 697.5984 160.5153 186.1065 <br/>
+## 6 154.3083 0.5521671
+	5.613148 3026.527 698.7237 160.8386 186.1699 <br/>
+## 7 154.3082
+	0.5524577 5.750223 3014.623 699.7827 161.2648 186.2895 <br/>
+## 8
+	154.3080 0.5527580 5.703504 3001.208 700.9778 161.7290 186.4153 <br/>
+##
+	9 154.3079 0.5536176 5.670606 2989.408 702.0303 162.5140 186.7213
+	<br/>
+## 10 154.3077 0.5537398 5.639918 2975.867 703.2396 162.8713
+	186.7893 <br/>
+## 11 154.3076 0.5537975 5.661635 2963.050 704.3859
+	163.1734 186.8341 <br/>
+##        WDC        WSC        WIC     
+	GGVSPDB <br/>
+## 1 59.76257 10.64427 -0.2153265 -13.53158 <br/>
+## 2
+	57.36450 10.53653 -0.2423407 -13.41048 <br/>
+## 4 55.31616 10.58476
+	-0.3402149 -13.29691 <br/>
+## 5 54.89041 10.55491 -0.3907309
+	-13.33878 <br/>
+## 6 53.42305 10.53935 -0.4517152 -13.40185 <br/>
+##
+	7 51.61034 10.53345 -0.4759987 -13.46035 <br/>
+## 8 49.83345
+	10.56507 -0.5229000 -13.49332 <br/>
+## 9 47.27423 10.72326
+	-0.5907010 -13.52288 <br/>
+## 10 45.95592 10.79151 -0.6423368
+	-13.52343 <br/>
+## 11 44.47295 10.80074 -0.6979736 -13.58159 
+	</p>
+</div>
+<p><!--l. 599-->-<!--l. 603--> 
+</p>
+<p>However, be careful using this and other subsetting commands
+because if the time sequence has gaps some functions like
+’setRange()’ won’t work. If entire rows are missing, plots vs.
+time will connect across the gap and it will usually not be visible.
+If the time is present but the variable is NA, there will be a gap in
+the plot that shows the missing values. This is usually the better
+result. Compare the results from plotWAC (Data$Time, Data$ATX) to D
+&lt;- na.omit(Data) ; plotWAC (D$Time, D$ATX). Remember that
+na.omit() omits the entire row if any variable in the row has the
+value NA.<!--l. 611--> 
+</p>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+<h3 class="western"><a name="x1-9000"></a>Adding or changing
+variables in a data.frame</h3>
+<p><!--l. 613-->You can operate on variables in the data.frame,
+changing values, and you can add new variables to the data.frame as
+follows: 
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox247"></a><a name="textcolor224"></a><a name="textcolor225"></a><a name="textcolor226"></a><a name="textcolor227"></a><a name="textcolor228"></a><a name="textcolor229"></a><a name="textcolor230"></a><a name="textcolor231"></a><a name="textcolor232"></a><a name="textcolor233"></a><a name="textcolor234"></a><a name="textcolor235"></a><a name="textcolor236"></a><a name="textcolor237"></a><a name="textcolor238"></a><a name="textcolor239"></a><a name="textcolor240"></a><a name="textcolor241"></a><a name="textcolor242"></a><a name="textcolor243"></a><a name="textcolor244"></a>
+<!--l. 618--><font face="Nimbus Sans L, sans-serif"><i>#</i> define a
+new <i>wind</i> <i>component</i> <i>from</i> <i>the</i> <i>east:</i>
+<br/>
+Data[&quot;UEW&quot;] &lt;- Data$WSC * sin (Data$WDC * pi /
+180) <br/>
+Data$UEW </font>
+</p>
+<div id="verbatim-18" dir="ltr">
+	<p style="margin-bottom: 0in">## [1] 9.196076 8.873005 8.750909
+	8.703893 8.634478 8.463705 8.256180 <br/>
+## [8] 8.073535 7.877411
+	7.756990 7.566698 
+	</p>
+</div>
+<p><!--l. 649-->-<!--l. 653--> 
+</p>
+<h4 class="western"><br/>
+<br/>
+
+</h4>
+<div id="sdfootnote1">
+	<p class="sdfootnote"><a class="sdfootnotesym" name="sdfootnote1sym" href="#sdfootnote1anc">1</a>NetCDF
+	variables flagged as missing (value -32767.) are converted to NA by
+	getNetCDF().</p>
+</div>
+</body>
+</html>

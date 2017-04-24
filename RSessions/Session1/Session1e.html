@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-05T04:55:23.350869712"/>
+	<meta name="date" content="2017-04-04 05:34:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsIntro.tex"/>
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h3 class="western">Getting the RAF (Ranadu) Package</h3>
+<p class="noindent"><!--l. 422-->For use on barolo, a procedure
+suggested in the first tab will provide access to my package of
+routines for use with RAF netCDF files. You may want to install to
+your own files on that computer or on another system. One reason for
+doing that is that, when the version of R changes, the reference
+listed there will no longer be up-to-date, and compatibility problems
+may arise. Here are steps for obtaining that package on other systems
+or on your own file system:<!--l. 427--> 
+</p>
+<p class="noindent">If not on barolo, you may first need to install
+some packages on which Ranadu depends. (These are all present on
+barolo.) The Ranadu dependencies are: ncdf, maps, ggplot2, ggthemes ,
+graphics, and grid. The package also imports from the following
+packages, although they aren’t required unless the corresponding
+routines are used: tcltk (sparsely used), nleqslv, zoo, fields,
+stats, signal, and reshape2. You will also want knitr if you don’t
+already have it. If any of those do not appear in your list of
+packages (displayed by selecting the ’Packages’ tab in the bottom
+right pane of RStudio), click ’Install’ at the top of that pane,
+select ’repository (CRAN)’ in the first drop-down menu, and enter
+a list of packages that you are missing in the second line labeled
+’Packages’. The default location for local libraries on the last
+line should be kept, and the check-box labeled ’Install
+dependencies’ should be checked. Click ’Install” and those
+packages will be downloaded from the CRAN repository, compiled where
+necessary, and added to your list of packages. This may take a while.
+After doing that, to get the package ’Ranadu’, follow these
+steps: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-6002x1"></a>Within
+	RStudio, select ’File’ -&gt; ’New Project’ -&gt; ’Version
+	Control’ -&gt; ’Git’ (clone a repository) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-6004x2"></a>For the
+	package URL, enter ’https://github.com/WilliamCooper/Ranadu.git’
+	(without the quote marks). Use the package name ’Ranadu’ and
+	make the directory for it a subdirectory under ’RStudio’. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-6006x3"></a>Click
+	’Create Project’ and RStudio will download the files and change
+	the working project to Ranadu. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in">Select the “Build” tab (top
+	right pane) and then “Build and reload”. The package will be
+	installed to your local repository and will be ready to use.
+	Alternately, in case the preceding doesn’t work, try this:</p>
+	<ol type="a">
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-6008x4"></a>Go to
+		the ’Packages’ window and click ’Install’ 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-6010x5"></a>In the
+		new window that appears, change the top drop-down menu from CRAN to
+		’Package archive file’ 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-6012x6"></a>A
+		window will appear that displays all the files in your home
+		directory. Go to the directory RStudio, then to directory Ranadu,
+		and in that directory select ’Ranadu-1.0-14-10-07-std.tar.gz’
+		(or whatever the highest-version-number is there). 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-6014x7"></a>For
+		’Install to library ...’ you should be able to use the default
+		for your system. It should point to a directory in your local file
+		space. On my laptop it is
+		’/home/cooperw/R/x86_64-redhat-linux-gnu-library/3.1’. This
+		should have been defined during R installation as the directory for
+		local packages. 
+		</p>
+		<li/>
+<p><a name="x1-6016x8"></a>Click ’Install’. The package
+		’Ranadu’ should appear in your list of packages. If an error
+		occurs, be sure you have installed the packages listed in the
+		paragraph above this numbered list, and then tell me so I can try
+		to help.</p>
+	</ol>
+</ol>
+<p class="noindent"><!--l. 471-->_______________________________________________________________</p>
+</body>
+</html>

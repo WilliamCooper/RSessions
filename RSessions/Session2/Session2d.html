@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-23T10:43:06.041989430"/>
+	<meta name="date" content="2017-04-22 15:43:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsDataFrame.tex"/>
+	<style type="text/css">
+		h2.cjk { font-family: "Source Han Sans CN Regular" }
+		h2.ctl { font-family: "Lohit Devanagari" }
+		h4.cjk { font-family: "Source Han Sans CN Regular" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+		pre.cjk { font-family: "Nimbus Mono L", monospace }
+		code.cjk { font-family: "Nimbus Mono L", monospace }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="6" style="font-size: 28pt"><b>R
+Objects</b></font></font></p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="5" style="font-size: 18pt">with
+focus on the data.frame</font></font></p>
+<h4 class="western"><br/>
+<br/>
+
+</h4>
+<h1><a name="x1-10000"></a>Some Basic Operations With data.frames</h1>
+<h2 class="western">Simple plots</h2>
+<p class="noindent"><!--l. 655-->Let’s plot something, using
+’plotWAC ()’ from Ranadu for convenience, although you can try
+the standard ’plot ()’ function from R base routines to see what
+differences there are. Load a data.frame, for example that listed
+below, and the try these commands. The results will not be included
+here, so it’s important to try these and ensure that these
+functions work before proceeding to the next session.</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">Project
+&lt;- </code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">CSET</code><code class="western"><font face="Liberation Mono, monospace">'</font></code></font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">Flight
+&lt;- 6</code></font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">##
+getNetCDF defaults to the standardVariables() list, </code></font>
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">##
+which includes ATX:</code></font></p>
+<p class="noindent" align="left" style="margin-left: 2.63in; text-indent: -2.63in; margin-bottom: 0in; page-break-before: auto">
+<font face="CMU Typewriter Text, monospace"><code class="western">Data
+&lt;- getNetCDF(sprintf(</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">%s%s/%srf%02d.nc</code><code class="western"><font face="Liberation Mono, monospace">',
+DataDirectory(), Project, Projec</font></code><code class="western"><font face="Liberation Mono, monospace">t,
+Flight</font></code><code class="western">)) </code></font>
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">##
+Try three possible ways of plotting.</code></font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">##
+Each has many options to change color, line width and type, etc.</code></font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">##
+There will be much more discussion of plotting in Session 5.</code></font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor252"></a><a name="textcolor253"></a><a name="textcolor254"></a><a name="textcolor255"></a><a name="textcolor256"></a><a name="textcolor257"></a><a name="textcolor258"></a>
+<font face="CMU Typewriter Text, monospace"><code class="western">plotWAC(Data$Time,
+Data$</code><code class="western">ATX</code><code class="western">,
+ylab=</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western"><font face="Liberation Mono, monospace">AT</font></code><code class="western">X</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">)
+</code></font>
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="CMU Typewriter Text, monospace"><code class="western">plot
+(Data$Time, Data$</code><code class="western">ATX</code><code class="western">,
+ylab=</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western"><font face="Liberation Mono, monospace">AT</font></code><code class="western">X</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">,
+ type=</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">l</code><code class="western"><font face="Liberation Mono, monospace">'</font></code><code class="western">)</code></font></p>
+<pre class="western" style="text-align: left"><a name="rstudio_console_output"></a><font face="CMU Typewriter Text, monospace"><code class="western"><font color="#0000ff"><font face="DejaVu Sans Mono"><font size="2" style="font-size: 10pt">with(Data, ggplotWAC(data.frame(Time, ATX)))</font></font></font></code></font></pre><p class="noindent" align="left" style="margin-bottom: 0in">
+<br/>
+
+</p>
+<p class="noindent">-<!--l. 669--> 
+</p>
+<p class="noindent">It is also useful to define special data.frames
+for constructing plots, especially when using the more advanced
+plotting capabilities provided by ’ggplot2’ (as in the third
+example above). To see a simple scatterplot, you can use the
+following: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox281"></a><a name="textcolor264"></a><a name="textcolor265"></a><a name="textcolor266"></a><a name="textcolor267"></a><a name="textcolor268"></a><a name="textcolor270"></a><a name="textcolor272"></a><a name="textcolor273"></a><a name="textcolor274"></a><a name="textcolor275"></a><a name="textcolor276"></a><a name="textcolor277"></a><a name="textcolor278"></a><a name="textcolor279"></a>
+<!--l. 675--><font face="Nimbus Sans L, sans-serif">D &lt;- Data[,
+c(<code class="western"><font face="Liberation Mono, monospace">'</font></code>ATX<code class="western"><font face="Liberation Mono, monospace">'</font></code>,
+<code class="western"><font face="Liberation Mono, monospace">'</font></code>GGALT<code class="western"><font face="Liberation Mono, monospace">'</font></code>)]
+<br/>
+plot(D, pch=20)         <i>#</i> <i>pch=20</i> <i>plots</i>
+<i>small</i> <i>solid</i> <i>dots</i> </font>
+</p>
+<p class="noindent">-<!--l. 684--> 
+</p>
+<h4 class="western">Exercise: See what happens if you instead include
+three variables in the preceding data.frame D.<!--l. 687--> 
+</h4>
+<h2 class="western"><a name="x1-11000"></a>Exporting to Excel</h2>
+<p class="noindent">With the R package xlsx (which may have to be
+installed on your system), you can easily export a data.frame to an
+Excel-format spreadsheet. Try this: 
+</p>
+<p class="noindent"><a name="textcolor284"></a><a name="textcolor285"></a><a name="textcolor286"></a><a name="textcolor287"></a><a name="textcolor288"></a><a name="textcolor289"></a><a name="textcolor290"></a><a name="textcolor291"></a>
+<font face="Nimbus Sans L, sans-serif">xlsx::write.xlsx (Data,
+file=&quot;Data.xlsx&quot;) </font>
+</p>
+<p class="noindent"><font face="Nimbus Sans L, sans-serif">The syntax
+“xlsx::” means to use the xlsx package for the function that
+follows. You can also specify “library(xlsx)” earlier in the
+program and then omit this prefix, but it is often useful to use the
+:: syntax instead to avoid loading the entire library when you just
+need one instance of one function.</font></p>
+<p class="noindent" align="center">– <font face="monospace">end of
+Session 2 – </font>
+</p>
+<p class="noindent" align="center" style="margin-bottom: 0in"><br/>
+
+</p>
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-22T22:01:07.457803020"/>
+	<meta name="date" content="2017-04-22 15:43:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsDataFrame.tex"/>
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+		h4.cjk { font-family: "Source Han Sans CN Regular" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+		p.sdfootnote { margin-left: 0.24in; text-indent: -0.24in; margin-bottom: 0in; font-size: 10pt }
+		a.sdfootnoteanc { font-size: 57% }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="6" style="font-size: 28pt"><b>R
+Objects</b></font></font></p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="5" style="font-size: 18pt">with
+focus on the data.frame</font></font></p>
+<h4 class="western"><a name="x1-2000"></a><!--l. 134-->vector</h4>
+<p class="noindent"><!--l. 136-->The fundamental object we will deal
+with most often is the vector. This is an indexed set of quantities,
+which can be numeric (double, integer), logical, character, or some
+other less common types. Vectors are ’atomic’ if they consist all
+of the same type; ’generic’ vectors can have mixed types, but I
+won’t deal much with them. Vectors may have only one element, which
+would be called a scalar in other languages, but scalars in R are
+just vectors with one element. Vectors have a length property [try
+length(x)] but not a dimension property: Try the following in the
+Rstudio console or an R session:</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox20"></a><a name="textcolor7"></a><a name="textcolor8"></a><a name="textcolor9"></a><a name="textcolor10"></a><a name="textcolor11"></a><a name="textcolor12"></a><a name="textcolor13"></a>
+<!--l. 148--><font face="Nimbus Sans L, sans-serif">x &lt;- 2   ##
+assign 2 to x, note the assignment operator “←” and “#” for
+comments<br/>
+print (x[1]) </font>
+</p>
+<div id="verbatim-1" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	[1]   2           ## statements beginning with ##[n] here are R
+	output</font></p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor14"></a><a name="textcolor15"></a>
+<!--l. 154--><!--l. 155--><font face="Nimbus Sans L, sans-serif">length(x)
+</font>
+</p>
+<div id="verbatim-2" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	[1] 1 </font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor16"></a><a name="textcolor17"></a>
+<!--l. 160--><!--l. 161--><font face="Nimbus Sans L, sans-serif">dim(x)
+</font>
+</p>
+<div id="verbatim-3" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	NULL </font>
+	</p>
+</div>
+<h4 class="western"><a name="x1-3000"></a>list</h4>
+<p class="noindent"><!--l. 172-->A list resembles an atomic vector
+but can have mixed types. Lists also have additional ways of
+selecting elements, e.g., by character name. Lists are generic
+vectors, but when I talk about vectors I’ll almost always be
+talking about atomic vectors.<!--l. 177--> 
+</p>
+<h4 class="western"><a name="x1-4000"></a>array (including matrix)</h4>
+<p class="noindent"><a name="x1-4001f1"></a><!--l. 179-->A special
+vector-like object is the array or matrix, which is like a vector but
+with assigned dimensions so that, in the two-dimensional or matrix
+case, the vector is a vector of columns in a matrix. The dimension
+can be single-valued, but more often there are at least two
+dimensions. R convention is column-major format (like FORTRAN but
+opposite to C); i.e., the row index represents adjacent values in the
+underlying vector, so items that lie vertically in the conventional
+display of a matrix (for example z[1,1] and z[2,1]) are adjacent
+elements in the underlying vector. The first index in a
+two-dimensional array can be thought of as specifying the row and the
+second the column; all rows in a particular column are contiguous in
+the underlying vector.  You can construct an array from a vector by
+assigning it a dimension via ’dim(x) &lt;- c(dim1, dim2)’ as in
+the following example,<a class="sdfootnoteanc" name="sdfootnote1anc" href="#sdfootnote1sym"><sup>1</sup></a>
+which also illustrates the column-major structure and the effect of
+transposing the array using t(): 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox50"></a><a name="textcolor24"></a><a name="textcolor25"></a><a name="textcolor26"></a><a name="textcolor27"></a><a name="textcolor28"></a><a name="textcolor29"></a><a name="textcolor30"></a><a name="textcolor31"></a>
+<!--l. 198--><font face="Nimbus Sans L, sans-serif">a &lt;- 1:12     
+     <i>#</i> <i>generate</i> <i>a</i> <i>vector</i> <i>containing</i>
+<i>the</i> <i>sequence</i> <i>1</i> <i>to</i> <i>12</i> <br/>
+print
+(a) </font>
+</p>
+<div id="verbatim-4" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	 [1]  1  2  3  4  5  6  7  8  9 10 11 12 </font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor32"></a><a name="textcolor33"></a><a name="textcolor34"></a><a name="textcolor35"></a><a name="textcolor36"></a><a name="textcolor37"></a><a name="textcolor38"></a><a name="textcolor39"></a><a name="textcolor40"></a><a name="textcolor41"></a><a name="textcolor42"></a><a name="textcolor43"></a>
+<!--l. 204--><!--l. 205--><font face="Nimbus Sans L, sans-serif">dim
+(a) &lt;- c(3,4)  <i>#</i> <i>c()</i> <i>constructs</i> <i>a</i>
+<i>vector</i> <i>from</i> <i>its</i> <i>elements</i> <br/>
+print (a) </font>
+</p>
+<div id="verbatim-5" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	        [,1] [,2] [,3] [,4]  <br/>
+## [1,]    1    4    7   10  <br/>
+##
+	[2,]    2    5    8   11  <br/>
+## [3,]    3    6    9   12 </font>
+	</p>
+</div>
+<p class="noindent" align="center" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor44"></a><a name="textcolor45"></a><a name="textcolor46"></a><a name="textcolor47"></a>
+<!--l. 214--><!--l. 215--><font face="Nimbus Sans L, sans-serif">print
+(t(a)) </font>
+</p>
+<div id="verbatim-6" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	        [,1] [,2] [,3]  <br/>
+## [1,]    1    2    3  <br/>
+## [2,] 
+	  4    5    6  <br/>
+## [3,]    7    8    9  <br/>
+## [4,]   10   11
+	  12 </font>
+	</p>
+</div>
+<p class="nopar"><!--l. 224-->-<!--l. 228--> 
+</p>
+<p class="noindent">This works well for arrays constructed from our
+netCDF files because the time index can be thought of as the row
+index and each column represents a vector of measurements of a
+particular variable. 
+</p>
+<h4 class="western"><a name="x1-5000"></a>data.frame</h4>
+<p class="noindent"><!--l. 234-->A data.frame is a named list of
+vectors and resembles a matrix or a spreadsheet. For example, it may
+consist of columns each representing a variable and rows that are the
+time sequence of observations of that variable. Applied to RAF data
+files, it may have a structure like this: 
+</p>
+<p style="margin-bottom: 0in"><a name="TBL-2"></a><a name="TBL-2-1g"></a><a name="TBL-2-1"></a><a name="TBL-2-2g"></a><a name="TBL-2-2"></a><a name="TBL-2-3g"></a><a name="TBL-2-3"></a><a name="TBL-2-4g"></a><a name="TBL-2-4"></a><a name="TBL-2-5g"></a><a name="TBL-2-5"></a><a name="TBL-2-6g"></a><a name="TBL-2-6"></a>
+<!--l. 240--></p>
+<table width="384" cellpadding="0" cellspacing="0">
+	<col width="78">
+	<col width="66">
+	<col width="60">
+	<col width="66">
+	<col width="72">
+	<col width="42">
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-2"></a>Time 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-3"></a>ATX</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-4"></a>PSXC</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-5"></a>WDC</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-6"></a>WSC</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-2"></a>15:00:00</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-4"></a>410.8 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-5"></a>275.4</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-6"></a>25.4 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-2"></a>15:00:01</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-4"></a>410.9 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-5"></a>275.2</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-6"></a>25.6 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-2"></a>15:00:02</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-3"></a>-25.2</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-4"></a>411.1 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-5"></a>275.4</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-6"></a>25.5 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-2"></a>15:00:03</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-4"></a>411.1 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-5"></a>275.1</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-6"></a>25.7 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-2"></a>15:00:04</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-3"></a>-25.0</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-4"></a>411.2 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-5"></a>275.3</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-6"></a>25.3 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-2"></a>... 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-3"></a>... 
+			</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-4"></a>... 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-5"></a>... 
+			</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-6"></a>... 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+</table>
+<p class="noindent"><br/>
+<br/>
+
+</p>
+<p class="noindent"><!--l. 296-->All columns must be of the same
+length, but they may contain different types of variables (Time,
+character, numeric, logical). Like a spreadsheet, the columns can be
+assigned names like the header in this table. Rows can also be
+assigned names, but in the absence of special assignment they will
+default to the character names ’1’, ’2’, ’3’, ’4’,
+... and can be addressed by an index that is the first in a two-index
+specification; i.e., D[500, 10] represents the 10th variable as
+measured at the 500-th time in the dataframe.<!--l. 305--> 
+</p>
+<p class="noindent">Let’s get an example. Here is a segment of R
+code that loads a few selected variables from a netCDF file to a
+data.frame: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox118"></a><a name="textcolor57"></a><a name="textcolor58"></a><a name="textcolor59"></a><a name="textcolor60"></a><a name="textcolor61"></a><a name="textcolor62"></a><a name="textcolor63"></a><a name="textcolor64"></a><a name="textcolor65"></a><a name="textcolor66"></a><a name="textcolor67"></a><a name="textcolor68"></a><a name="textcolor69"></a><a name="textcolor70"></a><a name="textcolor71"></a><a name="textcolor72"></a><a name="textcolor73"></a><a name="textcolor74"></a><a name="textcolor75"></a><a name="textcolor76"></a><a name="textcolor77"></a><a name="textcolor78"></a><a name="textcolor79"></a><a name="textcolor80"></a><a name="textcolor81"></a><a name="textcolor83"></a><a name="textcolor84"></a><a name="textcolor85"></a><a name="textcolor86"></a><a name="textcolor87"></a><a name="textcolor88"></a><a name="textcolor89"></a><a name="textcolor90"></a><a name="textcolor91"></a><a name="textcolor92"></a><a name="textcolor93"></a><a name="textcolor94"></a><a name="textcolor95"></a><a name="textcolor96"></a><a name="textcolor97"></a><a name="textcolor98"></a><a name="textcolor99"></a><a name="textcolor100"></a><a name="textcolor101"></a><a name="textcolor102"></a><a name="textcolor103"></a><a name="textcolor104"></a><a name="textcolor105"></a><a name="textcolor106"></a><a name="textcolor107"></a><a name="textcolor108"></a><a name="textcolor112"></a><a name="textcolor113"></a><a name="textcolor114"></a><a name="textcolor115"></a><a name="textcolor116"></a>
+<!--l. 310--><font face="Nimbus Sans L, sans-serif">require(Ranadu,
+quietly = TRUE, warn.conflicts = FALSE) </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>my</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>package</i></font><font face="Nimbus Sans L, sans-serif">
+  <br/>
+Directory &lt;- DataDirectory ()    </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>for</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>portability</i></font><font face="Nimbus Sans L, sans-serif">
+<br/>
+Flight &lt;- &quot;rf08&quot;                       </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>select</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>a</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>flight</i></font><font face="Nimbus Sans L, sans-serif">
+<br/>
+Project = &quot;CONTRAST&quot;             </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>select</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>a</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>project</i></font><font face="Nimbus Sans L, sans-serif">
+<br/>
+fname </font><font face="Nimbus Sans L, sans-serif">&lt;-</font><font face="Nimbus Sans L, sans-serif">
+sprintf(&quot;%s%s/%s%s.nc&quot;, Directory,Project,Project,Flight)
+<br/>
+</font><font face="Nimbus Sans L, sans-serif"><i>#</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>set</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>variables</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>needed,</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>here</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>a</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>standard</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>list</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>plus</i></font><font face="Nimbus Sans L, sans-serif">
+</font><font face="Nimbus Sans L, sans-serif"><i>GGVSPDB</i></font><font face="Nimbus Sans L, sans-serif">
+<br/>
+Data &lt;- getNetCDF (fname, standardVariables(c(&quot;GGVSPDB&quot;)),
+60000, 60010) <br/>
+saveDataFile &lt;- 'RSessionsDataFrame.Rdata'
+<br/>
+save (Data, file = saveDataFile) </font><br/>
+<font face="Nimbus Sans L, sans-serif">N
+&lt;- names(Data) </font>
+</p>
+<p class="noindent" align="left">-<!--l. 325--> 
+</p>
+<p class="noindent">Here are explanations of this code: 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5002x1"></a><a name="x1-5003f2"></a>
+	The ’require (Ranadu)’ statement is a reference to a package of
+	routines I have developed to provide ’convenience’ functions
+	that make this easier. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5005x2"></a>The
+	’DataDirectory ()’ function, part of Ranadu, simply sets the
+	directory appropriately for the system in use. On barolo, it returns
+	“/scr/raf_data/”, on my home computer “/Data”, etc. I use
+	this because I got tired of changing references to the data
+	directory whenever I transferred programs between systems. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5007x3"></a>I
+	perhaps slipped up by typing the ’=’ sign when assigning to the
+	variable ’Project’. You can do this anytime; I have not found
+	any compelling reason to use the ’&lt;-’ assignment operator,
+	although I have followed R advice and tried to adopt that
+	convention. I like the arguments for the logic of this assignment
+	operator, but it can condition you to make typing errors when you
+	switch to another programming language that expects “=”.  I
+	think you have to use ’=’ for assignment to arguments in
+	functions, as I have in the ’require ()’ statement. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5009x4"></a>’fname’
+	is the data file name; here, on barolo, the statement generates
+	’/scr/raf_data/CONTRAST/CONTRASTrf08.nc’ 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5011x5"></a>’standardVariables()’
+	is another Ranadu function that returns a character vector with some
+	of the variables I usually want present, like ATX, PSXC, WDC, etc.
+	See the help functions for the standard list. In addition, any
+	arguments, like ’GGVSPDB’ here (special in the current CONTRAST
+	files, but that may change), are added to the list of variables to
+	use; if there are more than one, use ’c(“Var1, Var2, ...”) as
+	the argument to standardVariables(). You can also just provide a
+	list of variables you want directly to ’getNetCDF ()’ without
+	using standardVariables().</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5013x6"></a>’getNetCDF
+	()’ is another convenience routine that returns a data.frame
+	containing ’Time’ and any variables requested as the second
+	argument. Here that returned value is assigned to the data.frame
+	’Data’. You can also restrict the retrieved time period to the
+	times between and including the 3rd and 4th arguments. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5015x7"></a>The next
+	two lines save the data in a format easy to reload without the
+	overhead of fetching the full netCDF file. The subset in the
+	data.frame is usually much smaller and loads quickly. This is also
+	useful if you want to ensure that analyses are reproducible because
+	you can archive the specific data.frame you used for your analysis. 
+	</p>
+	<li/>
+<p><a name="x1-5017x8"></a>’names ()’ is a standard R
+	function that lists the names associated with an object. Here it
+	lists the names of the variables included in the data.frame. I
+	assign the names to ’N’ because I want to include them in the
+	text, which is done as in the next paragraph. (See the .Rnw source
+	for an illustration of how this is done; ’\Sexpr{N}’ is used
+	there to include the names in the text.)</p>
+</ol>
+<p class="noindent" style="margin-bottom: 0in"><!--l. 371-->The
+resulting names are Time, ATX, DPXC, EWX, GGALT, LATC, LONC, MACHX,
+MR, PALT, PSXC, QCXC, TASX, WDC, WSC, WIC, GGVSPDB. The data.frame
+’Data’ looks like this: 
+</p>
+<p class="noindent" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" style="margin-bottom: 0in"><br/>
+
+</p>
+<div id="verbatim-7" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in">##                  
+	Time       ATX        DPXC      EWX    GGALT     LATC  <br/>
+## 1 
+	2014-02-01 06:00:00  9.664198 -1.74588561 5.379651 3271.462 14.13524
+	 <br/>
+## 2  2014-02-01 06:00:01  9.600497 -0.58042610 5.859534
+	3258.018 14.13687  <br/>
+## 3  2014-02-01 06:00:02  9.608423
+	-0.10240312 6.067365 3244.620 14.13849  <br/>
+## 4  2014-02-01
+	06:00:03  9.648787  0.04999272 6.134695 3231.312 14.14012  <br/>
+##
+	5  2014-02-01 06:00:04  9.744931  0.18771026 6.196864 3218.022
+	14.14174  <br/>
+## 6  2014-02-01 06:00:05  9.832309  0.30350244
+	6.249135 3204.674 14.14336  <br/>
+## 7  2014-02-01 06:00:06 
+	9.897908  0.65490091 6.410044 3191.264 14.14498  <br/>
+## 8 
+	2014-02-01 06:00:07  9.972386  0.56748486 6.369296 3177.818 14.14660
+	 <br/>
+## 9  2014-02-01 06:00:08 10.021310  0.50978196 6.342399
+	3164.346 14.14821  <br/>
+## 10 2014-02-01 06:00:09 10.102686 
+	0.45882320 6.319251 3150.860 14.14983  <br/>
+## 11 2014-02-01
+	06:00:10 10.179273  0.53403455 6.353704 3137.374 14.15144  <br/>
+## 
+	      LONC     MACHX       MR     PALT     PSXC     QCXC     TASX 
+	<br/>
+## 1  154.3090 0.5516629 4.866040 3090.757 693.0317 159.2154
+	185.9447  <br/>
+## 2  154.3089 0.5523306 5.294985 3077.800 694.1769
+	159.8938 186.1488  <br/>
+## 3  154.3087 0.5523784 5.474667 3063.909
+	695.4063 160.2067 186.1675  <br/>
+## 4  154.3086 0.5524525 5.527682
+	3052.263 696.4385 160.4908 186.2058  <br/>
+## 5  154.3085 0.5520642
+	5.574834 3039.190 697.5984 160.5153 186.1065  <br/>
+## 6  154.3083
+	0.5521671 5.613148 3026.527 698.7237 160.8386 186.1699  <br/>
+## 7 
+	154.3082 0.5524577 5.750223 3014.623 699.7827 161.2648 186.2895  <br/>
+##
+	8  154.3080 0.5527580 5.703504 3001.208 700.9778 161.7290 186.4153 
+	<br/>
+## 9  154.3079 0.5536176 5.670606 2989.408 702.0303 162.5140
+	186.7213  <br/>
+## 10 154.3077 0.5537398 5.639918 2975.867 703.2396
+	162.8713 186.7893  <br/>
+## 11 154.3076 0.5537975 5.661635 2963.050
+	704.3859 163.1734 186.8341  <br/>
+##         WDC      WSC        WIC
+	  GGVSPDB  <br/>
+## 1  59.76257 10.64427 -0.2153265 -13.53158  <br/>
+##
+	2  57.36450 10.53653 -0.2423407 -13.41048  <br/>
+## 3  56.32394
+	10.51557 -0.3594706 -13.37120  <br/>
+## 4  55.31616 10.58476
+	-0.3402149 -13.29691  <br/>
+## 5  54.89041 10.55491 -0.3907309
+	-13.33878  <br/>
+## 6  53.42305 10.53935 -0.4517152 -13.40185  <br/>
+##
+	7  51.61034 10.53345 -0.4759987 -13.46035  <br/>
+## 8  49.83345
+	10.56507 -0.5229000 -13.49332  <br/>
+## 9  47.27423 10.72326
+	-0.5907010 -13.52288  <br/>
+## 10 45.95592 10.79151 -0.6423368
+	-13.52343  <br/>
+## 11 44.47295 10.80074 -0.6979736 -13.58159 
+	</p>
+</div>
+<p class="nopar"><!--l. 413-->-<!--l. 417--> 
+</p>
+<h3 class="western"><a name="x1-6000"></a>Working with data.frames</h3>
+<h4 class="western"><a name="x1-7000"></a><!--l. 419-->Addressing
+elements of a data.frame</h4>
+<p class="noindent"><!--l. 421-->You can address particular elements
+using syntax like the following: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox173"></a><a name="textcolor126"></a><a name="textcolor127"></a><a name="textcolor128"></a><a name="textcolor129"></a><a name="textcolor130"></a>
+<!--l. 425--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data$ATX[5]
+</font></font>
+</p>
+<div id="verbatim-8" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor131"></a><a name="textcolor132"></a><a name="textcolor133"></a><a name="textcolor134"></a><a name="textcolor135"></a><a name="textcolor136"></a>
+<!--l. 430--><!--l. 431--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data[5,
+2]           <i>#</i> <i>note</i> <i>the</i> <i>[row,column]</i>
+<i>syntax</i> </font></font>
+</p>
+<div id="verbatim-9" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor137"></a><a name="textcolor138"></a><a name="textcolor139"></a>
+<!--l. 436--><!--l. 437--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data[5,
+] </font></font>
+</p>
+<div id="verbatim-10" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	                 Time      ATX      DPXC      EWX    GGALT     LATC 
+	<br/>
+## 5 2014-02-01 06:00:04 9.744931 0.1877103 6.196864 3218.022
+	14.14174  <br/>
+##       LONC     MACHX       MR    PALT     PSXC   
+	 QCXC     TASX      WDC  <br/>
+## 5 154.3085 0.5520642 5.574834
+	3039.19 697.5984 160.5153 186.1065 54.89041  <br/>
+##        WSC    
+	   WIC   GGVSPDB  <br/>
+## 5 10.55491 -0.3907309 -13.33878 </font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor140"></a><a name="textcolor141"></a><a name="textcolor142"></a><a name="textcolor143"></a><a name="textcolor144"></a>
+<!--l. 447--><!--l. 448--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data[5,
+&quot;ATX&quot;] </font></font>
+</p>
+<div id="verbatim-11" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor145"></a><a name="textcolor146"></a><a name="textcolor147"></a>
+<!--l. 453--><!--l. 454--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data$ATX
+</font></font>
+</p>
+<div id="verbatim-12" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	 [1]  9.664198  9.600497  9.608423  9.648787  9.744931  9.832309 
+	9.897908  <br/>
+##  [8]  9.972386 10.021310 10.102686 10.179273  </font></font>
+	</p>
+	<p class="noindent" style="margin-bottom: 0in"><br/>
+
+	</p>
+	<p class="noindent" style="margin-bottom: 0in">    <font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	When data.frames are created by getNetCDF(), attributes are
+	preserved from the netCDF file:<br/>
+## attr(,&quot;_FillValue&quot;)
+	 <br/>
+## [1] -32767  <br/>
+## attr(,&quot;units&quot;)  <br/>
+##
+	[1] &quot;deg_C&quot;  <br/>
+## attr(,&quot;long_name&quot;)  <br/>
+##
+	[1] &quot;Ambient Temperature, Reference&quot;  <br/>
+##
+	attr(,&quot;standard_name&quot;)  <br/>
+## [1] &quot;air_temperature&quot;
+	 <br/>
+## attr(,&quot;actual_range&quot;)  <br/>
+## [1] -72.92744 
+	32.59351  <br/>
+## attr(,&quot;Category&quot;)  <br/>
+## [1] &quot;Atmos.
+	State&quot;  <br/>
+## attr(,&quot;DataQuality&quot;)  <br/>
+## [1]
+	&quot;Preliminary&quot;  <br/>
+## attr(,&quot;Dependencies&quot;) 
+	<br/>
+## [1] &quot;1 ATHR1&quot;  <br/>
+## attr(,&quot;Dimensions&quot;)
+	 <br/>
+## attr(,&quot;Dimensions&quot;)[[1]]  <br/>
+## [1] &quot;Time&quot;
+	</font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor148"></a><a name="textcolor149"></a><a name="textcolor150"></a><a name="textcolor151"></a><a name="textcolor152"></a><a name="textcolor153"></a><a name="textcolor154"></a><a name="textcolor155"></a><a name="textcolor156"></a>
+<!--l. 479--><!--l. 480--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data$ATX[getIndex(Data$Time,
+60004)] </font></font>
+</p>
+<div id="verbatim-13" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor157"></a><a name="textcolor158"></a><a name="textcolor159"></a><a name="textcolor160"></a><a name="textcolor161"></a><a name="textcolor162"></a><a name="textcolor163"></a><a name="textcolor164"></a><a name="textcolor165"></a><a name="textcolor166"></a><a name="textcolor167"></a><a name="textcolor168"></a><a name="textcolor169"></a><a name="textcolor170"></a>
+<!--l. 485--><!--l. 486--><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">Data$ATX[Data$Time
+== as.POSIXct(&quot;2014-02-01 6:00:04&quot;, tz='UTC')] </font></font>
+</p>
+<div id="verbatim-14" dir="ltr">
+	<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif"><font size="2" style="font-size: 11pt">##
+	[1] 9.744931 </font></font>
+	</p>
+</div>
+<p class="nopar"><!--l. 491-->-<!--l. 495--> 
+</p>
+<p class="noindent">(’getIndex ()’ is part of Ranadu and provides
+a convenient way to determine the data.frame index that corresponds
+to a specified time.)<!--l. 498--> 
+</p>
+<h4 class="western"><a name="x1-8000"></a>Creating subsets of a
+data.frame</h4>
+<p class="noindent"><!--l. 500-->New data.frames that contain subsets
+of original data.frames can be created using logical vectors. For
+example, the following selects only the data.frame rows with TASX &gt;
+186.2: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox209"></a><a name="textcolor192"></a><a name="textcolor193"></a><a name="textcolor194"></a><a name="textcolor195"></a><a name="textcolor196"></a><a name="textcolor197"></a>
+<!--l. 505--><font face="Nimbus Sans L, sans-serif">Data[Data$TASX &gt;
+186.2,  ]    ## the “, ]” is important; it includes all columns
+in the subset </font>
+</p>
+<div id="verbatim-15" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in">##                  
+	Time                     ATX       DPXC      EWX    GGALT     LATC 
+	<br/>
+## 4  2014-02-01 06:00:03  9.648787 0.04999272 6.134695
+	3231.312 14.14012  <br/>
+## 7  2014-02-01 06:00:06  9.897908
+	0.65490091 6.410044 3191.264 14.14498  <br/>
+## 8  2014-02-01
+	06:00:07  9.972386 0.56748486 6.369296 3177.818 14.14660  <br/>
+## 9
+	 2014-02-01 06:00:08 10.021310 0.50978196 6.342399 3164.346 14.14821
+	 <br/>
+## 10 2014-02-01 06:00:09 10.102686 0.45882320 6.319251
+	3150.860 14.14983  <br/>
+## 11 2014-02-01 06:00:10 10.179273
+	0.53403455 6.353704 3137.374 14.15144  <br/>
+##        LONC    
+	MACHX       MR     PALT     PSXC     QCXC     TASX  <br/>
+## 4 
+	154.3086 0.5524525 5.527682 3052.263 696.4385 160.4908 186.2058  <br/>
+##
+	7  154.3082 0.5524577 5.750223 3014.623 699.7827 161.2648 186.2895 
+	<br/>
+## 8  154.3080 0.5527580 5.703504 3001.208 700.9778 161.7290
+	186.4153  <br/>
+## 9  154.3079 0.5536176 5.670606 2989.408 702.0303
+	162.5140 186.7213  <br/>
+## 10 154.3077 0.5537398 5.639918 2975.867
+	703.2396 162.8713 186.7893  <br/>
+## 11 154.3076 0.5537975 5.661635
+	2963.050 704.3859 163.1734 186.8341  <br/>
+##         WDC      WSC  
+	     WIC   GGVSPDB  <br/>
+## 4  55.31616 10.58476 -0.3402149
+	-13.29691  <br/>
+## 7  51.61034 10.53345 -0.4759987 -13.46035  <br/>
+##
+	8  49.83345 10.56507 -0.5229000 -13.49332  <br/>
+## 9  47.27423
+	10.72326 -0.5907010 -13.52288  <br/>
+## 10 45.95592 10.79151
+	-0.6423368 -13.52343  <br/>
+## 11 44.47295 10.80074 -0.6979736
+	-13.58159 
+	</p>
+</div>
+<p class="noindent" align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Liberation Serif, serif">SetRange()
+creates an index vector spanning the specified time:</font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><br/>
+
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="textcolor199"></a><a name="textcolor200"></a><a name="textcolor201"></a><a name="textcolor202"></a><a name="textcolor203"></a><a name="textcolor204"></a><a name="textcolor205"></a><a name="textcolor206"></a>
+<!--l. 531--><font face="Nimbus Sans L, sans-serif">Data[setRange(Data$Time,
+60005, 60008), ] </font>
+</p>
+<div id="verbatim-16" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in">##                 
+	Time       ATX      DPXC      EWX    GGALT     LATC  <br/>
+## 6
+	2014-02-01 06:00:05  9.832309 0.3035024 6.249135 3204.674 14.14336 
+	<br/>
+## 7 2014-02-01 06:00:06  9.897908 0.6549009 6.410044 3191.264
+	14.14498  <br/>
+## 8 2014-02-01 06:00:07  9.972386 0.5674849
+	6.369296 3177.818 14.14660  <br/>
+## 9 2014-02-01 06:00:08 10.021310
+	0.5097820 6.342399 3164.346 14.14821  <br/>
+##       LONC     MACHX 
+	     MR     PALT     PSXC     QCXC     TASX      WDC  <br/>
+## 6
+	154.3083 0.5521671 5.613148 3026.527 698.7237 160.8386 186.1699
+	53.42305  <br/>
+## 7 154.3082 0.5524577 5.750223 3014.623 699.7827
+	161.2648 186.2895 51.61034  <br/>
+## 8 154.3080 0.5527580 5.703504
+	3001.208 700.9778 161.7290 186.4153 49.83345  <br/>
+## 9 154.3079
+	0.5536176 5.670606 2989.408 702.0303 162.5140 186.7213 47.27423  <br/>
+##
+	       WSC        WIC   GGVSPDB  <br/>
+## 6 10.53935 -0.4517152
+	-13.40185  <br/>
+## 7 10.53345 -0.4759987 -13.46035  <br/>
+## 8
+	10.56507 -0.5229000 -13.49332  <br/>
+## 9 10.72326 -0.5907010
+	-13.52288 
+	</p>
+</div>
+<p class="nopar"><!--l. 550-->-<!--l. 554--> 
+</p>
+<p class="noindent">Another useful subset is that omitting all rows
+containing any missing values (identified by NA in the value of a
+variable): 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">Data$LATC[3]
+ &lt;- NA</font></p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox220"></a><a name="textcolor216"></a><a name="textcolor217"></a>
+<!--l. 559--><font face="Nimbus Sans L, sans-serif">na.omit(Data) </font>
+</p>
+<div id="verbatim-17" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in">##                  
+	Time                     ATX        DPXC      EWX    GGALT     LATC 
+	<br/>
+## 1  2014-02-01 06:00:00  9.664198 -1.74588561 5.379651
+	3271.462 14.13524  <br/>
+## 2  2014-02-01 06:00:01  9.600497
+	-0.58042610 5.859534 3258.018 14.13687  <br/>
+## 4  2014-02-01
+	06:00:03  9.648787  0.04999272 6.134695 3231.312 14.14012  <br/>
+##
+	5  2014-02-01 06:00:04  9.744931  0.18771026 6.196864 3218.022
+	14.14174  <br/>
+## 6  2014-02-01 06:00:05  9.832309  0.30350244
+	6.249135 3204.674 14.14336  <br/>
+## 7  2014-02-01 06:00:06 
+	9.897908  0.65490091 6.410044 3191.264 14.14498  <br/>
+## 8 
+	2014-02-01 06:00:07  9.972386  0.56748486 6.369296 3177.818 14.14660
+	 <br/>
+## 9  2014-02-01 06:00:08 10.021310  0.50978196 6.342399
+	3164.346 14.14821  <br/>
+## 10 2014-02-01 06:00:09 10.102686 
+	0.45882320 6.319251 3150.860 14.14983  <br/>
+## 11 2014-02-01
+	06:00:10 10.179273  0.53403455 6.353704 3137.374 14.15144  <br/>
+## 
+	      LONC     MACHX       MR     PALT     PSXC     QCXC     TASX 
+	<br/>
+## 1  154.3090 0.5516629 4.866040 3090.757 693.0317 159.2154
+	185.9447  <br/>
+## 2  154.3089 0.5523306 5.294985 3077.800 694.1769
+	159.8938 186.1488  <br/>
+## 4  154.3086 0.5524525 5.527682 3052.263
+	696.4385 160.4908 186.2058  <br/>
+## 5  154.3085 0.5520642 5.574834
+	3039.190 697.5984 160.5153 186.1065  <br/>
+## 6  154.3083 0.5521671
+	5.613148 3026.527 698.7237 160.8386 186.1699  <br/>
+## 7  154.3082
+	0.5524577 5.750223 3014.623 699.7827 161.2648 186.2895  <br/>
+## 8 
+	154.3080 0.5527580 5.703504 3001.208 700.9778 161.7290 186.4153  <br/>
+##
+	9  154.3079 0.5536176 5.670606 2989.408 702.0303 162.5140 186.7213 
+	<br/>
+## 10 154.3077 0.5537398 5.639918 2975.867 703.2396 162.8713
+	186.7893  <br/>
+## 11 154.3076 0.5537975 5.661635 2963.050 704.3859
+	163.1734 186.8341  <br/>
+##         WDC      WSC        WIC  
+	GGVSPDB  <br/>
+## 1  59.76257 10.64427 -0.2153265 -13.53158  <br/>
+##
+	2  57.36450 10.53653 -0.2423407 -13.41048   <br/>
+## 4  55.31616
+	10.58476 -0.3402149 -13.29691  <br/>
+## 5  54.89041 10.55491
+	-0.3907309 -13.33878  <br/>
+## 6  53.42305 10.53935 -0.4517152
+	-13.40185  <br/>
+## 7  51.61034 10.53345 -0.4759987 -13.46035  <br/>
+##
+	8  49.83345 10.56507 -0.5229000 -13.49332  <br/>
+## 9  47.27423
+	10.72326 -0.5907010 -13.52288  <br/>
+## 10 45.95592 10.79151
+	-0.6423368 -13.52343  <br/>
+## 11 44.47295 10.80074 -0.6979736
+	-13.58159 
+	</p>
+</div>
+<p class="nopar"><!--l. 599-->-<!--l. 603--> 
+</p>
+<p class="noindent">However, be careful using this and other
+subsetting commands because if the time sequence has gaps some
+functions like ’setRange()’ won’t work, although plots will
+just skip the missing values. Compare the results from plotWAC
+(Data$Time, Data$ATX) to D &lt;- na.omit(Data) ; plotWAC (D$Time,
+D$ATX). When I need to omit missing values (e.g., for filtering), I
+try to do other subsetting before using the na.omit function.<!--l. 611-->
+</p>
+<h4 class="western"><a name="x1-9000"></a>Adding or changing
+variables in a data.frame</h4>
+<p class="noindent"><!--l. 613-->You can operate on variables in the
+data.frame, changing values, and you can add new variables to the
+data.frame as follows: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox247"></a><a name="textcolor224"></a><a name="textcolor225"></a><a name="textcolor226"></a><a name="textcolor227"></a><a name="textcolor228"></a><a name="textcolor229"></a><a name="textcolor230"></a><a name="textcolor231"></a><a name="textcolor232"></a><a name="textcolor233"></a><a name="textcolor234"></a><a name="textcolor235"></a><a name="textcolor236"></a><a name="textcolor237"></a><a name="textcolor238"></a><a name="textcolor239"></a><a name="textcolor240"></a><a name="textcolor241"></a><a name="textcolor242"></a><a name="textcolor243"></a><a name="textcolor244"></a>
+<!--l. 618--><font face="Nimbus Sans L, sans-serif"><i>#</i> <i>wind</i>
+<i>component</i> <i>from</i> <i>the</i> <i>east:</i> <br/>
+Data[&quot;UEW&quot;]
+&lt;- Data$WSC * sin (Data$WDC * pi / 180) <br/>
+Data$UEW </font>
+</p>
+<div id="verbatim-18" dir="ltr">
+	<p class="noindent" style="margin-bottom: 0in">##  [1] 9.196076
+	8.873005 8.750909 8.703893 8.634478 8.463705 8.256180  <br/>
+##  [8]
+	8.073535 7.877411 7.756990 7.566698  <br/>
+<br/>
+
+	</p>
+</div>
+<p class="nopar"><!--l. 649-->-<!--l. 653--> 
+</p>
+<h4 class="western"><a name="x1-10000"></a>Simple plots</h4>
+<p class="noindent"><!--l. 655-->Let’s plot something, using
+’plotWAC ()’ from Ranadu for convenience, although you can try
+the standard ’plot ()’ function from R base routines to see what
+changes I have made: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox262"></a><a name="textcolor251"></a><a name="textcolor252"></a><a name="textcolor253"></a><a name="textcolor254"></a><a name="textcolor255"></a><a name="textcolor256"></a><a name="textcolor257"></a><a name="textcolor258"></a><a name="textcolor259"></a><a name="textcolor260"></a>
+<!--l. 661--><font face="Nimbus Sans L, sans-serif">plotWAC(Data$Time,
+Data$GGVSPDB, ylab='GGVSPDB') </font>
+</p>
+<p class="noindent">-<!--l. 669--> 
+</p>
+<p class="noindent">It is also useful to define special data.frames
+for constructing plots, especially when using the more advanced
+plotting capabilities provided by ’ggplot2’. To see a simple
+scatterplot, you can use the following: 
+</p>
+<p class="noindent" align="left" style="margin-bottom: 0in"><a name="colorbox281"></a><a name="textcolor264"></a><a name="textcolor265"></a><a name="textcolor266"></a><a name="textcolor267"></a><a name="textcolor268"></a><a name="textcolor269"></a><a name="textcolor270"></a><a name="textcolor271"></a><a name="textcolor272"></a><a name="textcolor273"></a><a name="textcolor274"></a><a name="textcolor275"></a><a name="textcolor276"></a><a name="textcolor277"></a><a name="textcolor278"></a><a name="textcolor279"></a>
+<!--l. 675--><font face="Nimbus Sans L, sans-serif">D &lt;- Data[,
+c(&quot;ATX&quot;, &quot;GGALT&quot;)] <br/>
+plot(D, pch=20)        
+<i>#</i> <i>pch=20</i> <i>plots</i> <i>small</i> <i>solid</i> <i>dots</i>
+</font>
+</p>
+<p class="noindent">-<!--l. 684--> 
+</p>
+<p class="noindent">Exercise: See what happens if you instead include
+three variables in the preceding plot.<!--l. 687--> 
+</p>
+<h4 class="western"><a name="x1-11000"></a>Exporting to Excel</h4>
+<p class="noindent"><!--l. 689-->and now create an Excel spreadsheet
+with the data (provided that the R package xlsx is installed on your
+system):</p>
+<p class="noindent"><a name="textcolor284"></a><a name="textcolor285"></a><a name="textcolor286"></a><a name="textcolor287"></a><a name="textcolor288"></a><a name="textcolor289"></a><a name="textcolor290"></a><a name="textcolor291"></a>
+<br/>
+<font face="Nimbus Sans L, sans-serif">xlsx::write.xlsx (Data,
+file=&quot;Data.xlsx&quot;) </font>
+</p>
+<p class="noindent" align="center"><br/>
+<br/>
+
+</p>
+<p class="noindent" align="center" style="margin-bottom: 0in"><br/>
+
+</p>
+<div id="sdfootnote1">
+	<p class="sdfootnote"><a class="sdfootnotesym" name="sdfootnote1sym" href="#sdfootnote1anc">1</a>Want
+	your original vector back? Use x ← as.vector(x)</p>
+</div>
+</body>
+</html>

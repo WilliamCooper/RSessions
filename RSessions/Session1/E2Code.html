@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="author" content="Al Cooper"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-05T03:24:19.219338949"/>
+</head>
+<body lang="en-US" dir="ltr">
+<p style="margin-bottom: 0.02in"><i><u><b>Exercise: </b></u><span style="text-decoration: none"><span style="font-weight: normal">Plot
+the temperature and dewpoint for the final descent of DEEPWAVE flight
+20 as functions of the pressure altitude (PALT), and highlight any
+regions in that sounding where the dewpoint exceeds the temperature.</span></span></i></p>
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.02in"><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"><meta name="created" content="2017-04-04T13:45:46.393204788"><meta name="changedby" content="Al Cooper"><meta name="changed" content="2017-04-04T16:29:35.753333347">The
+code that generates this figure: 
+</p>
+<hr/>
+
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Directory
+&lt;- DataDirectory () # for portability; sets the local data
+directory</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Flight
+&lt;- &quot;rf20&quot; # select a flight</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Project
+= &quot;DEEPWAVE&quot; # select a project</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">fname
+= sprintf(&quot;%s%s/%s%s.nc&quot;, Directory,Project,Project,Flight)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">#
+XXX set variables needed, here a standard list including DPX and EWX</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">#
+preliminary look shows that final descent was from 84400 to 91100</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">##
+Data &lt;- getNetCDF (fname, c(&quot;Time&quot;, &quot;DPXC&quot;,
+&quot;ATX&quot;, &quot;PALT&quot;), 84400, 91100)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">saveDataFile
+&lt;- 'Session1/Data2.RData'</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">##
+save (Data, file = saveDataFile) </font></font>
+</p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">#
+for future runs, it will be much faster to use:</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">load(saveDataFile)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">plot
+(Data$DPXC, Data$PALT, type='l') # type='l': line plot</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">lines
+(Data$ATX, Data$PALT, col='forestgreen') # add temperature</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">s
+&lt;- (Data$DPXC &gt; Data$ATX)  # a logical vector selecting
+supersaturation</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">lines
+(Data$DPXC[s], Data$PALT[s], col='red', lwd=3) ## highlight DP &gt; T</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">#
+will show how to add legends, titles, axis labels, etc, later</font></font></p>
+<hr/>
+
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+</body>
+</html>

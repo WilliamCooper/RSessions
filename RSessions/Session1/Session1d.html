@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-05T04:37:12.180070431"/>
+	<meta name="date" content="2017-04-04 05:34:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsIntro.tex"/>
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<h3 class="western"><a name="x1-4000"></a>Toward reproducible
+analysis:</h3>
+<p>An advantage of the structure provided by the combination of R,
+Rstudio, and knitr is that the text generating a report and the code
+generating the results and plots can be combined into a single file
+that, along with the data used, can then allow someone else to
+reproduce the results or modify them with new data or a new analysis
+approach. As an example, see the  program file and resulting memo
+included in the ’RSessions/Session1’ directory as
+CONTRASTcalAOA.Rnw and CONTRASTcalAOA.pdf. I’ll use those next to
+give an overview of how this can be used.<!--l. 382--> 
+</p>
+<p class="noindent"><u>Characteristics of this file to note:</u> 
+</p>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-4002x1"></a>Text is
+	intermixed with R code in this file. R code ’chunks’ begin with
+	a header line &lt;<font face="Lohit Devanagari"><span lang="hi-IN">﻿</span></font>&lt;chunk-name&gt;<font face="Lohit Devanagari"><span lang="hi-IN">﻿</span></font>&gt;=
+	and end with @. Results from the R code can be incorporated into
+	subsequent parts of the text. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-4004x2"></a>The
+	chunks provide a way to structure your program and to skip to
+	appropriate sections of the code. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-4006x3"></a>The text
+	will have references to the R results in the form of ’\Sexpr{x}’
+	where x is an R variable. (Sexpr is a remnant from R’s origin in
+	S; Sexpr = S expression.) 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-4008x4"></a>If a
+	figure is generated in an R chunk, it appears in the text document
+	after the place where the R chunk appears. 
+	</p>
+	<li/>
+<p><a name="x1-4010x5"></a>I have emphasized reproducibility
+	and have included a section on how to use the file with other data
+	and a table on reproducibility at the end of the memo. That table
+	contains:<!--l. 399--> 
+	</p>
+	<ol>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-4012x1"></a>the
+		project name 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-4014x2"></a>the
+		location of the source file 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-4016x3"></a>the
+		name of a zip-format archive containing all the information needed
+		to repeat the production of the memo 
+		</p>
+		<li/>
+<p style="margin-bottom: 0in"><a name="x1-4018x4"></a>the
+		original data used. (Only the subset of the data used here is saved
+		in the archive to keep the size of these archive files small.) 
+		</p>
+		<li/>
+<p><a name="x1-4020x5"></a>the archive location on github,
+		which anyone can access</p>
+	</ol>
+	<p class="noindent">This will be the subject of a later session in
+	this series, but the goal of facilitating reproducibility can be
+	motivation to continue along this path.</p>
+</ol>
+<h3 class="western"><br/>
+<br/>
+
+</h3>
+</body>
+</html>

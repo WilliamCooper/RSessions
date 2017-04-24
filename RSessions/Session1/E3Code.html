@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="author" content="Al Cooper"/>
+	<meta name="created" content="2017-04-04T13:45:46.393204788"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-05T03:19:55.470384102"/>
+</head>
+<body lang="en-US" dir="ltr">
+<p style="margin-bottom: 0.02in"><i><u><b>Exercise: </b></u></i><i><span style="text-decoration: none"><span style="font-weight: normal">
+Find the mean value of the vertical wind (variable WIC) from DEEPWAVE
+flight 20, for only measurements above FL400. </span></span></i>
+</p>
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+<p style="margin-bottom: 0.02in">The code that generates the table
+shown below is in this box. It uses  the mean(), sd(), min() and
+max() functions of R, and each has an argument ‘na.rm=TRUE’
+because this removes missing values from the calculations; otherwise,
+the functions return missing values.  The function formatTime()
+provides conversion from the time variables in the data.frame to a
+printable value.</p>
+<hr/>
+
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">formatTime
+&lt;- function (time) {</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">t
+&lt;- as.POSIXlt (time, tz='UTC')</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">tt
+&lt;- sprintf (&quot;%d:%02d:%02d&quot;, t$hour, t$min, t$sec)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">return
+(tt)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">}</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats
+&lt;- data.frame()</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">VarList
+&lt;- c('WIC', 'ATX', 'DPXC', 'PSXC', 'GGALT', 'PALT')</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Ds
+&lt;- getNetCDF ('/scr/raf_data/DEEPWAVE/DEEPWAVErf20.nc', VarList)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">##
+FL400 means pressure altitude of 40000 ft</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Ds
+&lt;- Ds[Ds$PALT/0.3048 &gt; 40000, ]  ## select only points above
+40000 ft</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">##
+save (Ds, file='Session1/Data3.Rdata')</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">load
+('Session1/Data3.Rdata')</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats['Time',
+1] &lt;- 'Time'</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats['Time',
+2] &lt;- NA</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats['Time',
+3] &lt;- NA</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats['Time',
+4] &lt;- formatTime (Ds$Time[1])</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats['Time',
+5] &lt;- formatTime (Ds$Time[nrow(Ds)])</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">for
+(nm in names(Ds)) {</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">if
+(nm == 'Time') {next}</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[nm,
+1] &lt;- nm</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[nm,
+2] &lt;- mean (Ds[, nm], na.rm=TRUE)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[nm,
+3]   &lt;- sd   (Ds[, nm], na.rm=TRUE)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[nm,
+4]  &lt;- min  (Ds[, nm], na.rm=TRUE)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[nm,
+5]  &lt;- max  (Ds[, nm], na.rm=TRUE)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">}</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">names(Dstats)
+&lt;- c('variable', 'mean', 'sd', 'min', 'max')</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">row.names
+(Dstats) &lt;- names(Ds)</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">for
+(k in 2:5) {</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000">  <font face="CMU Typewriter Text, monospace">Dstats[2:nrow(Dstats),
+k] &lt;- sprintf('%.3f', as.numeric(Dstats[2:nrow(Dstats), k]))</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">}</font></font></p>
+<p style="margin-bottom: 0.02in; font-variant: normal; letter-spacing: normal">
+<font color="#000000"><font face="CMU Typewriter Text, monospace">Dstats</font></font></p>
+<hr/>
+
+<p style="margin-bottom: 0.02in"><br/>
+<br/>
+
+</p>
+</body>
+</html>

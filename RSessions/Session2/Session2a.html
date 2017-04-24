@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-23T01:08:26.655358772"/>
+	<meta name="date" content="2017-04-22 15:43:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsDataFrame.tex"/>
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+	<meta name="created" content="00:00:00">
+	<meta name="changedby" content="Al Cooper">
+	<meta name="changed" content="2017-04-22T21:56:52.368355334">
+	<style type="text/css">
+		h4.cjk { font-family: "Source Han Sans CN Regular" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="6" style="font-size: 28pt"><b>R
+Objects</b></font></font></p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="5" style="font-size: 18pt">with
+focus on the data.frame</font></font></p>
+<h1><a name="x1-2000"></a><!--l. 134-->vector</h1>
+<p><!--l. 136-->The fundamental object we will deal with most often
+is the vector. This is an indexed set of quantities, which can be
+numeric (double, integer), logical, character, or some other less
+common types. Vectors are ’atomic’ if they consist all of the
+same type; ’generic’ vectors can have mixed types, but I won’t
+deal much with them. Vectors may have only one element, which would
+be called a scalar in other languages, but scalars in R are just
+vectors with one element. Vectors have a length property [try
+length(x)] but not a dimension property: Try the following in the
+Rstudio console or an R session:</p>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox20"></a><a name="textcolor7"></a><a name="textcolor8"></a><a name="textcolor9"></a><a name="textcolor10"></a><a name="textcolor11"></a><a name="textcolor12"></a><a name="textcolor13"></a>
+<!--l. 148--><font face="Nimbus Sans L, sans-serif">x &lt;- 2 ##
+assign 2 to x, note the assignment operator “&lt;-” and “#”
+for comments<br/>
+print (x[1]) </font>
+</p>
+<div id="verbatim-1" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	[1] 2 ## statements beginning with ##[n] here are R output</font></p>
+</div>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor14"></a><a name="textcolor15"></a>
+<!--l. 154--><!--l. 155--><font face="Nimbus Sans L, sans-serif">length(x)
+</font>
+</p>
+<div id="verbatim-2" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	[1] 1 </font>
+	</p>
+</div>
+<p align="left" style="margin-bottom: 0in"><a name="textcolor16"></a><a name="textcolor17"></a>
+<!--l. 160--><!--l. 161--><font face="Nimbus Sans L, sans-serif">dim(x)
+</font>
+</p>
+<div id="verbatim-3" dir="ltr">
+	<p align="left" style="margin-bottom: 0in"><font face="Nimbus Sans L, sans-serif">##
+	<font size="2" style="font-size: 11pt">NULL </font></font>
+	</p>
+</div>
+<h1><a name="x1-3000"></a>list</h1>
+<p><!--l. 172-->A list resembles an atomic vector but its elements
+can have mixed types. Lists also have additional ways of selecting
+elements, e.g., by character name. Lists are generic vectors, but
+when I talk about vectors I’ll almost always be talking about
+atomic vectors. Lists are addressed in ways that are different from
+methods for vectors. You will have to study this later; for now, just
+be aware that lists are available and the list is the most flexible
+storage object.<!--l. 177--> 
+</p>
+<h1><a name="x1-4000"></a>array (including matrix)</h1>
+<p><a name="x1-4001f1"></a><!--l. 179-->A special vector-like object
+is the array or matrix, which is like a vector but with assigned
+dimensions so that, in the two-dimensional or matrix case, the vector
+is a vector of columns in a matrix. The dimension can be
+single-valued, but more often there are at least two dimensions. R
+convention is column-major format (like FORTRAN but opposite to C);
+i.e., the row index represents adjacent values in the underlying
+vector, so items that lie vertically in the conventional display of a
+matrix (for example z[1,1] and z[2,1]) are adjacent elements in the
+underlying vector. The first index in a two-dimensional array can be
+thought of as specifying the row and the second the column; all rows
+in a particular column are contiguous in the underlying vector. You
+can construct an array from a vector by assigning it a dimension via
+’dim(x) &lt;- c(dim1, dim2)’ as in the following exercise, which
+also illustrates the column-major structure and the effect of
+transposing the array using t().</p>
+<h1>Exercise</h1>
+<p>Before clicking on the following R statements, predict the output
+they will produce: <i>(Sorry, I know this is trivial, but it is
+practice for a technique to be used in future sessions. Please try
+these exercises. The answers often provide additional information not
+in the main text, as is the case here.)</i></p>
+<h4 class="western"><br/>
+<br/>
+
+</h4>
+</body>
+</html>

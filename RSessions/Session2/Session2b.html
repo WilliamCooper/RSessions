@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 5.1.6.2.0 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changedby" content="Al Cooper"/>
+	<meta name="changed" content="2017-04-23T01:38:46.667287003"/>
+	<meta name="date" content="2017-04-22 15:43:00"/>
+	<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"/>
+	<meta name="src" content="RSessionsDataFrame.tex"/>
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+	<meta name="created" content="00:00:00">
+	<meta name="changedby" content="Al Cooper">
+	<meta name="changed" content="2017-04-22T22:00:33.928516566">
+	<style type="text/css">
+		h3.cjk { font-family: "Source Han Sans CN Regular" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+		h4.cjk { font-family: "Source Han Sans CN Regular" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+		h2.western { font-family: "Albany", sans-serif; font-size: 16pt }
+		h2.cjk { font-family: "Source Han Sans CN Regular"; font-size: 16pt }
+		h2.ctl { font-family: "Lohit Devanagari"; font-size: 16pt }
+	</style>
+</head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="6" style="font-size: 28pt"><b>R
+Objects</b></font></font></p>
+<p align="center" style="margin-top: 0.04in; margin-bottom: 0.08in; page-break-after: avoid">
+<font face="Albany, sans-serif"><font size="5" style="font-size: 18pt">with
+focus on the data.frame</font></font></p>
+<h4 class="western"><br/>
+<br/>
+
+</h4>
+<h1><a name="x1-5000"></a>data.frame</h1>
+<p><!--l. 234-->A data.frame is a named list of vectors and resembles
+a matrix or a spreadsheet. For example, it may consist of columns
+each representing a variable and rows that are the time sequence of
+observations of that variable. Applied to RAF data files, it may have
+a structure like this: 
+</p>
+<p style="margin-bottom: 0in"><a name="TBL-2"></a><a name="TBL-2-1g"></a><a name="TBL-2-1"></a><a name="TBL-2-2g"></a><a name="TBL-2-2"></a><a name="TBL-2-3g"></a><a name="TBL-2-3"></a><a name="TBL-2-4g"></a><a name="TBL-2-4"></a><a name="TBL-2-5g"></a><a name="TBL-2-5"></a><a name="TBL-2-6g"></a><a name="TBL-2-6"></a>
+<!--l. 240--></p>
+<table width="384" cellpadding="0" cellspacing="0">
+	<col width="78">
+	<col width="66">
+	<col width="60">
+	<col width="66">
+	<col width="72">
+	<col width="42">
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-2"></a>Time 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-3"></a>ATX</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-4"></a>PSXC</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-5"></a>WDC</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-1-6"></a>WSC</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-2"></a>15:00:00</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-4"></a>410.8 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-5"></a>275.4</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-2-6"></a>25.4 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-2"></a>15:00:01</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-4"></a>410.9 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-5"></a>275.2</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-3-6"></a>25.6 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-2"></a>15:00:02</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-3"></a>-25.2</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-4"></a>411.1 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-5"></a>275.4</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-4-6"></a>25.5 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-2"></a>15:00:03</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-3"></a>-25.1</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-4"></a>411.1 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-5"></a>275.1</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-5-6"></a>25.7 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-2"></a>15:00:04</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-3"></a>-25.0</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-4"></a>411.2 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-5"></a>275.3</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-6-6"></a>25.3 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+	<tr>
+		<td width="78" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-2"></a>... 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-3"></a>... 
+			</p>
+		</td>
+		<td width="60" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-4"></a>... 
+			</p>
+		</td>
+		<td width="66" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-5"></a>... 
+			</p>
+		</td>
+		<td width="72" style="border: none; padding: 0in">
+			<p align="center"><a name="TBL-2-7-6"></a>... 
+			</p>
+		</td>
+		<td width="42" style="border: none; padding: 0in">
+			<p align="center">...</p>
+		</td>
+	</tr>
+</table>
+<p><br/>
+<br/>
+
+</p>
+<p><!--l. 296-->All columns must be of the same length, but they may
+contain different types of variables (Time, character, numeric,
+logical). Like a spreadsheet, the columns can be assigned names like
+the header in this table. Rows can also be assigned names, but in the
+absence of special assignment they will default to the character
+names ’1’, ’2’, ’3’, ’4’, ... and can be addressed by
+an index that is the first in a two-index specification; i.e., D[500,
+10] represents the 10th column at the 500-th row in the dataframe.<!--l. 305-->
+For a typical data.frame representing aircraft measurements, that
+address would be the 10<sup>th</sup> variable at the 500<sup>th</sup>
+measurement time.</p>
+<p>Let’s get an example. Here is a segment of R code that loads a
+few selected variables from a netCDF file to a data.frame: 
+</p>
+<p align="left" style="margin-bottom: 0in"><a name="colorbox118"></a><a name="textcolor57"></a><a name="textcolor58"></a><a name="textcolor59"></a><a name="textcolor60"></a><a name="textcolor61"></a><a name="textcolor62"></a><a name="textcolor63"></a><a name="textcolor64"></a><a name="textcolor65"></a><a name="textcolor66"></a><a name="textcolor67"></a><a name="textcolor68"></a><a name="textcolor69"></a><a name="textcolor70"></a><a name="textcolor71"></a><a name="textcolor72"></a><a name="textcolor73"></a><a name="textcolor74"></a><a name="textcolor75"></a><a name="textcolor76"></a><a name="textcolor77"></a><a name="textcolor78"></a><a name="textcolor79"></a><a name="textcolor80"></a><a name="textcolor81"></a><a name="textcolor83"></a><a name="textcolor84"></a><a name="textcolor85"></a><a name="textcolor86"></a><a name="textcolor87"></a><a name="textcolor88"></a><a name="textcolor89"></a><a name="textcolor90"></a><a name="textcolor91"></a><a name="textcolor92"></a><a name="textcolor93"></a><a name="textcolor94"></a><a name="textcolor95"></a><a name="textcolor96"></a><a name="textcolor97"></a><a name="textcolor98"></a><a name="textcolor99"></a><a name="textcolor100"></a><a name="textcolor101"></a><a name="textcolor102"></a><a name="textcolor103"></a><a name="textcolor104"></a><a name="textcolor105"></a><a name="textcolor106"></a><a name="textcolor107"></a><a name="textcolor108"></a><a name="textcolor112"></a><a name="textcolor113"></a><a name="textcolor114"></a><a name="textcolor115"></a><a name="textcolor116"></a>
+<!--l. 310--><font face="Nimbus Sans L, sans-serif">require(Ranadu,
+quietly = TRUE, warn.conflicts = FALSE) </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>my</i></font> <font face="Nimbus Sans L, sans-serif"><i>package</i></font>
+<font face="Nimbus Sans L, sans-serif"><br/>
+Directory &lt;-
+DataDirectory () </font><font face="Nimbus Sans L, sans-serif"><i>#</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>for</i></font> <font face="Nimbus Sans L, sans-serif"><i>portability</i></font>
+<font face="Nimbus Sans L, sans-serif"><br/>
+Flight &lt;- &quot;rf08&quot;
+</font><font face="Nimbus Sans L, sans-serif"><i>#</i></font> <font face="Nimbus Sans L, sans-serif"><i>select</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>a</i></font> <font face="Nimbus Sans L, sans-serif"><i>flight</i></font>
+<font face="Nimbus Sans L, sans-serif"><br/>
+Project = &quot;CONTRAST&quot;
+</font><font face="Nimbus Sans L, sans-serif"><i>#</i></font> <font face="Nimbus Sans L, sans-serif"><i>select</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>a</i></font> <font face="Nimbus Sans L, sans-serif"><i>project</i></font>
+<font face="Nimbus Sans L, sans-serif"><br/>
+fname &lt;-</font>
+<font face="Nimbus Sans L, sans-serif">sprintf(&quot;%s%s/%s%s.nc&quot;,
+Directory, Project, Project, Flight) <br/>
+</font><font face="Nimbus Sans L, sans-serif"><i>#</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>set</i></font> <font face="Nimbus Sans L, sans-serif"><i>variables</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>needed,</i></font> <font face="Nimbus Sans L, sans-serif"><i>here</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>a</i></font> <font face="Nimbus Sans L, sans-serif"><i>standard</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>list</i></font> <font face="Nimbus Sans L, sans-serif"><i>plus</i></font>
+<font face="Nimbus Sans L, sans-serif"><i>GGVSPDB</i></font> <font face="Nimbus Sans L, sans-serif"><br/>
+Data
+&lt;- getNetCDF (fname, standardVariables(c(&quot;GGVSPDB&quot;)),
+60000, 60010) <br/>
+</font><br/>
+
+</p>
+<p align="left">-<!--l. 325--> 
+</p>
+<h2 class="western">Here are explanations of this code: 
+</h2>
+<ol>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5002x1"></a><a name="x1-5003f2"></a>
+	The ’require (Ranadu)’ statement is a reference to a package of
+	routines I have developed to provide ’convenience’ functions
+	that make this easier. They are discussed extensively in Session 4,
+	and there are instructions for installing this package at the end of
+	Session 1.</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5005x2"></a>The
+	’DataDirectory ()’ function, part of Ranadu, simply sets the
+	directory appropriately for the system in use. On barolo, it returns
+	“/scr/raf_data/”, on my home computer “/Data”, etc. I use
+	this because I got tired of changing references to the data
+	directory whenever I transferred programs between systems. If it
+	doesn’t find your directory, it is straightforward to add new
+	options to the search.</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5007x3"></a>I
+	perhaps slipped up by typing the ’=’ sign when assigning to the
+	variable ’Project’. You can do this anytime; I have not found
+	any compelling reason to use the ’&lt;-’ assignment operator,
+	although I have followed R advice and tried to adopt that
+	convention. I like the arguments for the logic of this assignment
+	operator, but it can condition you to make typing errors when you
+	switch to another programming language that expects “=”.  You
+	have to use ’=’ for assignment to arguments in functions, as I
+	have in the ’require ()’ statement. 
+	</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5009x4"></a>’fname’
+	is the data file name; here, on barolo, the statement generates
+	’/scr/raf_data/CONTRAST/CONTRASTrf08.nc’ . The sprintf()
+	function is very similar to the same function in C. You can also
+	specify the string variable directly using
+	fname=’/scr/raf_data/CONTRAST/CONTRASTrf08.nc’</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5011x5"></a>’standardVariables()’
+	is another Ranadu function that returns a character vector with some
+	of the most common variables, like ATX, PSXC, WDC, etc. See the help
+	functions for the standard list. In addition, any arguments, like
+	’GGVSPDB’ here (special in the current CONTRAST files, but that
+	may change), are added to the list of variables to use; if there are
+	more than one, use ’c(“Var1, Var2, ...”) as the argument to
+	standardVariables(). You can also just provide a list of variables
+	you want directly to ’getNetCDF ()’ without using
+	standardVariables().</p>
+	<li/>
+<p style="margin-bottom: 0in"><a name="x1-5013x6"></a>’getNetCDF
+	()’ is another convenience routine that returns a data.frame
+	containing ’Time’ and any variables requested as the second
+	argument. Here that returned value is assigned to the data.frame
+	’Data’. You can also restrict the retrieved time period to the
+	times between and including the 3rd and 4th arguments. A useful
+	characteristic of this function is that it preserves the attributes
+	from the netCDF file, so the netCDF file with attributes can be
+	regenerated from the data.frame, at least for the variables that are
+	selected.</p>
+	<li/>
+<p style="margin-bottom: 0in"></p>
+</ol>
+<p style="margin-bottom: 0in"><!--l. 371-->The resulting names are
+Time, ATX, DPXC, EWX, GGALT, LATC, LONC, MACHX, MR, PALT, PSXC, QCXC,
+TASX, WDC, WSC, WIC, GGVSPDB. The data.frame ’Data’ looks like
+this: 
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<p style="margin-bottom: 0in"><br/>
+
+</p>
+<div id="verbatim-7" dir="ltr">
+	<p style="margin-bottom: 0in">## Time ATX DPXC EWX GGALT LATC <br/>
+##
+	1 2014-02-01 06:00:00 9.664198 -1.74588561 5.379651 3271.462
+	14.13524 <br/>
+## 2 2014-02-01 06:00:01 9.600497 -0.58042610
+	5.859534 3258.018 14.13687 <br/>
+## 3 2014-02-01 06:00:02 9.608423
+	-0.10240312 6.067365 3244.620 14.13849 <br/>
+## 4 2014-02-01
+	06:00:03 9.648787 0.04999272 6.134695 3231.312 14.14012 <br/>
+## 5
+	2014-02-01 06:00:04 9.744931 0.18771026 6.196864 3218.022 14.14174
+	<br/>
+## 6 2014-02-01 06:00:05 9.832309 0.30350244 6.249135 3204.674
+	14.14336 <br/>
+## 7 2014-02-01 06:00:06 9.897908 0.65490091 6.410044
+	3191.264 14.14498 <br/>
+## 8 2014-02-01 06:00:07 9.972386 0.56748486
+	6.369296 3177.818 14.14660 <br/>
+## 9 2014-02-01 06:00:08 10.021310
+	0.50978196 6.342399 3164.346 14.14821 <br/>
+## 10 2014-02-01
+	06:00:09 10.102686 0.45882320 6.319251 3150.860 14.14983 <br/>
+## 11
+	2014-02-01 06:00:10 10.179273 0.53403455 6.353704 3137.374 14.15144
+	<br/>
+## LONC MACHX MR PALT PSXC QCXC TASX <br/>
+## 1 154.3090
+	0.5516629 4.866040 3090.757 693.0317 159.2154 185.9447 <br/>
+## 2
+	154.3089 0.5523306 5.294985 3077.800 694.1769 159.8938 186.1488 <br/>
+##
+	3 154.3087 0.5523784 5.474667 3063.909 695.4063 160.2067 186.1675
+	<br/>
+## 4 154.3086 0.5524525 5.527682 3052.263 696.4385 160.4908
+	186.2058 <br/>
+## 5 154.3085 0.5520642 5.574834 3039.190 697.5984
+	160.5153 186.1065 <br/>
+## 6 154.3083 0.5521671 5.613148 3026.527
+	698.7237 160.8386 186.1699 <br/>
+## 7 154.3082 0.5524577 5.750223
+	3014.623 699.7827 161.2648 186.2895 <br/>
+## 8 154.3080 0.5527580
+	5.703504 3001.208 700.9778 161.7290 186.4153 <br/>
+## 9 154.3079
+	0.5536176 5.670606 2989.408 702.0303 162.5140 186.7213 <br/>
+## 10
+	154.3077 0.5537398 5.639918 2975.867 703.2396 162.8713 186.7893 <br/>
+##
+	11 154.3076 0.5537975 5.661635 2963.050 704.3859 163.1734 186.8341
+	<br/>
+## WDC WSC WIC GGVSPDB <br/>
+## 1 59.76257 10.64427 -0.2153265
+	-13.53158 <br/>
+## 2 57.36450 10.53653 -0.2423407 -13.41048 <br/>
+##
+	3 56.32394 10.51557 -0.3594706 -13.37120 <br/>
+## 4 55.31616
+	10.58476 -0.3402149 -13.29691 <br/>
+## 5 54.89041 10.55491
+	-0.3907309 -13.33878 <br/>
+## 6 53.42305 10.53935 -0.4517152
+	-13.40185 <br/>
+## 7 51.61034 10.53345 -0.4759987 -13.46035 <br/>
+##
+	8 49.83345 10.56507 -0.5229000 -13.49332 <br/>
+## 9 47.27423
+	10.72326 -0.5907010 -13.52288 <br/>
+## 10 45.95592 10.79151
+	-0.6423368 -13.52343 <br/>
+## 11 44.47295 10.80074 -0.6979736
+	-13.58159 
+	</p>
+</div>
+<p><!--l. 413-->-<!--l. 417--> 
+</p>
+<h3 class="western">Recommendation:</h3>
+<p>Copy and paste the code example above into the RStudio console and
+be sure that it works on the system you use. This is central to many
+of the remaining parts of these sessions and is the normal starting
+point used here for working with netCDF aircraft-data files. You can
+test the data.frame Data that results with a few commands like the
+following:</p>
+<p>dim(Data)  ## should give “11 17”</p>
+<p>names(Data)  ## should give the variable names listed above</p>
+<p>str(Data)  ## should give exhaustive information on the structure
+of Data, including attributes.</p>
+</body>
+</html>
