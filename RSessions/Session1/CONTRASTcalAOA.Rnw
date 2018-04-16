@@ -1,0 +1,281 @@
+%% LyX 2.1.1 created this file.  For more info, see http://www.lyx.org/.
+\documentclass[12pt]{report}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage[unicode=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lyxlist}}
+\newcommand{\cc}[1]{\begin{lyxlist}{Attachments:00}
+\item [cc:] {#1}
+\end{lyxlist}}
+\newcommand{\attach}[1]{\begin{lyxlist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lyxlist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+<<get-file-location, echo=FALSE, include=FALSE>>=
+#script.loc <- dirname(sys.frame(1)$ofile)
+# doesn't work. Keep looking; in the meantime, use
+script.loc="/h/eol/cooperw/RStudio/Reprocessing/CONTRASTcalAOA.Rnw"
+
+
+@
+
+
+\makeatother
+
+\begin{document}
+\EOLmemo 
+
+\global\addressee={CONTRAST data-processing file}% change "File" to the "To:" name
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
+\textsf{\textsc{\textcolor{blue}{From:}}} & Al Cooper\tabularnewline
+ \textsf{\textsc{\textcolor{blue}{Subject:}}} & example: AKRD coefficients, CONTRAST\tabularnewline
+\end{tabular}
+\bigskip
+
+\section*{Equations underlying the calibration}
+
+The first-order expression for the vertical wind $w$ is
+
+\begin{equation}
+w=V\sin(\alpha-\phi)+w_{p}\label{eq:VWind}
+\end{equation}
+
+
+where $V$ is the true airspeed, $\alpha$ the angle of attack, $\phi$
+the pitch, and $w_{p}$ the vertical motion or rate-of-climb of the
+aircraft. The solution for the angle-of-attack is
+
+\begin{equation}
+\alpha=\phi+\arcsin\frac{w-w_{p}}{V}\label{eq:SolvedForAOA}
+\end{equation}
+
+
+If it is reasonable to assume for some period of flight that $w$
+is zero, or that it averages to zero, then
+
+\begin{equation}
+\alpha^{*}=\phi-\arcsin\frac{w_{p}}{V}\label{eq:alphaWithwZero}
+\end{equation}
+
+
+can be used as a reference angle-of-attack to which to fit a parameterized
+formula. This fit reference depends on measurements of pitch, rate-of-climb,
+and true airspeed. Even in the presence of waves, fitting to this
+as functions of the radome measurements and other flight characteristics
+should average any real effects of vertical wind as long as the vertical
+wind over the flight segments used averages to zero.
+
+In the case of the radome, the relevant variables are $\phi$=PITCH,
+$w_{p}=$GGVSPDB, and $V=$TASX.%
+\footnote{There is an element of circularity that arises from TASX dependence
+on the pressure corrections but pressure corrections dependent on
+angle of attack. This is usually minor because the fractional change
+in TASX introduced by the pressure corrections is small, but it may
+be useful to iterate once, applying the new sensitivity coefficients
+in recalculation of TASX and then repeating the fit.%
+} The radome measures the pressure difference (ADIFR) between top and
+bottom ports on the radome, and this pressure is usually normalized
+by some measure of dynamic pressure like QCF or QCXC or QCRC. The
+former is preferable because the use of corrected QCXC requires the
+application of static-defect corrections that themselves depend on
+$\alpha$, leading to circularity in the calculation, and QCR and
+QCRC are sometimes affected by icing or freezing of accumulated water
+even when ADIFR continues to function.
+
+<<initialization,echo=FALSE,include=FALSE>>=
+require(Ranadu)
+require(ggplot2)
+require(grid)
+library(knitr)
+require(ggthemes)
+require(vioplot)
+require(plyr)
+# the following do not work, so need to generate and save SessionInfo separately
+#sink (file="./SessionInfo")
+#print (sessionInfo (), locale=TRUE)
+#sink()
+Directory <- DataDirectory ()
+Flight <- "rf08" 
+Project = "CONTRAST"
+fname = sprintf("%s%s/%s%s.nc", Directory,Project,Project,Flight)
+VarNames <- c("VYC","GGALT","LATC", "LONC", "PSXC", "QCXC",
+"WDC", "WSC", "GGVEW", "GGVNS", "VEW", "VNS", "TASX",
+"ADIFR", "AKRD", "SSLIP", "PITCH", "GGTRK", "PSF", "QCF",
+"ROLL", "THDG", "BDIFR", "EWX", "WIC",
+"VSPD", "ATX", "GGVSPDB")
+Data <- getNetCDF (fname, VarNames)
+r1 <- setRange (Data$Time, 82800,83700)
+r2 <- setRange (Data$Time, 91700,92800)
+r <- c(r1, r2)
+DataSR <- Data[r,]
+SaveRData <- "CONTRASTcalAOA.Rdata.gz"
+# comment one of these
+save(DataSR, file=SaveRData, compress="gzip")
+load(file=SaveRData)
+    
+Valid <- (DataSR$TASX > 100.)
+DataV <- DataSR[Valid,]
+
+@
+
+<<fit, echo=FALSE, include=FALSE>>=
+attach(DataSR)
+Cradeg <- pi / 180.
+DataSR["Mach"] <- MachNumber (PSF, QCF) 	  # uses uncorrected measurements for q, p
+#AOAREF <- PITCH - asin(VSPD/TASX) / Cradeg
+DataSR["AOAREF"] <- PITCH - asin(GGVSPDB/TASX) / Cradeg
+DataSR["AQR"] <- ADIFR/QCF 				   # basic pressure ratio for AOA
+DataSR["AQRM"] <- DataSR$AQR*DataSR$Mach
+fit <- lm(AOAREF~AQR+AQRM, data=DataSR)		# linear model fit
+cfit <- coefficients (fit)
+detach(DataSR)
+
+@
+
+
+\section*{Determining the Sensitivity Coefficients}
+
+The fit procedure is to determine the coefficients \{$c_{i}$\} in
+the following equation that provide a best fit to $\alpha^{*}$ as
+given by (\ref{eq:alphaWithwZero}): 
+
+\begin{equation}
+\mathrm{AKRD}=c_{0}+\frac{\{\mathrm{ADIFR}\}}{\{\mathrm{QCXC}\}}\left(c_{1}+c_{2}\mathrm{\{MACHX\}}\right)\label{eq:AKRDeq}
+\end{equation}
+The ``standard'' representation of angle of attack as described
+in the document on processing algorithms (cf.~\href{https://drive.google.com/file/d/0B1kIUH45ca5ATFV5d3QyQ0JpSjA/view?usp=sharing}{this link})
+is this equation with coefficients \{$c_{0},\, c_{1},\, c_{2}$\}
+= \{4.604$\,[^{\circ}]$, 18.67$\,[^{\circ}]$, 6.49$\,[^{\circ}]$\}.
+However, this clearly did not provide a good fit to the CONTRAST measurements.
+A good example of the need for revised coefficients comes from the
+only speed runs I found in the CONTRAST flights, those from RF08 8:28:00--8:37:00
+(about 19,000 ft altitude) and 9:17:00--9:26:00. A fit of (\ref{eq:AKRDeq}
+to these measurements, summarized below and shown in Fig.~\ref{fig:SpeedRunPlot},
+resulted in coefficients \{\Sexpr{cfit[1]}, \Sexpr{cfit[2]}, \Sexpr{cfit[3]}\},
+a fit significantly different from the standard. 
+
+<<SpeedRunPlot,fig.cap="Data from the two speed runs from CONTRAST flight RF08, plotted as predicted vs.~fit angle-of-attack for individual 1-s measurements. The dashed orange line shows the result expected for the fit to these measurements.",fig.width=6, fig.height=5,echo=FALSE>>=
+summary(fit)
+DataSR["A1"] <- cfit[1]+cfit[2]*DataSR$AQR+cfit[2]*DataSR$AQRM
+DataSR["A2"] <- 4.604+18.67*DataSR$AQR+6.49*DataSR$AQRM   # "standard"
+#plot (DataSR$AOAREF, DataSR$A1, pch=16, cex=0.8, col='blue', xlab="Ref. AOA", ylab="fit AOA")
+#lines (c(-3.,6.), c(-3.,6.), lty=2, lwd=3, col='darkorange')
+clr <- c("Standard Fit","New Fit")
+col <- c("darkgreen","darkorange")
+g <- ggplot(data=DataSR,aes(x=AOAREF))
+#g <- g + geom_point(aes(y=A2), colour="darkgreen", pch=19)
+g <- g + geom_point(aes(y=A1), colour="blue", pch=19)
+g <- g + xlab (expression(paste("Predicted AOA [", degree, "]")))
+g <- g + ylab (expression(paste("AOA from fit [",degree,"]"))) 
+g <- g + geom_line(aes(y=AOAREF), colour="darkorange", lwd=2, linetype=2)
+g <- g + theme_WAC ()
+g
+
+@
+\begin{center}
+\textsf{\textcolor{blue}{-- End of Memo --}}
+\par\end{center}
+\vfill\eject
+
+
+\section*{Instructions for re-use of the program that generated this memo}
+
+In the first ``chunk'' labelled ``initialization'', change the
+project and flight number and set the times of speed runs to include.
+Alternately, it is possible to do this calculation on any period of
+a flight, or the entire flight, or to merge additional flights into
+the data set before fitting. The program runs under RStudio on tikal,
+accessible via \href{http://tikal.eol.ucar.edu}{this link}. Copy
+the file referenced in the header of this memo to your work space
+and, once loaded into RStudio, run via the ``Compile PDF'' button.
+
+
+Reproducibility:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} &
+CONTRAST cal AOA\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} &
+CONTRASTcalAOA.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} &
+attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} &
+/h/eol/cooperw/RStudio/Reprocessing/CONTRASTcalAOA.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}} &
+/scr/raf\_data/CONTRAST/CONTRASTrf08.nc \tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive:}}} &
+git://github.com:WilliamCooper/RSessions.git
+\tabularnewline
+\end{tabular}
+
+%\attach{attachment}
+
+\attachm{ProgramFile listed above\\CONTRASTcalAOA.pdf\\\Sexpr{SaveRData}\\SessionInfo}
+
+%\cc{first attachment\\second\\3rd att}
+
+%\attach{attachment}
+
+%\attachm{first\\second}
+%\cc{first attachment\\second\\3rd att}
+
+<<save-system-info, echo=FALSE>>=
+cat (toLatex(sessionInfo()), file="SessionInfo")
+
+
+@
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+
+system ("zip CONTRASTcalAOA.zip CONTRASTcalAOA.Rnw CONTRASTcalAOA.pdf SessionInfo CONTRASTcalAOA.Rdata.gz")
+
+@
+
+
+\end{document}
